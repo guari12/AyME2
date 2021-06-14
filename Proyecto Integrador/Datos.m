@@ -45,8 +45,8 @@ Id0=0.5;
 
 
 %% Lazo de control
-Kid=0;
-Kiq=0;
+Kid=5000*Ld;
+Kiq=5000*Lq;
 
 %%Funcion de transferencia
 %syms Rs Lq2 Pp2 lamb Ld2 Lls2 Jm2 Jl2 r2 bm2 bl2
@@ -54,11 +54,12 @@ Rsref=1.02
 Ts=50
 
 Rs=Rsref*(1+alfa_cu*(Ts-40))
-
+beq=(bm+bl/r^2);
+Jeq=(Jm+Jl/r^2);
 C=[0 0 0 1];
-A=[-Rs/Lq 0 (Pp/Lq)*lambda_m_r 0;
+A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0;
     0 -Rs/Ld 0 0;
-    3/2*Pp*(Jm+Jl/r^2) 0 -(bm+bl/r^2) 0;
+    3/2*Pp*lambda_m_r/Jeq 0 -beq/Jeq 0;
     0 0 1 0];
 B=[1/Lq 0; 0 0;0 -1/r; 0 0];
 D=[0 0];
@@ -67,6 +68,8 @@ D=[0 0];
 sys_dc = ss(A,B,C,D)
 sys_tf = tf(sys_dc)
 sys_zpk = zpk(sys_dc)
+pole(sys_tf)
+pzmap(sys_tf)
 %%Analisis Controlabilidad
 %%
 Co = ctrb(sys_dc)
