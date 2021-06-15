@@ -41,12 +41,13 @@ Vsf_nom = Vsl_nom/(3^0.5); %tension de fase
 
 Is_nom = 0.4; %regimen continuo
 Is_max = 2.0; %pico
-Id0=0.5;
+Id0=0;
 
 
 %% Lazo de control
 Kid=5000*Ld;
 Kiq=5000*Lq;
+Ki0=5000*Lls;
 
 %%Funcion de transferencia
 %syms Rs Lq2 Pp2 lamb Ld2 Lls2 Jm2 Jl2 r2 bm2 bl2
