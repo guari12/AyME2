@@ -97,3 +97,24 @@ Tlmax=6.28
 tstep2=0.3
 tstep3=0.5
 tstep5=0.9
+
+%%Punto 2.b
+%%
+ba=0.0113;
+ksa=9.04;
+ksia=2892.8;
+
+Jlv=Jl-0.1260:0.01:Jl+0.126;
+figure(2)
+for i=1:length(Jlv)
+    
+    Jeq1=(Jm+Jlv(i)/r^2);
+    a=tf(1,[1 ba/Jeq1 ksa/Jeq1 ksia/Jeq1]);
+    hold on
+    pzmap(a)
+
+end
+%%Punto 3.b
+%%
+Koth=6400;
+Kow=3200^2;
