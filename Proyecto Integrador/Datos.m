@@ -57,6 +57,7 @@ Ts=50
 Rs=Rsref*(1+alfa_cu*(Ts-40))
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
+Kt=(3/2*Pp*lambda_m_r);
 C=[0 0 0 1];
 A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0;
     0 -Rs/Ld 0 0;
