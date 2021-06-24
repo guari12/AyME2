@@ -1,0 +1,11 @@
+# Fdb version 3
+["xdvipdfmx"] 0 "Informe.xdv" "Informe.pdf" "Informe" 0
+  "Informe.xdv" 0 -1 0 "xelatex"
+  (generated)
+  "Informe.pdf"
+["xelatex"] 0 "/Volumes/HDD_500/PROYECTOS/repos_git/AyME2/Informe/Informe.tex" "Informe.xdv" "Informe" 0
+  "/Volumes/HDD_500/PROYECTOS/repos_git/AyME2/Informe/Informe.tex" 0 -1 0 ""
+  "Informe.aux" 1624494635 8 a94a2480d3289e625eea47cd1b285758 ""
+  (generated)
+  "Informe.xdv"
+  "Informe.log"
