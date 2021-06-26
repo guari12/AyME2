@@ -46,9 +46,6 @@ Al final del resumen empezamos con el resto del informe
 \section{Desarrollo}
 \subsection{Modelado, Análisis y Simulación dinámica del SISTEMA FÍSICO a “Lazo Abierto” (Sin Controlador externo de Movimiento)}
 \subsubsection{Modelo matemático equivalente (1 GDL) del subsistema mecánico completo}
-
-
-
 \subsubsection{Modelo dinámico del sistema físico completo}
 
 \begin{enumerate}
@@ -114,7 +111,7 @@ Al final del resumen empezamos con el resto del informe
 	Asi el espacio de estados es el siguiente  :
 	
 	\begin{equation}
-	\left\{\begin{matrix}
+	\begin{cases}
 	\dot{X}(t)=\begin{bmatrix}
 	0 & 1 &0 \\ 
 	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} \\ 
@@ -129,7 +126,7 @@ Al final del resumen empezamos con el resto del informe
 	
 	\end{bmatrix} \ ; X(t_{0})=x_{0}\\ 
 	y(t)=[1 \ \ 0 \ \ 0 ] \ X(t)
-	\end{matrix}\right.
+	\end{cases}
 	\label{eq:2.1.2.c.4}
 	\end{equation}
 	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal y la matriz de 				coeficientes A es constante, además el torque electromagnético ec. \ref{} depende solamente de $i^{r}_{qs}$ y la tensión 			inducida en el eje en cuadratura q (ec. \ref{}) depende solamente de $w_{m}$.
@@ -170,7 +167,7 @@ Al final del resumen empezamos con el resto del informe
 	\label{eq:2.1.2.e.2}
 	\end{equation}
 	
-	Vemos que la dinámica residual esta dada por una ecuación diferencial monótona descendiente con un cero en $s=-157.55$ si tomamos a $Rs$ constante e igual a 1.02. Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje d va establecer rápidamente en cero.
+	Vemos que la dinámica residual esta dada por una ecuación diferencial monótona descendiente con un cero en $s=-154.55$ si tomamos a $Rs$ constante e igual a 1.02. Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje d va establecer rápidamente en cero.
 	Si incorporamos esta dinámica residual a nuestro modelo LTI obtenemos:
 	
 	\begin{equation}
@@ -186,7 +183,7 @@ Al final del resumen empezamos con el resto del informe
 	\end{equation}
 	
 	\begin{equation}
-	\left\{\begin{matrix}
+	\begin{cases}
 	\dot{X}(t)=\begin{bmatrix}
 	0 & 1 &0 &0 \\ 
 	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0 \\ 
@@ -203,7 +200,7 @@ Al final del resumen empezamos con el resto del informe
 	
 	\end{bmatrix} \ ; X(t_{0})=x_{0}\\ 
 	y(t)=[1 \ \ 0 \ \ 0 \ \ 0 ] \ X(t)
-	\end{matrix}\right.
+	\end{cases}
 	\label{eq:2.1.2.e.4}
 	\end{equation}
 	
@@ -214,22 +211,194 @@ Al final del resumen empezamos con el resto del informe
 	
 	\begin{equation}
 	v^{r*}_{qs}(t)=L_{d}. i^{r}_{ds}(t).P_{p}.\omega_{m}(t)
-	\label{eq:2.1.2.e.4}
+	\label{eq:2.1.2.e.5}
 	\end{equation}
 	
 	   \item\textbf{Ley de Control complementaria mínima en el eje q}.
-	    Para eliminar completamente este acoplamiento residual NL aún en régimen natural y obtener un modelo equivalente 				completamente lineal, independiente del estado inicial de $i^{r}_{ds}$ se debe realimentar al sistema con la ley de control 			dada por la ec.\ref{eq:2.1.2.e.4}. En la figura \ref{fig:diagrestriccionminima} se puede apreciar el controlador parcial con la implementación de esta restricción en color naranja, obteniendo asi el modelo \textbf{LTI equivalente aumentado} el cual aplica la ley de control mínima en el eje d y la ley de control complementaria en el eje q.\\
+	    Para eliminar completamente este acoplamiento residual NL aún en régimen natural y obtener un modelo equivalente 				completamente lineal, independiente del estado inicial de $i^{r}_{ds}$ se debe realimentar al sistema con la ley de control 			dada por la ec.\ref{eq:2.1.2.e.5}. En la figura \ref{fig:diagrestriccionminima} se puede apreciar el controlador parcial con la implementación de esta restricción en color naranja, obteniendo asi el modelo \textbf{LTI equivalente aumentado} el cual aplica la ley de control mínima en el eje d y la ley de control complementaria en el eje q.\\
 	     En el diagrama de bloques del modelo NL (figura \ref{})  podemos observar en naranja el desacoplamiento que esta restricción 		produce.\\
 	\end{itemize}
 	
-	 \item Comparación del modelo dinámico LTI equivalente aumentado vs. el modelo dinámico global LPV forzando $I^{r}_{ds_{0}} =0$.
+	 \item Comparación del modelo dinámico LTI equivalente aumentado vs. el modelo dinámico global LPV forzando $I^{r}_{ds_{0}} \equiv 0$.
+	 Si forzamos $I^{r}_{ds_{0}} \equiv 0$, el modelo LPV se caracteriza por la siguiente ecuación:
+	 
+	 \begin{equation}
+		\begin{bmatrix}
+	\Delta \dot{\theta}_{m}(t)\\
+	\Delta \dot{\omega}_{m}(t)
+	\\ 
+	\Delta \dot{i^{r}_{qs}}(t)
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		0 & 1 &0 \\ 
+		0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} \\ 
+		0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}}
+		\end{bmatrix} 
+	\begin{bmatrix}
+	\Delta \dot{\theta}_{m}(t)\\
+	\Delta \dot{\omega}_{m}(t)
+	\\ 
+	\Delta \dot{i^{r}_{qs}}(t)
+	\end{bmatrix}
+	 + \begin{bmatrix}
+		0 &0 \\ 
+		0 &\frac{-1}{J_{eq}} \\ 
+		 \frac{1}{L_{q}}&0 
+		\end{bmatrix}
+	\begin{bmatrix}
+	\Delta T_{leq}(t)\\ 
+	\Delta v^{r}_{qs}(t)
+	\end{bmatrix}
+	\label{eq:2.1.2.f.1}
+	\end{equation}
+	
+	Aplicando esta restricción y considerando $R_{s}$ vemos que las matrices del modelo LPV ahora no varían con el tiempo por lo que tenemos un modelo LTI en las cercanías del punto de operación, además podemos observar que las matrices son iguales a la del \textbf{modelo LTI equivalente aumentado} por lo que podriamos decir que este último es un caso particular  del \textbf{modelo dinámico global LPV} obtenido anteriormente.\\
+	Evaluaremos el comportamiento del sistema para distintos puntos de operación $I^{r}_{ds_{0}}$. Por la ecuación del torque electromacnético (ec. \ref{eq: 1}) y recordando que estamos trabajando con una máquina de polos salientes, por lo que $L_{d}$ > $L_{q}$ , se puden debucir tres casos:
+	
+	\begin{enumerate}
+	\item $i^{r}_{ds}(t)=0$:  el flujo concatenado esta afectado únicamente por los imanes permanentes.
+	\item $i^{r}_{ds}(t)>0$: reforzamiento del campo principal, se logra un mayor torque a costa de menor velocidad
+	\item $i^{r}_{ds}(t)>0$: debilitamiento del campo principal, se logra una mayor velocidad a costa de menor torque
+	\end{enumerate}
+	Si se considera a la máquina como un sistema de potencia constante rápidamente se puede debucir porque estos cambios en el torque afectan a la velocidad.
+	\item Funciones de Transferencia.
+	
 	 
 \end{enumerate}
 
 
+
+
 \subsubsection{Análisis de Estabilidad a lazo abierto para el modelo LTI equivalente aumentado}
+
+\begin{itemize} 
+\item \textbf{Polos y ceros del sistema:}
+
+Para el cálculo de los polos y ceros se tomaron $R_{s}=1.02$ y valores nominales de los parámetros de carga.\\
+El sistema tiene un único cero dado por la entrada $T_{leq}$
+
+	\begin{equation}
+	Lq . s + R_{s}=0; \ s=-\frac{R_{s}}{L_{q}} = -175.86 \frac{rad}{s}
+	\label{eq:2.1.2.g.1}
+	\end{equation}
+	
+Los polos del sistema se obtienen mediante el polinomio característica (ec. \ref{eq:2.1.2.g.2} )
+
+	\begin{equation}
+	s.[J_{eq}L_{q}s^{2}+(R_{s}J_{eq}+L_{q}b_{eq})s + \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}+R_{s}b_{eq}]
+	\label{eq:2.1.2.g.2}
+	\end{equation}
+	
+De donde facilmente se obtiene:\\
+$s_{1}=0$\\
+
+Para calcular los otros polos utilizamos un programa de cálculo como Matlab y asi obtenemos:\\
+$s_{2}=-89.26 + 301.57 i$\\
+$s_{2}=-89.26 - 301.57 i$
+
+Y para calcular la frecuencia natural y el coeficiente de amortiguamiento se obtuvo de la ec. \ref{eq:2.1.2.g.2} la siguiente ecuación :
+
+	\begin{equation}
+	s^{2}+\frac{(R_{s}J_{eq}+L_{q}b_{eq})}{J_{eq}L_{q}}s +\frac{\frac{ \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}}{J_{eq}L_{q}}+R_{s}b_{eq}}{J_{eq}L_{q}}
+	\label{eq:2.1.2.g.3}
+	\end{equation}
+	
+y se comparó esta con la ec. \ref{eq:2.1.2.g.4} que se encuentra en función de $\xi$ y $\omega_{n}$.
+	\begin{equation}
+	s^{2}+2\xi \omega_{n} s + \omega_{n}^2 
+	\label{eq:2.1.2.g.4}
+	\end{equation}
+
+Por lo tanto se deduce que:\\
+$\omega_{n}^2 =\frac{\frac{ \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}}{J_{eq}L_{q}}+R_{s}b_{eq}}{J_{eq}L_{q}}$ \ ; $\omega_{n}=314.5 \frac{rad}{s}$\\
+$2\xi \omega_{n}=\frac{(R_{s}J_{eq}+L_{q}b_{eq})}{J_{eq}L_{q}}$ \ ; $\xi=0.2838$
+
+Se puede apreciar que estamos en presencia de un sistema subamortiguado  y que el sistema estable ya que todos los polos tienen parte real negativa.\\
+
+En la figura \ref{fig:polos} se puede observa los polos en el plano imaginario.
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{polos.png}
+	\caption{\label{fig:polos}  }
+	\end{figure}
+
+
+Es importante aclarar que al cálcular los autovalores a partir de la función de transferencia del sistema no se ha tenido en cuenta el polo de la dinámica residual calculado anteriormente (ec. \ref{eq:2.1.2.e.2}), pero si hubiesemos tomado los autovalores de A (\ref{eq:2.1.2.e.4}) este polo aparecería. 
+
+\item \textbf{Migración de propiedades:}
+Se hace necesario evaluar la estabilidad del sistema ante la variación de los parámetros de carga, ya que como sabemos el robot presenta dinámica no lineal acoplada y se considera como aproximación la dinámica de carga `vista' desde el eje de la articualción hombro, ausmiendo variación de sus parámetros equivalentes. En la figura \ref{fig:varpolos} se observa como cambian los polos del sistema cuando se varían estos parámetros dentro de sus límites de incertidumbre.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{varpolos.png}
+	\caption{\label{fig:varpolos} Migración de polos con variación de $J_{l}$.}
+	\end{figure}
+	
+	Se puedo observar como el aumento de $J_{l}$ provoca una pequeña disminución de la parte real y una mayor de la parte imaginaria del polo y se puede concluir que si los limites de incertidumbre son correctos el sistema va a permanecer estable. Por otra lado el la figura \ref{varpolosbl} se puede ver la variación de estos con respecto a $b_{l}$ y se puede concluir que la variación de este parámetro dentro de sus límites de incertidumbre prácticamente no afecta al sistema.
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{varpolosbl.png}
+	\caption{\label{fig:varpolosbl} Migración de polos con variación de $b_{l}$.}
+	\end{figure}
+	
+
+\end{itemize}
 \subsubsection{Análisis de Observabilidad completa de estado para el modelo LTI equivalente aumentado}
+Se cálculo la observabilidad del modelo LTI (ec .\ref{eq:2.1.2.e.4}) mediante el criterio de Kalman (ec.\ref{eq:2.1.2.k.1}) utilizando para esto Matlab.
+	\begin{equation}
+	Rango \ de\  O=
+	\begin{bmatrix}
+	
+		C\\ 
+		C.A\\ 
+		...\\ 
+		C.A^{n-1}=n
+		\end{bmatrix}
+	\label{eq:2.1.2.k.1}
+	\end{equation}
+	
+	Donde:
+	
+		\begin{equation}
+		A=\begin{bmatrix}
+	0 & 1 &0 &0 \\ 
+	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0 \\ 
+	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}}&0\\
+	0&0&0&\frac{R_{s}}{L_{d}}
+	\end{bmatrix}
+	\label{eq:2.1.2.k.2}
+	\end{equation}
+	\begin{equation}
+		C=[1 \ \ 0 \ \ 0 \ \ 0 ] 
+	\label{eq:2.1.2.k.3}
+	\end{equation}
+	
+Según el criterio de Kalman para que el sistema de la matriz $O$ tiene que ser igual a la cantidad $n$ de estado. Al calcular la observabilidad desde $\theta_{m}(t)$ en base a la ec.\ref{eq:2.1.2.e.4} obtenemos que el rango de esta matriz es 3, por lo que el sistema no es observable, esto se debe a que $i^{r}_{ds}$ no es un estado observable desde $\theta_{m}(t)$, como se puede apreciar en la ec.\ref{eq:2.1.2.e.4} este estado no posee entradas ni salidas. Otro sería el caso si se calculara la observabilidad a partir de la ec. \ref{eq:2.1.2.c.4} también desde $\theta_{m}(t)$ en donde obtendemos que el sistema es completamente observable.
+
+Otra alternativa es medir la observabilidad desde $\omega_{m}$ en donde obtenemos que esta se degrada aún más, ya que además de $i^{r}_{ds}$, $\theta_{m}(t)$ tampoco es observable desde esta. 
+
 \subsubsection{Análisis de Controlabilidad completa de estado para el modelo LTI equivalente aumentado}
+Se procedió a calcular la controlabilidad del modelo LTI ec.\ref{eq:2.1.2.e.4} apartir del criterio de Kalman (ec. \ref{eq:2.1.2.l.1}).
+
+	\begin{equation}
+		Rango \ de \ C=[B \ A.B \ ... \ A^{n-1}.B]= n
+	\label{eq:2.1.2.l.1}
+	\end{equation}
+	Donde A esta definida en la ec.\ref{eq:2.1.2.k.3} y B:
+	\begin{equation}
+		B= \begin{bmatrix}
+	0 &0 \\ 
+	0 &\frac{-1}{J_{eq}} \\ 
+	 \frac{1}{L_{q}}&0 \\
+	 0&0
+	\end{bmatrix}
+	\label{eq:2.1.2.l.2}
+	\end{equation}
+	
+Se concluye que el sistema no es completamente controlable desde la entrada manipulada $v^{r}_{qs}(t)$ ya que el rango de $C$ es 3, esto se debe a que el estado $i^{r}_{ds}$ no es controlable desde $v^{r}_{qs}(t)$, ya que como dijimos anteriormente este un estado aislado del sistema. Para controlador este estado se debería agragar la entrada $v^{r}_{ds}(t)$ volviendo al sistema completamente controlable.
+
 \subsubsection{Simulación dinámica en DT, comparando el modelo NL completo desacoplado con Ley de control
 NL vs LTI equivalente aumentado}
 

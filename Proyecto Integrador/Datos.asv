@@ -61,13 +61,12 @@ Rs=1.02
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
 Kt=(3/2*Pp*lambda_m_r);
-C=[0 0 1 0];
-A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0;
-    0 -Rs/Ld 0 0;
+C=[0 0 0 1];
+A=[-Rs/Lq  -(Pp/Lq)*lambda_m_r 0;
     3/2*Pp*lambda_m_r/Jeq 0 -beq/Jeq 0;
     0 0 1 0];
-B=[1/Lq 0 ; 0 0 ;0 0 ; 0 0 ];
-D=[0 0 ];
+B=[1/Lq 0; 0 0;0 -1/r; 0 0];
+D=[0 0];
 %%Analisis estabilidad
 %%
 sys_dc = ss(A,B,C,D)
