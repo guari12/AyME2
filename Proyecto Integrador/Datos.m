@@ -51,6 +51,11 @@ Ki0=5000*Lls;
 
 Koth=6400;
 Kow=3200^2;
+%%Punto 2.b
+%%
+ba=0.0113;
+ksa=9.04;
+ksia=2892.8;
 %%
 %%Funcion de transferencia
 %syms Rs Lq2 Pp2 lamb Ld2 Lls2 Jm2 Jl2 r2 bm2 bl2

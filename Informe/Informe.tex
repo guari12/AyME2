@@ -401,7 +401,40 @@ Se concluye que el sistema no es completamente controlable desde la entrada mani
 
 \subsubsection{Simulación dinámica en DT, comparando el modelo NL completo desacoplado con Ley de control
 NL vs LTI equivalente aumentado}
+\begin{itemize}
 
+\item \textbf{Respuesta del estado interno a pulso de consigna de tensión de estator en eje q, superpuesto con doble pulso de torque de carga.}
+A continuación se presentan las respuestas del sistema.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{iq_LTIvsNL.png}
+	\caption{\label{fig:iq_LTIvsNL} $i^{r}_{qs}$ vs $t$.}
+	\end{figure}
+	
+	En la figura \ref{fig:iq_LTIvsNL} se puede observar que la corriente establecida en el eje q es igual para ambos modelos, tanto cuando $i^{r}_{s}(0)=0$ como cuando $i^{r}_{ds}(0)=0.5$ esto se debe a que como puede verse en la figura \ref{fig:ids} decrece rápidamente a cero antes que se establezca la consigna $v^{r}_{qs}$ por lo que al estar la máquina estática esta no tiene efecto alguno sobre el sistema y por lo tanto no se produce acoplamiento de esta sobre el eje q ni tiene efecto sobre el torque, es decir, que esta corriente inicial solamente se va a discipar en el devanado del estator. Es por esto que las demás gráficas solamente se graficaron para el modelo NL, ya que presentan el mismo compartamiento para el modelo LTI para la entrada dada como consigna independientemente de $i^{r}_{ds}(0)$.
+		\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{ids.png}
+	\caption{\label{fig:ids} $i^{r}_{ds}$vs t.}
+	\end{figure}
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{theta_m.png}
+	\caption{\label{fig:theta_m} $\omega_{m}$ vs $t$ y $\theta_{m}$ vs $t$.}
+	\end{figure}
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{vd_vq.png}
+	\caption{\label{fig:vd_vq} $v^{r}_{ds}$ y $v^{r}_{qs}$.}
+	\end{figure}
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{temperatura.png}
+	\caption{\label{fig:temperatura} Temperatura vs t.}
+	\end{figure}
+
+\end{itemize}
 
 \subsection{Diseño, Análisis y Simulación con CONTROLADOR de Movimiento en Cascada con Modulador de Torque equivalente (Control Vectorial)}
 \subsubsection{Modulador de Torque equivalente (Controlador interno vectorial de corriente/torque)}
