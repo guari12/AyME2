@@ -51,12 +51,70 @@ Al final del resumen empezamos con el resto del informe
 En el sistema físico real hay varios subsistemas mecánicos los cuales detallaremos a continuación para luego hacer una combinación de todos estos en un único subsistema mecánico equivalente.
 
 \begin{itemize}
-	\item \textbf{Subsistema mecánico del motor:}\vspace{0.3cm}\\
-	Ecuación 1
+	\item \textbf{Carga mecánica}\vspace{0.3cm}\\
+	En lo que refiere al subsistema mecánico del brazo del robot y la carga mecánica aplicada al mismo, se puede modelar mediante la siguiente ecuación:
+	\begin{equation}
+		\label{eqn:cargaMecanica}
+		J_{l}\cdot \dot{\omega }_{l}\left ( t \right )=T_{q}\left ( t \right )-b_{l}\cdot \omega_{l}\left ( t \right )-T_{l}\left ( t \right ) \ \ ;\ \ \omega_{l}\left ( t \right )\equiv \dot{q}_{l}\left ( t \right )= \dot{q}_1\left ( t \right )
+	\end{equation}
+	Donde $q_{1}(t)$ es la posición articular del hombro del robot, $J_{l}$ es el momento de inercia de todos los eslabones del robot referidos al hombro, $b_{l}$ es el coeficiente de amortiguamiento viscoso, $T_{l}$ es el torque de carga o perturbación y $T_{q}$ es el par mecánico entregado a la salida de la caja reductora de engranajes.
+	La inercia y el amortiguamiento son dos de los parámetros que varían según la posición de las articulaciones del robot, es decir, $J_{l}(q_{1}(t),q_{2}(t),...,q_{n}(t))$ y una función similar para $b_{l}$.
+	En este caso, se considera un valor nominal para estos parámetros, y sus posibles variaciones máximas, pero sin estar relacionado directamente con las posiciones articulares del robot.
+	
 	\item \textbf{Subsistema de la transmisión:}\vspace{0.3cm}\\
-	Ecuación 2
-	\item \textbf{Subsistema mecánico del brazo:}\vspace{0.3cm}\\
-	Ecuación 3
+	El tren de transmisión del robot está formado por una caja reductora, reversible, de engranajes planetarios. Se asume acoplamiento \textbf{rígido}, sin elasticidad torsional y sin backlash (juego). Al considerar una transmisión ideal y sin pérdida de potencia, las ecuaciones que la modelan son:
+	\begin{equation}
+		\label{eqn:relacionTransmision}
+		\omega_{l}\left ( t \right )=\frac{1}{r}\cdot w_{m}\left ( t \right )
+	\end{equation}
+	\begin{equation}
+		\label{eqn:torqueTransmision}
+		T_{q}\left ( t \right )=r\cdot T_{d}\left ( t \right )
+	\end{equation}
+	Donde $\omega_{m}(t)$ es la velocidad angular del eje del rotor del motor, $T_{d}(t)$ es el torque de la máquina eléctrica (equivalente a una carga colocada en el eje del rotor) y $r$ es la relación de transmisión del reductor planetario.
+	
+	\item \textbf{Subsistema mecánico del motor:}\vspace{0.3cm}\\
+	Por último tenemos el subsistema mecánico que modela el torque de salida de la máquina eléctrica. Las ecuaciones que modelan el sistema son las siguientes:
+	\begin{equation}
+		\label{eqn:sistMecanicoMotor}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-T_{d}\left ( t \right ) \ \ ;\ \ \omega_{m}\left ( t \right )\equiv \dot{q}_{m}\left ( t \right )
+	\end{equation}
+	Donde $J_{m}$ es la inercia del rotor respecto a su propio eje, $b_{m}$ es la viscosidad del rotor y $T_{m}(t)$ es el torque electromecánico de la máquina eléctrica.
+
+	\item \textbf{Modelo equivalente mecánico (1 GDL):}\vspace{0.3cm}\\
+	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipotesis, que la transmisión es totalmente rígida y sin backlash (juego).
+	Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia.
+
+	Bajo estas hipotesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
+	\begin{equation}
+		\label{eqn:paso1sistMecanico}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-\frac{T_{q}\left ( t \right )}{r}
+	\end{equation}
+	Luego, despejamos $T_{q}$ de la ecuación \ref{eqn:cargaMecanica} y lo reemplazamos en \ref{eqn:paso1sistMecanico}:
+	\begin{equation}
+		\label{eqn:paso2sistMecanico}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-\frac{\left ( J_{l}\cdot \dot{\omega_{l}}+b_{l}\cdot \omega_{l}+T_{l} \right )}{r}
+	\end{equation}
+	Teniendo en cuenta la relación de la ecuación \ref{eqn:relacionTransmision}, la reemplazamos en \ref{eqn:paso2sistMecanico} y reacomodamos la expresión:
+	\begin{equation}
+		\label{eqn:paso3sistMecanico}
+		\left ( J_{m}+\frac{J_{l}}{r^{2}} \right )\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-\left ( b_{m}+\frac{b_{l}}{r^{2}} \right )\cdot \omega_{m}\left ( t \right )-\frac{T_{l}}{r}
+	\end{equation}
+	Donde establecemos las siguientes equivalencias:
+	\begin{equation}
+		J_{m}+\frac{J_{l}}{r^{2}}=J_{eq}
+	\end{equation}
+	\begin{equation}
+		b_{m}+\frac{b_{l}}{r^{2}}=b_{eq}
+	\end{equation}
+	\begin{equation}
+		\frac{T_{l}}{r}=T_{eq}
+	\end{equation}
+	Quedando así la ecuación \ref{eqn:paso3sistMecanico} como:
+	\begin{equation}
+		J_{eq}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq}
+	\end{equation}
+
 \end{itemize}
 
 \subsubsection{Modelo dinámico del sistema físico completo}
