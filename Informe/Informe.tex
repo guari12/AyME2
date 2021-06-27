@@ -136,25 +136,27 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\item \textbf{Subsistema Electromagnético:}\vspace{0.3cm}\\
 		El motor sincrónico trifásico de CA con excitación por imanes permanentes (PMSM) tiene el estator conectado en estrella (con bornes de fases abcs) y neutro flotante en el centro de la estrella.
 		El subsistema es un sistema simétrico al considerar las tres tensiones de fases de igual amplitud y desfasadas 120 grados eléctricos, y equilibrado al poseer de un neutro flotante.
-		\\
-		
+		\vspace{0.3cm}\\
 		Para modelar esta máquina, haremos uso de la \textbf{transformación de Park}\footnote[1]{\textbf{Transformación de Park:} forma invariante en módulo de resultante vectorial de variables base $f$} del circuito del estator, llegando así a un modelo idealizado equivalente en coordenadas eléctricas \textbf{qd0} fijas al rotor.
 		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al campo eléctrico rotante.
 		Y como que se trata de un sistema simétrico, luego del transitorio queda totalmente equilibrado, entonces podemos suponer que luego de ese pequeño transitorio $v_{0s}(t)$ tendrá como valor $0$ y se reduce significativamente el número de variables.
-		\\
-		
+		\vspace{0.3cm}\\
 		Las coordenadas eléctricas del entrehierro $qd0$, fijas a rotor (marco de referencia “sincrónico”) se definen como:
 		\begin{equation}
 			\dot{\theta_{r}}\left ( t \right )\equiv \omega_{r}\left ( t \right )\Leftrightarrow \theta_{r}\left ( t \right )=\int_{0}^{t}\omega_{r}\left ( \xi \right )\cdot d\xi + \theta_{r}\left ( 0 \right )
 		\end{equation}
+		\\
 		\begin{equation}
-			\theta_{r}\left ( t \right )\equiv P_{p}\cdot \theta_{m}\left ( t \right ) \ \ \therefore \ \ \omega_{r}\left ( t \right )=P_{p}\cdot \omega_{m}\left ( t \right )
+			\theta_{r} \left ( t \right ) \equiv P_{p} \cdot \theta_{m} \left ( t \right )
+		\end{equation}
+		\begin{equation}
+			\omega_{r}\left ( t \right )=P_{p}\cdot \omega_{m}\left ( t \right )
 		\end{equation}
 		El torque electromagnético viene dado por la ecuación:
 		\begin{equation}
 			T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
 		\end{equation}
-		\dots texto continuación\dots
+		texto a continuación..
 
 		
 		\item \textbf{Subsistema Térmico:}\vspace{0.3cm}\\
@@ -202,21 +204,21 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanetes es nula, la resistencia en los 			devanados del estator es constante con la temperatura y el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$.\\
 	Definimos el vector de estados $X(t)$ ec.\ref{eq:2.1.2.c.1} , el vector de entradas $u(t)$ ec.\ref{eq:2.1.2.c.2} y la perturbación 	$d(t)$ ec.\ref{eq:2.1.2.c.3}:
 	\begin{equation}
-	X(t)=\begin{bmatrix}
-	\theta_{m}(t)\\
-	\omega_{m}(t) 
-	\\ 
-	i^{r}_{qs}
-	\end{bmatrix}
-	\label{eq:2.1.2.c.1}
+		X(t)=\begin{bmatrix}
+			\theta_{m}(t)\\
+			\omega_{m}(t) 
+			\\ 
+			i^{r}_{qs}
+		\end{bmatrix}
+		\label{eq:2.1.2.c.1}
 	\end{equation}
 	\begin{equation}
-	u(t)=v^{r}_{qs} 
-	\label{eq:2.1.2.c.2}
+		u(t)=v^{r}_{qs} 
+		\label{eq:2.1.2.c.2}
 	\end{equation}
 	\begin{equation}
-	d(t)=\frac{T_{l}(t)}{r} 
-	\label{eq:2.1.2.c.3}
+		d(t)=\frac{T_{l}(t)}{r} 
+		\label{eq:2.1.2.c.3}
 	\end{equation}
 	
 	Asi el espacio de estados es el siguiente  :
