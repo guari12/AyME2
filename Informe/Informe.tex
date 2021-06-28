@@ -156,9 +156,23 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\begin{equation}
 			T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
 		\end{equation}
-		texto a continuación..
-
+		Donde $\lambda_{m}^{r'}$ es el flujo magnético equivalente de imanes concatenado, por espiras del bobinado de estator,
+		$L_{d}$ es la inductancia de eje directo del estator y $L_{q}$ es la inductancia de eje en cuadratura del estator (estas magnitudes son consideradas constantes para simplificar el modelo).
+		El modelo equivalente del subsistema eléctrico en coordenadas de entrehierro, está dado por las siguientes ecuaciones, que hacen un balance de tensiones en el circuito del estator.
+		\begin{equation}
+			v_{qs}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{qs}^{r}\left ( t \right )+L_{q}\cdot \frac{\mathrm{d} i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}+\left [ \lambda_{m}^{r'}+L_{d}\cdot i_{ds}^{r}\left ( t \right ) \right ]\cdot \omega_{r}\left ( t \right )
+		\end{equation}
+		\begin{equation}
+			v_{ds}^{r}\left ( t \right )=R_{s}\cdot i_{ds}^{r}\left ( t \right )+L_{d}\cdot \frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}-L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )
+		\end{equation}
+		\begin{equation}
+			\label{eqn:expresionNula}
+			v_{0s}^{r}\left ( t \right )=R_{s}\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
+		\end{equation}
+		Nosotros cuando empezamos a hacer el desarrollo, partimos del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
+		Lo cual significa que, a partir de ahora no las tendremos en cuenta y consideraremos nula a la expresión \ref{eqn:expresionNula}. Sin tenerla en cuenta de acá en adelane.
 		
+
 		\item \textbf{Subsistema Térmico:}\vspace{0.3cm}\\
 		some text
 
