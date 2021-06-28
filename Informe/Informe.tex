@@ -17,6 +17,8 @@
 
 \setmainfont{Times New Roman}
 
+% Para las ecuaciones: https://latex.codecogs.com/eqneditor/editor.php?lang=es-es
+
 \title{Proyecto Global Integrador AyME:\\
 Control de Accionamiento de CA con Motor Sincrónico de Imanes Permanentes}
 
@@ -44,16 +46,141 @@ Al final del resumen empezamos con el resto del informe
 
 \section{Introducción}
 
+Agregar una introducción del proyecto\dots
+
 \section{Desarrollo}
 \subsection{Modelado, Análisis y Simulación dinámica del SISTEMA FÍSICO a “Lazo Abierto” (Sin Controlador externo de Movimiento)}
 \subsubsection{Modelo matemático equivalente (1 GDL) del subsistema mecánico completo}
+En el sistema físico real hay varios subsistemas mecánicos los cuales detallaremos a continuación para luego hacer una combinación de todos estos en un único subsistema mecánico equivalente.
+
+\begin{itemize}
+	\item \textbf{Carga mecánica}\vspace{0.3cm}\\
+	En lo que refiere al subsistema mecánico del brazo del robot y la carga mecánica aplicada al mismo, se puede modelar mediante la siguiente ecuación:
+	\begin{equation}
+		\label{eqn:cargaMecanica}
+		J_{l}\cdot \dot{\omega }_{l}\left ( t \right )=T_{q}\left ( t \right )-b_{l}\cdot \omega_{l}\left ( t \right )-T_{l}\left ( t \right ) \ \ ;\ \ \omega_{l}\left ( t \right )\equiv \dot{q}_{l}\left ( t \right )= \dot{q}_1\left ( t \right )
+	\end{equation}
+	Donde $q_{1}(t)$ es la posición articular del hombro del robot, $J_{l}$ es el momento de inercia de todos los eslabones del robot referidos al hombro, $b_{l}$ es el coeficiente de amortiguamiento viscoso, $T_{l}$ es el torque de carga o perturbación y $T_{q}$ es el par mecánico entregado a la salida de la caja reductora de engranajes.
+	La inercia y el amortiguamiento son dos de los parámetros que varían según la posición de las articulaciones del robot, es decir, $J_{l}(q_{1}(t),q_{2}(t),...,q_{n}(t))$ y una función similar para $b_{l}$.
+	En este caso, se considera un valor nominal para estos parámetros, y sus posibles variaciones máximas, pero sin estar relacionado directamente con las posiciones articulares del robot.
+	
+	\item \textbf{Subsistema de la transmisión:}\vspace{0.3cm}\\
+	El tren de transmisión del robot está formado por una caja reductora, reversible, de engranajes planetarios. Se asume acoplamiento \textbf{rígido}, sin elasticidad torsional y sin backlash (juego). Al considerar una transmisión ideal y sin pérdida de potencia, las ecuaciones que la modelan son:
+	\begin{equation}
+		\label{eqn:relacionTransmision}
+		\omega_{l}\left ( t \right )=\frac{1}{r}\cdot w_{m}\left ( t \right )
+	\end{equation}
+	\begin{equation}
+		\label{eqn:torqueTransmision}
+		T_{q}\left ( t \right )=r\cdot T_{d}\left ( t \right )
+	\end{equation}
+	Donde $\omega_{m}(t)$ es la velocidad angular del eje del rotor del motor, $T_{d}(t)$ es el torque de la máquina eléctrica (equivalente a una carga colocada en el eje del rotor) y $r$ es la relación de transmisión del reductor planetario.
+	
+	\item \textbf{Subsistema mecánico del motor:}\vspace{0.3cm}\\
+	Por último tenemos el subsistema mecánico que modela el torque de salida de la máquina eléctrica. Las ecuaciones que modelan el sistema son las siguientes:
+	\begin{equation}
+		\label{eqn:sistMecanicoMotor}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-T_{d}\left ( t \right ) \ \ ;\ \ \omega_{m}\left ( t \right )\equiv \dot{q}_{m}\left ( t \right )
+	\end{equation}
+	Donde $J_{m}$ es la inercia del rotor respecto a su propio eje, $b_{m}$ es la viscosidad del rotor y $T_{m}(t)$ es el torque electromecánico de la máquina eléctrica.
+
+	\item \textbf{Modelo equivalente mecánico (1 GDL):}\vspace{0.3cm}\\
+	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipotesis, que la transmisión es totalmente rígida y sin backlash (juego).
+	Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia.
+
+	Bajo estas hipotesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
+	\begin{equation}
+		\label{eqn:paso1sistMecanico}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-\frac{T_{q}\left ( t \right )}{r}
+	\end{equation}
+	Luego, despejamos $T_{q}$ de la ecuación \ref{eqn:cargaMecanica} y lo reemplazamos en \ref{eqn:paso1sistMecanico}:
+	\begin{equation}
+		\label{eqn:paso2sistMecanico}
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-\frac{\left ( J_{l}\cdot \dot{\omega_{l}}+b_{l}\cdot \omega_{l}+T_{l} \right )}{r}
+	\end{equation}
+	Teniendo en cuenta la relación de la ecuación \ref{eqn:relacionTransmision}, la reemplazamos en \ref{eqn:paso2sistMecanico} y reacomodamos la expresión:
+	\begin{equation}
+		\label{eqn:paso3sistMecanico}
+		\left ( J_{m}+\frac{J_{l}}{r^{2}} \right )\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-\left ( b_{m}+\frac{b_{l}}{r^{2}} \right )\cdot \omega_{m}\left ( t \right )-\frac{T_{l}}{r}
+	\end{equation}
+	Donde establecemos las siguientes equivalencias:
+	\begin{equation}
+		J_{m}+\frac{J_{l}}{r^{2}}=J_{eq}
+	\end{equation}
+	\begin{equation}
+		b_{m}+\frac{b_{l}}{r^{2}}=b_{eq}
+	\end{equation}
+	\begin{equation}
+		\frac{T_{l}}{r}=T_{eq}
+	\end{equation}
+	Quedando así la ecuación \ref{eqn:paso3sistMecanico} como:
+	\begin{equation}
+		J_{eq}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq} \ \ ;\ \ \omega_{m} \equiv \dot{\theta_{m}}
+	\end{equation}
+	Dicha ecuación se puede representar en bloques de \textbf{Simulink}, como se ve en la siguiente figura \ref{fig:MecanicoEquivalente}:
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\textwidth]{2_1_1_ModeloMecanicoEquivalente.png}
+		\caption{\label{fig:MecanicoEquivalente} Diagrama en bloques del modelo mecánico equivalente simplificado en \textbf{Simulink}}
+	\end{figure}
+
+\end{itemize}
+
 \subsubsection{Modelo dinámico del sistema físico completo}
 
 \begin{enumerate}
     \renewcommand{\theenumi}{\alph{enumi}} %Letras minúsculas
     \item \textbf{Modelo global no lineal (NL)}
     
-    TEXTO
+    Para definir el modelo completo del sistema, ya abordamos la parte mecánica. Ahora veamos el resto de los subsistemas para terminar de definir el modelo completo de nuestro sistema físico.
+	\begin{itemize}
+		\item \textbf{Subsistema Electromagnético:}\vspace{0.3cm}\\
+		El motor sincrónico trifásico de CA con excitación por imanes permanentes (PMSM) tiene el estator conectado en estrella (con bornes de fases abcs) y neutro flotante en el centro de la estrella.
+		El subsistema es un sistema simétrico al considerar las tres tensiones de fases de igual amplitud y desfasadas 120 grados eléctricos, y equilibrado al poseer de un neutro flotante.
+		\vspace{0.3cm}\\
+		Para modelar esta máquina, haremos uso de la \textbf{transformación de Park}\footnote[1]{\textbf{Transformación de Park:} forma invariante en módulo de resultante vectorial de variables base $f$} del circuito del estator, llegando así a un modelo idealizado equivalente en coordenadas eléctricas \textbf{qd0} fijas al rotor.
+		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al campo eléctrico rotante.
+		Y como que se trata de un sistema simétrico, luego del transitorio queda totalmente equilibrado, entonces podemos suponer que luego de ese pequeño transitorio $v_{0s}(t)$ tendrá como valor $0$ y se reduce significativamente el número de variables.
+		\vspace{0.3cm}\\
+		Las coordenadas eléctricas del entrehierro $qd0$, fijas a rotor (marco de referencia “sincrónico”) se definen como:
+		\begin{equation}
+			\dot{\theta_{r}}\left ( t \right )\equiv \omega_{r}\left ( t \right )\Leftrightarrow \theta_{r}\left ( t \right )=\int_{0}^{t}\omega_{r}\left ( \xi \right )\cdot d\xi + \theta_{r}\left ( 0 \right )
+		\end{equation}
+		\\
+		\begin{equation}
+			\theta_{r} \left ( t \right ) \equiv P_{p} \cdot \theta_{m} \left ( t \right )
+		\end{equation}
+		\begin{equation}
+			\omega_{r}\left ( t \right )=P_{p}\cdot \omega_{m}\left ( t \right )
+		\end{equation}
+		El torque electromagnético viene dado por la ecuación:
+		\begin{equation}
+			T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
+		\end{equation}
+		Donde $\lambda_{m}^{r'}$ es el flujo magnético equivalente de imanes concatenado, por espiras del bobinado de estator,
+		$L_{d}$ es la inductancia de eje directo del estator y $L_{q}$ es la inductancia de eje en cuadratura del estator (estas magnitudes son consideradas constantes para simplificar el modelo).
+		El modelo equivalente del subsistema eléctrico en coordenadas de entrehierro, está dado por las siguientes ecuaciones, que hacen un balance de tensiones en el circuito del estator.
+		\begin{equation}
+			v_{qs}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{qs}^{r}\left ( t \right )+L_{q}\cdot \frac{\mathrm{d} i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}+\left [ \lambda_{m}^{r'}+L_{d}\cdot i_{ds}^{r}\left ( t \right ) \right ]\cdot \omega_{r}\left ( t \right )
+		\end{equation}
+		\begin{equation}
+			v_{ds}^{r}\left ( t \right )=R_{s}\cdot i_{ds}^{r}\left ( t \right )+L_{d}\cdot \frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}-L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )
+		\end{equation}
+		\begin{equation}
+			\label{eqn:expresionNula}
+			v_{0s}^{r}\left ( t \right )=R_{s}\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
+		\end{equation}
+		Nosotros cuando empezamos a hacer el desarrollo, partimos del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
+		Lo cual significa que, a partir de ahora no las tendremos en cuenta y consideraremos nula a la expresión \ref{eqn:expresionNula}. Sin tenerla en cuenta de acá en adelane.
+		
+
+		\item \textbf{Subsistema Térmico:}\vspace{0.3cm}\\
+		some text
+
+		\item \textbf{Dinámica del modelo global NL:}\vspace{0.3cm}\\
+		another text
+
+	\end{itemize}
 
     \item \textbf{Linealización Jacobiana}
     \vspace{0.3cm} 
@@ -92,21 +219,21 @@ Al final del resumen empezamos con el resto del informe
 	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanetes es nula, la resistencia en los 			devanados del estator es constante con la temperatura y el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$.\\
 	Definimos el vector de estados $X(t)$ ec.\ref{eq:2.1.2.c.1} , el vector de entradas $u(t)$ ec.\ref{eq:2.1.2.c.2} y la perturbación 	$d(t)$ ec.\ref{eq:2.1.2.c.3}:
 	\begin{equation}
-	X(t)=\begin{bmatrix}
-	\theta_{m}(t)\\
-	\omega_{m}(t) 
-	\\ 
-	i^{r}_{qs}
-	\end{bmatrix}
-	\label{eq:2.1.2.c.1}
+		X(t)=\begin{bmatrix}
+			\theta_{m}(t)\\
+			\omega_{m}(t) 
+			\\ 
+			i^{r}_{qs}
+		\end{bmatrix}
+		\label{eq:2.1.2.c.1}
 	\end{equation}
 	\begin{equation}
-	u(t)=v^{r}_{qs} 
-	\label{eq:2.1.2.c.2}
+		u(t)=v^{r}_{qs} 
+		\label{eq:2.1.2.c.2}
 	\end{equation}
 	\begin{equation}
-	d(t)=\frac{T_{l}(t)}{r} 
-	\label{eq:2.1.2.c.3}
+		d(t)=\frac{T_{l}(t)}{r} 
+		\label{eq:2.1.2.c.3}
 	\end{equation}
 	
 	Asi el espacio de estados es el siguiente  :
@@ -135,9 +262,9 @@ Al final del resumen empezamos con el resto del informe
 	En la figura \ref{fig:diagLTI} se muestra el diagrama de bloques en forma desagregada del sistema (rosado).
 	
 	\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.5\textwidth]{DiagramabloquesLTI.png}
-	\caption{\label{fig:diagLTI} Diagrama de bloques de estado del modelo simplificado lineal invariante (LTI) equivalente. Con dinámica residual (rojo) y sin dinámica residual (rosado) }
+		\centering
+		\includegraphics[width=0.5\textwidth]{DiagramabloquesLTI.png}
+		\caption{\label{fig:diagLTI} Diagrama de bloques de estado del modelo simplificado lineal invariante (LTI) equivalente. Con dinámica residual (rojo) y sin dinámica residual (rosado) }
 	\end{figure}
 	
 	\item\textbf{ Restricción o Ley de Control mínima}.
