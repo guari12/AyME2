@@ -602,9 +602,10 @@ A continuación se presentan las respuestas del sistema.
 	\begin{tabular}{| c | c | c | }
 	\hline
 	  & Escalón $v^{r}_{qs}=19.596 V$& Escalón $T_{l}=6.28 N.m$\\ \hline
-	 $\omega_{establecimiento}$ &  420.5 &  414.2 \\ \hline
-	 Rise Time &  0.0041 &  0.0015\\ \hline
-	SettlingTime& 0.0437 & 0.03 \\ \hline
+	 $\omega_{establecimiento} (rad/s)$ &  420.5 &  414.2 \\ \hline
+	 Rise Time (s) &  0.0041 &  0.0015\\ \hline
+	SettlingTime (s)& 0.0437 & 0.0498 \\ \hline
+	Overshoot & 39.44$\%$ & 103.15$\%$ \\ \hline
 	\end{tabular}
 	\caption{Parámetros temporales $\omega_{m}$}
 	\label{tab:1}
@@ -616,9 +617,10 @@ A continuación se presentan las respuestas del sistema.
 	\begin{tabular}{| c | c | c | }
 	\hline
 	  & Escalón $v^{r}_{qs}=19.596 V$& Escalón $T_{l}=6.28 N.m$\\ \hline
-	 $ i^{r}_{qs}$ Establecimiento &   0.09067 &  0.38 \\ \hline
-	 Rise Time &  0.0026 &  0.00424\\ \hline
-	SettlingTime& 0.102 & 0.042 \\ \hline
+	 $ i^{r}_{qs}$ Establecimiento (A) &   0.09067 &  0.38 \\ \hline
+	 Rise Time (ms) &  0.0026 &  4.1\\ \hline
+	SettlingTime (s)& 0.048 & 0.0437 \\ \hline
+	Overshoot & 8056.7$\%$ & 39.44$\%$ \\ \hline
 	Sobre pico & 7.404 & 0.489 \\ \hline
 	\end{tabular}
 	\caption{Parámetros temporales $i^{r}_{qs}$}
@@ -659,10 +661,31 @@ A continuación se presentan las respuestas del sistema.
 	\includegraphics[width=0.7\textwidth]{Tdistintode0LTI.png}
 	\caption{\label{fig:Tdistintode0LTI} Field forcing and weakening $T_{m}$. Modelo LTI equivalente aumentado.}
 	\end{figure}
-	
 \end{itemize}
 
 \subsection{Diseño, Análisis y Simulación con CONTROLADOR de Movimiento en Cascada con Modulador de Torque equivalente (Control Vectorial)}
+\begin{itemize}
+\item \textbf{Desacoplamiento de todas las realimentaciones físicas naturales de estado hacia la entrada}
+	 En la figura \ref{fig:Tmodulado} se puede observar el desacoplamiento de todas las realimentaciones. Se ha remarcado en rojo la \textbf{La ley de control mínima} que anteriormente se implementó en el modelo NL y en naranja la \textbf{Ley de control complementaria mínima en el eje q}  que se implementó en el modelo LTI equivalente aumentado, es decir que podría decirse que los modelos realizados anteriormente son un caso particular de realizar el desacoplamiento de las realimentaciones físicas. En gris se nuestra el desacople de las caídas ohmicas, en verde la caida por tensión inducida producto de $\lambda^{`r}_{m}$ y en celeste se ha desacoplado el torque por fricción.
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{modulador de torque.png}
+	\caption{\label{fig:Tmodulador}Modulador de Torque equivalente.Desacoplamiento de todas las realimentaciones físicas naturales.}
+	\end{figure}
+	
+	En la figura \ref{fig:Ts} podemos ver el efecto de la temperatura sobre la resistencia $R_{s}$ y si la temperatura tiene variaciones importantes como vemos la resistencia no por lo que se podría considerar constante sin caer en grandes errores. 
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Ts.png}
+	\caption{\label{fig:Ts}Modulador de Torque equivalente.Desacoplamiento de todas las realimentaciones físicas naturales.}
+	\end{figure}
+
+\item \textbf{Diseño de lazos de control de corrientes $i^{r}_{qd0s}$}
+Trubii
+
+\end{itemize}
 \subsubsection{Modulador de Torque equivalente (Controlador interno vectorial de corriente/torque)}
 \subsubsection{Controlador externo de movimientos: posición/velocidad }
 \subsubsection{IncorporaciónydiseñodeObservadordeEstadodeordenreducidosóloparalapartemecánica de este controlador}
