@@ -14,6 +14,7 @@
 
 % Set document Font
 \usepackage{fontspec}
+
 \setmainfont{Times New Roman}
 
 \title{Proyecto Global Integrador AyME:\\
@@ -247,8 +248,8 @@ Al final del resumen empezamos con el resto del informe
 		 \frac{1}{L_{q}}&0 
 		\end{bmatrix}
 	\begin{bmatrix}
-	\Delta T_{leq}(t)\\ 
-	\Delta v^{r}_{qs}(t)
+	\Delta  v^{r}_{qs}(t)\\ 
+	\Delta T_{leq}(t)
 	\end{bmatrix}
 	\label{eq:2.1.2.f.1}
 	\end{equation}
@@ -433,7 +434,105 @@ A continuación se presentan las respuestas del sistema.
 	\includegraphics[width=0.7\textwidth]{temperatura.png}
 	\caption{\label{fig:temperatura} Temperatura vs t.}
 	\end{figure}
-
+	Producto del forzamiento de $i^{r}_{ds}=0$ podemos ver que el sistema se comporta como un motor de CC, ya que la velocidad del motor depende de manera proporcional al voltage de entrada y inversalmente proporcional al torque de carga esto se puede ver claramente observando la figura \ref{fig:theta_m} y la figura\ref{fig:vd_vq}, vemos que luego de afectar con el escalón $v^{r}_{qs}$ la velocidad después de un transtorio se establece constante, lo mismo ocurre en $t=0.3$ cuando se afecta al sistema con un escalón $T_{l}$ provocando una disminución de la velocidad. También hay que notar el excesivo sobrepico en $i^{r}_{qs}$ producto de la consigna de tensión lo que indica que no es buena práctica afectar al sistema con este tipo de entradas, también hay que notar el aumento de la corriente por la entrada de torque dado que el sistema necesitará mayor torque motor para contrarrestar este. \\
+	Es importante resaltar como la temperatura (figura \ref{fig:temperatura}) aumenta cada vez que se tiene un pico grande de corriente esto se debe a que esta depende de manera cuadrática de las corrientes.
+	Otro punto importante a notar es la gran acción de control $v^{r}_{ds}$ que se realiza para mantener $i^{r}_{ds}=0$ durante el transitorio del sistema.
+	 Como se puede ver en las figura \ref{fig:corriente} los sobrepicos en el transitorio vistos en $i^{r}_{qs}$ se corresponden con los sobrepicos en las corrientes de fases y luego de estos transitorios estas convergen a tres ondas sinusoidales desfasadas 120° eléctricos de igual magnitud adoptando una frecuencia tal que $\frac{f_{e}.2\pi}{P_{p}}=\omega_{mestable}$, también se puede observar que cuando $i^{r}_{qs}$ aumenta en magnitud estas también lo hacen y viceversa. El mismo comportamiento se puede observar para las tensiones de fase en la figura \ref{fig:v}.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{corriente.png}
+	\caption{\label{fig:corriente} Corrientes de fase $i_{abcs}$.}
+	\end{figure}
+	Partiendo de la transformación inversa de ParK y tomando $i^{r}_{ds}(t) \equiv 0$ , $i^{r}_{0s}(t)=0$ y $v^{r}_{0s}(t)$ podemos obtener analíticamente la forma de la tensión y corrientes $abcs$.\\
+	
+	$i_{as}(t)=cos(\theta_{r}(t)).i^{r}_{qs}(t)$\\
+	$i_{bs}(t)=cos(\theta_{r}(t)-\frac{2}{3}\pi).i^{r}_{qs}(t)$\\
+	$i_{cs}(t)=cos(\theta_{r}(t)+\frac{2}{3}\pi).i^{r}_{qs}(t)$\\
+	$v_{as}(t)=cos(\theta_{r}(t)).v^{r}_{qs}(t)$ - $ sin(\theta_{r}(t)). v^{r}_{qs}(t)$\\
+	$v_{bs}(t)=cos(\theta_{r}(t)-\frac{2}{3}\pi).v^{r}_{qs}(t)$-$sin(\theta_{r}(t)-\frac{2}{3}\pi). v^{r}_{qs}(t)$\\
+	$v_{cs}(t)=cos(\theta_{r}(t)+\frac{2}{3}\pi).v^{r}_{qs}(t)$-$sin(\theta_{r}(t)+\frac{2}{3}\pi). v^{r}_{qs}(t)$\\
+	
+	Como se puede ver las corrientes y tensiones de fase estatóricas siempre van a estar desfasadas 120° eléctricos y simétrico, y para el caso planteado la amplitud de las corrientes dependerá únicamente de $i^{r}_{qs}(t)$.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{v.png}
+	\caption{\label{fig:v} Tensiones de fase $v_{abcs}$.}
+	\end{figure}
+	
+	En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque vs velocidad con la cual es posible evaluar los cuadrantes de operación del sistema. En primer lugar se debe observar como el motor parte del equilibrio estacionario (cuadrado blanco) y se desplaza hacia un punto de equilibrio dinámico (cuadro verde) producto de la consigna de tensión, en este punto el motor se encuentra en el \textbf{primer cuadrante}. En segundo lugar, debido a $T_{l}$ el punto de equilibrio dinámico se translada al representado por el cuadrado azul, vemos ahora que el torque motor es mayor pero la velocidad menor. Después producto de la nueva consigna de torque $T_{l}$ ahora negativa, vemos que el sistema pasa a operar en el \textbf{segundo cuadrante}(cuadrado rosado), como se observa la velocidad ha aumentado y el torque motor es negativo (mayor tensión inducida que tensión de alimentación), es decir que el motor esta frenando. Luego el sistema pasa a operar en el punto dado por el cuadrado violeta debido a que se le ha quitado la alimentanción a este y por lo tanto aumenta el torque motor y la acción de frenado del motor hacia el torque de carga, y disminuye la velocidad. Por último al sacar la consigna de $T_{l}$ vemos como el motor comienza a oscilar hacia el punto de equilibrio estacionario (cuadrado blanco).
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{T vs velocidad.png}
+	\caption{\label{fig:T vs velocidad} Curva paramétrica $T_{m}$ vs $\omega_{m}$.}
+	\end{figure}
+	
+	\item \textbf{Determinación de velocidad y corriente final de establecimiento luego de cada transitorio, especificaciones en el dominio del tiempo.}
+	
+	En la siguiente tabla \ref{tab:1} y \ref{tab:2} se muestra los parámetros que caracterizan las respuesta del sistema en el dominio del tiempo.
+	\begin{table}[!h]
+	\begin{center}
+	\begin{tabular}{| c | c | c | }
+	\hline
+	  & Escalón $v^{r}_{qs}=19.596 V$& Escalón $T_{l}=6.28 N.m$\\ \hline
+	 $\omega_{establecimiento}$ &  420.5 &  414.2 \\ \hline
+	 Rise Time &  0.0041 &  0.0015\\ \hline
+	SettlingTime& 0.0437 & 0.03 \\ \hline
+	\end{tabular}
+	\caption{Parámetros temporales $\omega_{m}$}
+	\label{tab:1}
+	\end{center}
+	\end{table}
+	
+	\begin{table}[!h]
+	\begin{center}
+	\begin{tabular}{| c | c | c | }
+	\hline
+	  & Escalón $v^{r}_{qs}=19.596 V$& Escalón $T_{l}=6.28 N.m$\\ \hline
+	 $ i^{r}_{qs}$ Establecimiento &   0.09067 &  0.38 \\ \hline
+	 Rise Time &  0.0026 &  0.00424\\ \hline
+	SettlingTime& 0.102 & 0.042 \\ \hline
+	Sobre pico & 7.404 & 0.489 \\ \hline
+	\end{tabular}
+	\caption{Parámetros temporales $i^{r}_{qs}$}
+	\label{tab:2}
+	\end{center}
+	\end{table}
+	
+	Como se puede apreciar ambas entradas tienen influencia sobre $ i^{r}_{qs}$ y $\omega_{m}$, sin embargo es notorío que la tensión tiene una mayor influencia sobre el valor de la velocidad al menos una vez pasados los transitorios, pero para $ i^{r}_{qs}$el torque de carga tiene una mayor influencia sobre esta. Esta relación se puede encontrar fácilmente el teorema del valor límite, en la ec .\ref{eq:2.1.2.i.2} se aplica a $\omega_{m}$, y se puede ver claramente que el valor estacionario es proporcional con la tensión y que es inversamente proporcional con el torque de carga. Además se puede concluir también que el peso de $T_{l}$ es menor, ya que el denominador se encuentra afectado por la inversa de r.
+	
+	\begin{equation}
+	\omega_{estable}=\frac{\frac{3}{2}P_{p}\lambda^{r'}_{m}}{\frac{3}{2}P^{2}_{p}\lambda^{r'2}_{m}+ R_{s}b_{eq}}V^{r}_{qs}(0) -  \frac{R_{s} \frac{1}{r}}{\frac{3}{2}P^{2}_{p}\lambda^{r'2}_{m}+ R_{s}b_{eq}}T_{l}(0)
+	\label{eq:2.1.2.i.2}
+	\end{equation}
+	
+	%\item \textbf{Comparar comportamiento de $i^{r}_{ds}(t)$ para $i^{r}_{ds}(0)=\pm  0.5 A$ vs $i^{r}_{ds}(0)=0A$ }
+	\item \textbf{Field forcing and weakening a lazo abierto }
+	
+	Por último, se aplica una consigna de tensión en el eje d, $v^{r \ *}_{ds}(t)=\pm 1.9596 V_{cc}$ en $t=0.5 s$ para el evaluar el efecto de reforzamiento y debilitamiento de campo. En las figuras \ref{fig:Tdistintode0} y \ref{fig:wdistintode0} se puede observa el efecto de este para el \textbf{modelo NL desacoplado con Ley de control NL} sobre el torque y la velocidad.\\
+	Se puede observar claramente lo comentado en el inciso \textbf{2.1.2.d} al aplicar a tensión consigna $v^{r \ *}_{ds}(t)= 1.9596 V_{cc}$ se produce un reforzamiento del campo aumentando el torque y disminuyendo la velocidad, por otro lado si la consigna de tensión es  $v^{r \ *}_{ds}(t)= -1.9596 V_{cc}$ se produce un debilitamiento del campo disminuyendo el torque motor y aumentando la velocidad (en este caso esto se ve incrementado aún mas por el torque de carga). 
+	
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Tdistintode0.png}
+	\caption{\label{fig:Tdistintode0} Field forcing and weakening $T_{m}$. Modelo NL desacoplado con Ley de control NL .}
+	\end{figure}
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{wdistintode0.png}
+	\caption{\label{fig:wdistintode0} Field forcing and weakening $\omega_{m}$. Modelo NL desacoplado con Ley de control NL .}
+	\end{figure}
+	
+	Lo mismo se puede ver que ocurre para el \ref{modelo LTI equivalente aumentado} aunque en menor medida en la figura \ref{fig:Tdistintode0LTI}, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el torque por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y dado que por ser un motor síncrono de polos salientes $L_{d}$ y $L_{q}$ son muy parecidas la ganancia de este término es ínfima en comparación a los demás.
+	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Tdistintode0LTI.png}
+	\caption{\label{fig:Tdistintode0LTI} Field forcing and weakening $T_{m}$. Modelo LTI equivalente aumentado.}
+	\end{figure}
+	
 \end{itemize}
 
 \subsection{Diseño, Análisis y Simulación con CONTROLADOR de Movimiento en Cascada con Modulador de Torque equivalente (Control Vectorial)}

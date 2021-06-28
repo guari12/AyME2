@@ -13,6 +13,7 @@ Jeq1=(Jm+Jlv(i)/r^2);
 sys_tf = tf(1, [Jeq1*Lq (Rs*Jeq1+Lq*beq) (3/2*Pp^2*lambda_m_r^2 + Rs*beq) 0]);
 g(:,i)=pole(sys_tf);
 end
+
 %%Migracion de parametros
 %%
 figure
