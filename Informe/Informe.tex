@@ -105,16 +105,20 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\end{equation}
 	Donde establecemos las siguientes equivalencias:
 	\begin{equation}
+		\label{eqn:Jeq}
 		J_{m}+\frac{J_{l}}{r^{2}}=J_{eq}
 	\end{equation}
 	\begin{equation}
+		\label{eqn:beq}
 		b_{m}+\frac{b_{l}}{r^{2}}=b_{eq}
 	\end{equation}
 	\begin{equation}
+		\label{eqn:Teq}
 		\frac{T_{l}}{r}=T_{eq}
 	\end{equation}
-	Quedando así la ecuación \ref{eqn:paso3sistMecanico} como:
+	Reemplazando \ref{eqn:Jeq}, \ref{eqn:beq} y \ref{eqn:Teq} en la ecuación \ref{eqn:paso3sistMecanico}, la expresión nos queda:
 	\begin{equation}
+		\label{sist:mecanico}
 		J_{eq}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq} \ \ ;\ \ \omega_{m} \equiv \dot{\theta_{m}}
 	\end{equation}
 	Dicha ecuación se puede representar en bloques de \textbf{Simulink}, como se ve en la siguiente figura \ref{fig:MecanicoEquivalente}:
@@ -155,15 +159,18 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{equation}
 		El torque electromagnético viene dado por la ecuación:
 		\begin{equation}
+			\label{sist:electromagnetico}
 			T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
 		\end{equation}
 		Donde $\lambda_{m}^{r'}$ es el flujo magnético equivalente de imanes concatenado, por espiras del bobinado de estator,
 		$L_{d}$ es la inductancia de eje directo del estator y $L_{q}$ es la inductancia de eje en cuadratura del estator (estas magnitudes son consideradas constantes para simplificar el modelo).
 		El modelo equivalente del subsistema eléctrico en coordenadas de entrehierro, está dado por las siguientes ecuaciones, que hacen un balance de tensiones en el circuito del estator.
 		\begin{equation}
+			\label{sist:electrico1}
 			v_{qs}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{qs}^{r}\left ( t \right )+L_{q}\cdot \frac{\mathrm{d} i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}+\left [ \lambda_{m}^{r'}+L_{d}\cdot i_{ds}^{r}\left ( t \right ) \right ]\cdot \omega_{r}\left ( t \right )
 		\end{equation}
 		\begin{equation}
+			\label{sist:electrico2}
 			v_{ds}^{r}\left ( t \right )=R_{s}\cdot i_{ds}^{r}\left ( t \right )+L_{d}\cdot \frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}-L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )
 		\end{equation}
 		\begin{equation}
@@ -181,10 +188,27 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{figure}
 
 		\item \textbf{Subsistema Térmico:}\vspace{0.3cm}\\
-		some text
+		Para el análisis y modelado térmico de la máquina eléctrica, vamos a partir de los supuestos que vamos a considerar sólo pérdidas resistivas por \textbf{Efecto Joule} en el bobinado del estator y despreciar pérdidas magnéticas. La transferencia de calor es por conducción y convección natural, sin ventilación forzada.
+
+		La potencia de pérdidas en coordenadas $abc$ del estator está dada por:
+		\begin{equation}
+			P_{s\ perd}\left ( t \right )=R_{s}\left ( t \right )\cdot \left ( {i_{as}}^{2}\left ( t \right )+{i_{bs}}^{2}\left ( t \right )+{i_{cs}}^{2}\left ( t \right ) \right )
+		\end{equation}
+		Y en coordenadas $qd0$ fijas en rotor:
+		\begin{equation}
+			P_{s\ perd}\left ( t \right )=\frac{3}{2}\cdot R_{s}\left ( t \right )\cdot \left ( {i_{qs}^{r}}^{2}\left ( t \right )+{i_{ds}^{r}}^{2}\left ( t \right )+2\cdot {i_{0s}^{r}}^{2}\left ( t \right ) \right )
+		\end{equation}
+		Donde hay que tener en cuenta que la resistencia del estator $R_{s}$, varía con la temperatura según la expresión:
+		\begin{equation}
+			R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+		\end{equation}
+		El balance térmico entonces, queda dado por la siguiente ecuación:
+		\begin{equation}
+			P_{s\ perd}\left ( t \right )=C_{ts}\cdot \frac{\mathrm{d} {T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}+\frac{1}{R_{ts-amb}}\cdot \left ( T_{s}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right ) \right )
+		\end{equation}
 
 		\item \textbf{Dinámica del modelo global NL:}\vspace{0.3cm}\\
-		another text
+		Teniendo en cuenta las ecuaciones \ref{sist:mecanico}, \ref{sist:electromagnetico}, \ref{sist:electrico1}, \ref{sist:electrico2} y las térmicas
 
 	\end{itemize}
 
