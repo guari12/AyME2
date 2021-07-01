@@ -248,15 +248,15 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		Este modelo contiene varias \textbf{no linealidades} al contener productos de variables de estado y también al depender varias de esas ecuaciones de $R_{s}$, que a su vez depende de la temperatura ${T_{s}}^{\circ}$ que es una variable de estado que varia en el tiempo $t$.
 		\\
 		\\
-		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la siguiente figura \ref{fig:sistGlobalNL}:
+		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la figura \ref{fig:sistGlobalNL}.
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.9\textwidth]{2_1_2_ModeloElectricoEquivalente.png}
-			\caption{\label{fig:sistGlobalNL} Diagrama en bloques del modelo eléctrico equivalente en \textbf{Simulink} (con transformación de \textbf{Park})}
+			\includegraphics[width=0.9\textwidth]{2_1_2_ModeloGlobalNL.png}
+			\caption{\label{fig:sistGlobalNL} Diagrama en bloques del \textbf{modelo global NL} en \textbf{Simulink} (con transformaciones de \textbf{Park})}
 		\end{figure}
 
 	\end{itemize}
-
+	\nextpage % Esto lo puse porque sino la imagen quedaba mal acomodada, ver si al completar lo primero hace falta o ya no. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     \item \textbf{Linealización Jacobiana}
     \vspace{0.3cm} 
     \\Primero obtendremos el modelo \textbf{global linealizado con parámetros variables (LPV)}, para $ i_{ds}^{r}\left( t \right ) \neq 0 $ (caso gral.). 
