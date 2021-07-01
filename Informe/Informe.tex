@@ -295,10 +295,28 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
     \end{equation}
 	Expresando mediante expansión por series de \textbf{Taylor truncada a 1° orden}, podemos plantear:
 	\begin{equation}
-		f ( X_{o}(t)+\Delta x(t),U_{o}(t)+\Delta u(t) )
-		\\
-		
+		\begin{array}{l}
+			\textcolor{red}{f(} X_{o}(t)+\Delta x(t),U_{o}(t)+\Delta u(t) \textcolor{red}{)} \approx \dots
+			\\
+			\\
+			\ \ \ \ 
+			\textcolor{red}{f( X_{o}(t),U_{o}(t) )}+
+			\left.\begin{matrix}
+				\begin{bmatrix}
+					\frac{\partial f}{\partial x_{1}} & \dots & \frac{\partial f}{\partial x_{n}}
+				\end{bmatrix}
+			\end{matrix}\right|_{0}(t)\cdot \Delta x(t)+
+			\left.\begin{matrix}
+				\begin{bmatrix}
+					\frac{\partial f}{\partial u_{1}} & \dots & \frac{\partial f}{\partial u_{n}}
+				\end{bmatrix}
+			\end{matrix}\right|_{0}(t)\cdot \Delta u(t)
+		\end{array}
 	\end{equation}
+	A continuación vamos a separar el modelo en dos partes, \textbf{Espacio Global de Puntos de Operación + Modelo Dinámico Local de Pequeñas Desviaciones}.
+	En el caso de que el punto de operación esté fijo, tendremos un sistema LTI; mientras que si varía, tendremos un sistema LTV.
+	\\
+	El espacio global de puntos de operación se obtiene de la solución del sistema de ecuaciones no lineales de􏰀nido por,
 
     \item Linealización por Realimentación NL
     \begin{itemize}
