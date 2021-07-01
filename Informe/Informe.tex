@@ -363,26 +363,34 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\ \ ;\ \ \Delta x(0)=0
 	\end{equation}
 	Si aplicamos la ecuación \ref{eqn:pequeniasDesviaciones} a la ecuación \ref{eqn:sistGlobalNL} de nuestro modelo, obtenemos el siguiente sistema de ecuaciones:
+	\newline
 	\begin{equation}
 		\label{eqn:sistPequeniasDesviaciones}
 		\begin{cases}
 			\Delta\dot{\theta_{m}}(t)=\Delta\omega_{m}(t)
 			\\
 			\\
-			\Delta\omega_{m}(t)=\frac{\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq}}{J_{eq}}
+			\Delta\dot{\omega }_{m}(t)=\frac{3 P_{p}}{2 J_{eq}}\cdot \left [[\lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} (t)]\cdot\Delta i_{qs}^{r}(t)+[\left ( L_{d}-L_{q} \right )\cdot I_{qso}^{r}(t)]\cdot\Delta i_{ds}^{r} (t)\right ]-\frac{b_{eq}}{J_{eq}}\cdot\Delta\omega_{m}(t)-\frac{\Delta T_{eq}(t)}{J_{eq}}
 			\\
 			\\
-			\frac{\mathrm{d} i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{v_{qs}^{r}\left ( t \right )-R_{s}\left ( t \right )\cdot i_{qs}^{r}\left ( t \right )-\left [ \lambda_{m}^{r'}+L_{d}\cdot i_{ds}^{r}\left ( t \right ) \right ]\cdot \omega_{r}\left ( t \right )}{L_{q}}
+			\frac{\mathrm{d} \Delta i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{qs}^{r}(t)}{L_{q}}-\left [ \frac{R_{so}\left ( t \right )}{L_{q}}\cdot \Delta i_{qs}^{r}(t)+\frac{\Delta R_{s}(t)}{L_{q}}\cdot I_{qso}^{r}(t) \right ]-\frac{P_{p}}{L_{q}}\cdot\left [[\lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t)]\cdot\Delta \omega_{m}(t)+[L_{d}\cdot \Omega_{mo}(t)]\cdot \Delta i_{ds}^{r}(t)\right ]
 			\\
 			\\
-			\frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{v_{ds}^{r}\left ( t \right )-R_{s}\cdot i_{ds}^{r}\left ( t \right )+L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )}{L_{d}}
+			\frac{\mathrm{d}\Delta i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{ds}^{r}(t)}{L_{d}}-\left [ \frac{R_{so}\left ( t \right )}{L_{d}}\cdot \Delta i_{ds}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t) \right ]+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot\left [  I_{qso}^{r}(t)\cdot \Delta\omega_{m}(t)+\Delta i_{qs}^{r}(t)\cdot \Omega_{mo}(t) \right ]
 			\\
 			\\
-			\frac{\mathrm{d} {T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{\frac{3}{2}\cdot R_{s}\left ( t \right )\cdot \left ( {i_{qs}^{r}}^{2}\left ( t \right )+{i_{ds}^{r}}^{2}\left ( t \right )+2\cdot {i_{0s}^{r}}^{2}\left ( t \right ) \right )-\frac{T_{s}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right )}{R_{ts-amb}}}{C_{ts}}
+			\frac{\mathrm{d}\Delta i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{0s}^{r}(t)}{L_{ls}}-\left [ \frac{R_{so}\left ( t \right )}{L_{ls}}\cdot \Delta i_{0s}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t) \right ]
 			\\
 			\\
-			R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+			\frac{\mathrm{d} {\Delta T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{3R_{so}(t)}{C_{ts}}\cdot \left [ I_{qso}^{r} \cdot \Delta i_{qs}^{r}+I_{dso}^{r} \cdot \Delta i_{ds}^{r}+2I_{0so}^{r} \cdot \Delta i_{0s}^{r} \right ]+\frac{3\Delta R_{s}(t)}{2 C_{ts}}\cdot\left [ {I_{qso}^{r}}^{2}+{I_{dso}^{r}}^{2}+2\cdot{I_{0so}^{r}}^{2} \right ]-\frac{\left [\Delta T_{s}^{\circ}\left ( t \right )-\Delta T_{amb}^{\circ}\left ( t \right ) \right ]}{R_{ts-amb}\cdot C_{ts}}
+			\\
+			\\
+			\Delta R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {\Delta T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
 		\end{cases}
+	\end{equation}
+	En forma matricial se puede expresar como:
+	\begin{equation}
+		
 	\end{equation}
 
     \item Linealización por Realimentación NL
