@@ -256,36 +256,49 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{figure}
 
 	\end{itemize}
-	\nextpage % Esto lo puse porque sino la imagen quedaba mal acomodada, ver si al completar lo primero hace falta o ya no. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    \item \textbf{Linealización Jacobiana}
+	%% Esto lo puse porque sino la imagen quedaba mal acomodada, ver si al completar lo primero hace falta o ya no. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    \newpage
+
+	\item \textbf{Linealización Jacobiana}
     \vspace{0.3cm} 
     \\Primero obtendremos el modelo \textbf{global linealizado con parámetros variables (LPV)}, para $ i_{ds}^{r}\left( t \right ) \neq 0 $ (caso gral.). 
     Un sistema \textbf{no lineal} puede ser representado por:
     \begin{equation}
-        \dot{x}\left ( t \right )= f\left ( x\left ( t \right ),u\left ( t \right ) \right ) \ \ \ ,\ \ \ x\left ( t_{0} \right )=x_{0}
+		\begin{cases}
+			\dot{x}\left ( t \right )= f\left ( x\left ( t \right ),u\left ( t \right ),t \right ) \ \ \ ,\ \ \ x\left ( t_{0} \right )=x_{0}
+			\\
+			y\left ( t \right )= C \cdot x\left ( t \right )
+		\end{cases}
     \end{equation}
-    \begin{equation}
-        y\left ( t \right )=h\left ( x\left ( t \right ) \right )
-    \end{equation}
-    donde f es una función vectorial de n × 1 elementos que esta en función de un vector x conformado por las variables de estado.
-    n representa el orden del sistema y la solución de x(t) representa una curva en el espacio de estado, denominada como trayectoria de estado.
-    Asumiendo que toda variable estará definida como,
+    donde $f$ es una función vectorial \textbf{NL} de $n\times 1$ elementos que está en función del vector de estados $x$.
+    El número $n$ es el orden del sistema y la solución de $x(t)$ representa una curva en el espacio de estado \textbf{(trayectoria de estado)}.
+    Asumiendo que cada variable se pueden expresar como
     \begin{equation}
         z\left ( t \right )\equiv Z_{0} + \Delta z\left ( t \right )
     \end{equation}
-    donde Zo es una magnitud cuasi-estacionaria de variación muy lenta con el tiempo y ∆z(t) una magnitud pequeña de variación rápida en el tiempo.
-    El sistema queda expresado:
+    donde $Z_{0}$ es una magnitud cuasi-estacionaria de variaciones lentas en el tiempo \textbf{(baja dinámica)} y $\Delta z(t)$ una magnitud pequeña de variación rápida en el tiempo \textbf{(alta dinámica)}.
+    El sistema queda expresado por:
     \begin{equation}
         \begin{cases}
-            \dot{x}\left ( t \right )\equiv
             \frac{\mathrm{d} X_{o}\left ( t \right )}{\mathrm{d} t}+
             \frac{\mathrm{d} \Delta x\left ( t \right )}{\mathrm{d} t}
             =
             f\left ( X_{o}\left ( t \right )+\Delta x\left ( t \right ),U_{o}\left ( t \right )+\Delta u\left ( t \right ) \right )
-            \\
+            \ \ \rightarrow \ \ 
             X_{o}\left ( 0 \right )=x_{0}\ \ ;\ \ \ \Delta x\left ( 0 \right )=0
+			\\
+			\\
+			Y_{o}(t)+\Delta y(t)=C\cdot (X_{o}\left ( t \right )+\Delta x\left ( t \right ))
+			\ \ \rightarrow \ \ 
+			Y_{o}\left ( t \right )=C\cdot X_{o}(t)\ \ ;\ \ \ \Delta y\left ( t \right )=C\cdot \Delta x\left ( t \right )
         \end{cases}
     \end{equation}
+	Expresando mediante expansión por series de \textbf{Taylor truncada a 1° orden}, podemos plantear:
+	\begin{equation}
+		f ( X_{o}(t)+\Delta x(t),U_{o}(t)+\Delta u(t) )
+		\\
+		
+	\end{equation}
 
     \item Linealización por Realimentación NL
     \begin{itemize}
