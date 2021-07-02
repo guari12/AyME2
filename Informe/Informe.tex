@@ -695,7 +695,7 @@ Se procedió a calcular la controlabilidad del modelo LTI ec.\ref{eq:2.1.2.e.4} 
 		Rango \ de \ C=[B \ A.B \ ... \ A^{n-1}.B]= n
 	\label{eq:2.1.2.l.1}
 	\end{equation}
-	Donde A esta definida en la ec.\ref{eq:2.1.2.k.3} y B:
+	Donde A es la definida en la ec.\ref{eq:2.1.2.k.3} y B es :
 	\begin{equation}
 		B= \begin{bmatrix}
 	0 &0 \\ 
@@ -706,7 +706,7 @@ Se procedió a calcular la controlabilidad del modelo LTI ec.\ref{eq:2.1.2.e.4} 
 	\label{eq:2.1.2.l.2}
 	\end{equation}
 	
-Se concluye que el sistema no es completamente controlable desde la entrada manipulada $v^{r}_{qs}(t)$ ya que el rango de $C$ es 3, esto se debe a que el estado $i^{r}_{ds}$ no es controlable desde $v^{r}_{qs}(t)$, ya que como dijimos anteriormente este un estado aislado del sistema. Para controlador este estado se debería agragar la entrada $v^{r}_{ds}(t)$ volviendo al sistema completamente controlable.
+Se concluye que el sistema no es completamente controlable desde la entrada manipulada $v^{r}_{qs}(t)$ dado que el rango de $C$ es 3, esto se debe a que el estado $i^{r}_{ds}$ no es controlable desde $v^{r}_{qs}(t)$, ya que como dijimos anteriormente este un estado aislado del sistema. Para controlador este estado se debería agragar la entrada $v^{r}_{ds}(t)$ volviendo al sistema completamente controlable.
 
 \subsubsection{Simulación dinámica en DT, comparando el modelo NL completo desacoplado con Ley de control
 NL vs LTI equivalente aumentado}
@@ -835,7 +835,7 @@ A continuación se presentan las respuestas del sistema.
 	\caption{\label{fig:wdistintode0} Field forcing and weakening $\omega_{m}$. Modelo NL desacoplado con Ley de control NL .}
 	\end{figure}
 	
-	Lo mismo se puede ver que ocurre para el \ref{modelo LTI equivalente aumentado} aunque en menor medida en la figura \ref{fig:Tdistintode0LTI}, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el torque por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y dado que por ser un motor síncrono de polos salientes $L_{d}$ y $L_{q}$ son muy parecidas la ganancia de este término es ínfima en comparación a los demás.
+	Lo mismo se puede ver que ocurre para el \textbf{modelo LTI equivalente aumentado} aunque en menor medida en la figura \ref{fig:Tdistintode0LTI}, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el torque por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y dado que por ser un motor síncrono de polos salientes $L_{d}$ y $L_{q}$ son muy parecidas la ganancia de este término es ínfima en comparación a los demás.
 	
 	\begin{figure}[h!]
 	\centering
@@ -852,10 +852,10 @@ A continuación se presentan las respuestas del sistema.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{modulador de torque.png}
-	\caption{\label{fig:Tmodulador}Modulador de Torque equivalente.Desacoplamiento de todas las realimentaciones físicas naturales.}
+	\caption{\label{fig:Tmodulador}Modulador de Torque equivalente. Desacoplamiento de todas las realimentaciones físicas naturales.}
 	\end{figure}
 	
-	En la figura \ref{fig:Ts} podemos ver el efecto de la temperatura sobre la resistencia $R_{s}$ y si la temperatura tiene variaciones importantes como vemos la resistencia no por lo que se podría considerar constante sin caer en grandes errores. 
+	En la figura \ref{fig:Ts} podemos ver el efecto de la temperatura sobre la resistencia $R_{s}$, si la temperatura tiene variaciones importantes, como vemos la resistencia no, por lo que se podría considerar constante sin caer en grandes errores. 
 	
 	\begin{figure}[h!]
 	\centering
@@ -864,12 +864,157 @@ A continuación se presentan las respuestas del sistema.
 	\end{figure}
 
 \item \textbf{Diseño de lazos de control de corrientes $i^{r}_{qd0s}$}
-Trubii
-
+Se realizará el desarrollo matemático del lazo de corriente.Considerando que el modulador de tensión es lo suficientemente rápido, exacto y su ganancia es unitaria (ec. \ref{eq:2.1.2.k.1}).
+	\begin{equation}
+	v^{*}_{qs}(t)\simeq v_{qs}(t)
+	\label{eq:2.1.2.k.1}
+	\end{equation}
+y teniendo en cuenta los desacoples realizados en el punto anterior:
+	\begin{equation}
+	v^{*}_{qs}(t)= v^{*'}_{qs}(t) + R_{s}. i_{qs}(t) + [\lambda^{r'}_{m}+L_{d}.i^{r}_{ds}(t)].\omega_{m}(t)
+	\label{eq:2.1.2.k.2}
+	\end{equation}
+Reemplazando la ec. \ref{eq:2.1.2.k.1} y ec. \ref{eq:2.1.2.k.2} en ec.\ref{sist:electrico1} obtenemos:
+\begin{equation}
+	\frac{di^{r}_{qs}(t)}{dt} . L_{q}= v^{*'}_{qs}(t)
+	\label{eq:2.1.2.k.3}
+	\end{equation}
+	Donde la consigna $v^{*'}_{qs}(t)$ se define proporcional al error de corriente y con una ganancia proporcional. Por tanto el lazo de corriente para $i^{r}_{qs}(t)$ se define como:
+	\begin{equation}
+	\frac{di^{r}_{qs}(t)}{dt} . L_{q}= v^{*'}_{qs}(t)=(i^{r*}_{qs}(t)-i^{r}_{qs}(t))*Rq
+	\label{eq:2.1.2.k.4}
+	\end{equation}
+	
+	y su función de transferencia es:
+		\begin{equation}
+	\frac{I^{r*}_{qs}(t)}{I^{r}_{qs}(t)}=\frac{1}{s\frac{L_{q}}{R_{q}}+1}
+	\label{eq:2.1.2.k.5}
+	\end{equation}
+	
+	Podemos observar que el lazo de la ex.\ref{eq:2.1.2.k.5} presenta un polo en $s=-\frac{R_{q}}{L_{q}}$. Por ende, definiendo el parámetro $R_{q}$ podemos ubicar el polo en $s=-5000[rad/s]$, asi:\\
+	$R_{q}=5000 . L_{q}=29\Omega$
+	
+	De las misma forma se determinan las ganancias para los otros lazos de corrientes, obteniendo:\\
+	$R_{d}=5000 . L_{d}=33\Omega$\\
+	$R_{0}=5000 . L_{ls}=4\Omega$\\
+	
+	Si comparamos con la dinámica de los modelos analizados en la \textbf{sección 2.1.6} veremos que las respuestas de las corrientes $i^{r}_{qd0s}$ son muchos mas rápidas y sin oscilaciones, ya que, esto es lo que se quiso cuando se eligió el polo para estos lazos. Asi si se tiene un $i^{r}_{ds}(0)\neq 0$ veremos que el decaimiento de esta es mucho mas rápida, también la respuesta ante una entrada consigna para $i^{r}_{qs}$ donde en la tabla \ref{tab:3} se puede observar que sus características temporales son muchos mejores que las calculadas en la tabla \ref{tab:2}
+		\begin{table}[!h]
+	\begin{center}
+	\begin{tabular}{| c | c | c | }
+	\hline
+	  & Escalón $i^{r*}_{qs}$\\ \hline
+	 $ i^{r}_{qs}$ Establecimiento (A) &   0.09067 \\ \hline
+	 Rise Time (ms) &  0.439\\ \hline
+	SettlingTime (ms)& 0.78\\ \hline
+	Overshoot &0$\%$ \\ \hline
+	\end{tabular}
+	\caption{Parámetros temporales $i^{r}_{qs}$}
+	\label{tab:3}
+	\end{center}
+	\end{table}
+	
+\item \textbf{Incorporación adecuada de consigna de torque}\\
+Si idealizamos el problema y consideramos que los valores físicos modelados son iguales a los valores físicos reales y teniendo en cuenta el desacoplamiento y los lazos de corrientes calculados anteriormente, obtenemos control directo sobre las corrientes lo que nos permitirá realizar el control vectorial del campo imponiendo consignas de corriente en directo nula (o también realizar un reforzamiento o debilitamiento del campo principal) e imponer una consina de corriente en cuadratura $i^{r}_{qs}(t)$ o  lo que es lo mismo, una consigna de torque motor $T_{m}$ multiplicado por la constante de escala $1/K_{T}$ (ec.\ref{eq:2.1.2.k.6}). Hay que tener en cuenta que el lazo de corriente ($BW=1000Hz$) no es lo suficientemente rápido como se quisiera ($BW=796Hz$).
+		\begin{equation}
+	K_{T}=\frac{3}{2}P_{p}\lambda^{r}_{m}
+	\label{eq:2.1.2.k.6}
+	\end{equation}
+	También hay que observar que en nuestro modulador de Torque (figura \ref{fig:Tmodulador}) se desacopla el torque generado por la fricción viscosa del motor y la caja (en celeste). Asi:
+			\begin{equation}
+	i^{r*}_{qs}(t)=\frac{1}{K_{t}}[T^{*'}_{m}+b_{m}\omega_{m}(t)]=T^{*}_{m}
+	\label{eq:2.1.2.k.7}
+	\end{equation}
+	
+	En la figura \ref{fig:TTmodulador_id} se dio una consigna de $T_{m}=0.0063$ y un $T_{l}$ igual al que se propuso en la sección \textbf{2.1.6}, se puede observar el aumento del torque motor al hacer el reforzamiento de campo con $i^{r}_{ds}(t)=1 A$ y en la figura \ref{fig:vqmodulador_id} se puede notar el cambio en la tensión en el eje q producto de esta corriente. Se puede concluir que este reforzamiento no produce mejoras significativas sobre el torque motor a comparación con el considerable aumento que se genera en la tensión del eje q.
+	 	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{TTmodulador_id.png}
+	\caption{\label{fig:TTmodulador_id}Torque motor para $i^{r}_{ds}\neq0$.}
+	\end{figure}
+		 	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Tmodulador_id.png}
+	\caption{\label{fig:vqmodulador_id}$v^{r}_{qs}$ requerida para una $i^{r}_{ds}\neq0$.}
+	\end{figure}
 \end{itemize}
-\subsubsection{Modulador de Torque equivalente (Controlador interno vectorial de corriente/torque)}
 \subsubsection{Controlador externo de movimientos: posición/velocidad }
-\subsubsection{IncorporaciónydiseñodeObservadordeEstadodeordenreducidosóloparalapartemecánica de este controlador}
+Acontinuación se diseñará el controlador utilizando el método de sintonía serie con acción integral (``PID''), con $n=2.5$ y $\omega_{pos}=800\frac{rad}{s}$. Para obtener la ecuaciación de transferencia del sistema con el controlador de movimiento partiremos del modulador de torque obtenido en el inciso anterior, lo que nos permite tener un acceso directo a manipular el torque motor. Considerando esto la ecuación del sistema es:
+		\begin{equation}
+	J_{eq}\theta(s)s^{2}+b_{leq}\theta(s)s=T^{`}_{m}(s)-T_{leq}(s) \ ; \ b_{leq}= \frac{b_{l}}{r^{2}} \ ; \ T_{leq}= \frac{T_{l}}{r}
+	\label{eq:2.1.2.q.1}
+	\end{equation}
+La ecuación del controlador PID es:
+		\begin{equation}
+	T^{*`}_{m}(s)=e_{w}(s)[ba+\frac{1}{s}Ksa + \frac{1}{s^{2}}Ksia]
+	\label{eq:2.1.2.q.2}
+	\end{equation}
+Recordando la ec.\ref{eq:2.1.2.k.7} y la ec. \ref{eq:2.1.2.k.5} se obtiene:
+
+	\begin{equation}
+	T^{`}_{m}(s)=\frac{1}{\frac{L_{q}}{R_{q}}s+1}T^{*'}_{m}(s) \ ; \ G_{I}(s)=\frac{L_{q}}{R_{q}}s+1
+	\label{eq:2.1.2.q.4}
+	\end{equation}
+
+	\begin{equation}
+	J_{eq}\theta(s)s^{2}+\frac{b_{l}}{r^{2}}\theta(s)s=G_{I}(s)e_{w}(s)[ba+\frac{1}{s}Ksa + \frac{1}{s^{2}}Ksia]-T_{leq}(s)
+	\label{eq:2.1.2.q.5}
+	\end{equation}
+	
+Asi obtenemos:
+ 
+	\begin{equation}
+	G_{\theta^{*}_{m}}(s)=\frac{G_{I}(s)[s^{2}ba+sKsa+Ksia]}{J_{eq}s^{3}+b_{leq}s^{2}+G_{I}(s)[s^{2}ba+sKsa+Ksia]}
+	\label{eq:2.1.2.q.6}
+	\end{equation}
+ 	\begin{equation}
+	G_{T_{leq}}(s)=\frac{s}{J_{eq}s^{3}+b_{leq}s^{2}+G_{I}(s)[s^{2}ba+sKsa+Ksia]}
+	\label{eq:2.1.2.q.6}
+	\end{equation}
+	
+	Si consideramos que el lazo de corriente es lo suficientemente rápido $G_{I}\equiv 1$, entonces los polos del sistema se determinan por el polinomio característico:
+	\begin{equation}
+	P_{c}=J_{eq}s^{3}+[b_{leq}+ba]s^{2}+sKsa+Ksia
+	\label{eq:2.1.2.q.7}
+	\end{equation}
+	
+	Haciendo uso del método de sintonía serie:\\
+	$ n\omega_{pos}=\frac{ba+b_{leq}}{J_{eq}} \ ; \ ba=n\omega_{pos}J_{eq}-b_{leq}$ \\
+	$ n\omega^{2}_{pos}=\frac{Ksa}{J_{eq}} \ ; \  Ksa=n\omega^{2}_{pos}J_{eq} $\\
+	$ \omega^{3}_{pos}=\frac{Ksia}{J_{eq}} \ ; \  Ksia=\omega^{3}_{pos}J_{eq} $\\
+	
+	Si consideramos los valores nominales de $J_{l}$ y $b_{l}$ se tiene:\\
+	$ba=0.0113 \frac{N.m}{\frac{rad}{s}}$\\
+	$Ksa=9.04 \frac{N.m}{rad}$\\
+	$Ksia=2892.8 \frac{N.m}{rad.s}$\\
+	
+	Se busca asi tener un controlador PID que no haga uso de bloques derivativos, para no tener una amplificación de ruido. Por esto, en el caso de definir un perfil de posición $q^{*}(t)$, será necesario derivar el perfil.
+	En la figura \ref{fig:controladorPID} se observa el diagrama en bloques del controlador PID.
+		 	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{controladorPID.png}
+	\caption{\label{fig:controladorPID}Controlador PID.}
+	\end{figure}
+	
+	La gráfica de los polos del controlador el regulador de corriente y los polos de la planta original se muestran en la figura\ref{fig:Polosmodelos}, adonde se puede ver que el lazo de corriente es mucho mas rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
+			 	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Polosmodelos.png}
+	\caption{\label{fig:Polosmodelos}Polos de la planta, lazo de corriente y controlador PID.}
+	\end{figure}
+	
+	Dados que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros. La variación de $B_{l}$ no tuvo prácticamente reprecusión sobre los polos del sistema. Pero la variación de $J_{l}$, si produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{PoloJeq.png}
+	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
+	\end{figure}
+	
+	
+	
+	
+\subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
+Trubii
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
 \subsubsection{Verificacióndedesempeñoy/omejoras}
 
