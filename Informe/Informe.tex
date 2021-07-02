@@ -58,7 +58,10 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	En lo que refiere al subsistema mecánico del brazo del robot y la carga mecánica aplicada al mismo, se puede modelar mediante la siguiente ecuación:
 	\begin{equation}
 		\label{eqn:cargaMecanica}
-		J_{l}\cdot \dot{\omega }_{l}\left ( t \right )=T_{q}\left ( t \right )-b_{l}\cdot \omega_{l}\left ( t \right )-T_{l}\left ( t \right ) \ \ ;\ \ \omega_{l}\left ( t \right )\equiv \dot{q}_{l}\left ( t \right )= \dot{q}_1\left ( t \right )
+		J_{l}\cdot \dot{\omega }_{l}\left ( t \right )=T_{q}\left ( t \right )-b_{l}\cdot \omega_{l}\left ( t \right )-T_{l}\left ( t \right )
+	\end{equation}
+	\begin{equation}
+		\omega_{l}\left ( t \right )\equiv \dot{q}_{l}\left ( t \right )= \dot{q}_1\left ( t \right )
 	\end{equation}
 	Donde $q_{1}(t)$ es la posición articular del hombro del robot, $J_{l}$ es el momento de inercia de todos los eslabones del robot referidos al hombro, $b_{l}$ es el coeficiente de amortiguamiento viscoso, $T_{l}$ es el torque de carga o perturbación y $T_{q}$ es el par mecánico entregado a la salida de la caja reductora de engranajes.
 	La inercia y el amortiguamiento son dos de los parámetros que varían según la posición de las articulaciones del robot, es decir, $J_{l}(q_{1}(t),q_{2}(t),...,q_{n}(t))$ y una función similar para $b_{l}$.
@@ -80,7 +83,10 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	Por último tenemos el subsistema mecánico que modela el torque de salida de la máquina eléctrica. Las ecuaciones que modelan el sistema son las siguientes:
 	\begin{equation}
 		\label{eqn:sistMecanicoMotor}
-		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-T_{d}\left ( t \right ) \ \ ;\ \ \omega_{m}\left ( t \right )\equiv \dot{q}_{m}\left ( t \right )
+		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-T_{d}\left ( t \right )
+	\end{equation}
+	\begin{equation}
+		\omega_{m}\left ( t \right )\equiv \dot{q}_{m}\left ( t \right )
 	\end{equation}
 	Donde $J_{m}$ es la inercia del rotor respecto a su propio eje, $b_{m}$ es la viscosidad del rotor y $T_{m}(t)$ es el torque electromecánico de la máquina eléctrica.
 
@@ -119,7 +125,11 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	Reemplazando \ref{eqn:Jeq}, \ref{eqn:beq} y \ref{eqn:Teq} en la ecuación \ref{eqn:paso3sistMecanico}, la expresión nos queda:
 	\begin{equation}
 		\label{sist:mecanico}
-		J_{eq}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq} \ \ ;\ \ \omega_{m} \equiv \dot{\theta_{m}}
+		J_{eq}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{eq}\cdot \omega_{m}\left ( t \right )-T_{eq}
+	\end{equation}
+	\begin{equation}
+		\label{globalNL:omegaM}
+		\omega_{m} \equiv \dot{\theta_{m}}
 	\end{equation}
 	Dicha ecuación se puede representar en bloques de \textbf{Simulink}, como se ve en la siguiente figura \ref{fig:MecanicoEquivalente}:
 	\begin{figure}[h!]
@@ -150,7 +160,6 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\begin{equation}
 			\dot{\theta_{r}}\left ( t \right )\equiv \omega_{r}\left ( t \right )\Leftrightarrow \theta_{r}\left ( t \right )=\int_{0}^{t}\omega_{r}\left ( \xi \right )\cdot d\xi + \theta_{r}\left ( 0 \right )
 		\end{equation}
-		\\
 		\begin{equation}
 			\theta_{r} \left ( t \right ) \equiv P_{p} \cdot \theta_{m} \left ( t \right )
 		\end{equation}
@@ -171,11 +180,11 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{equation}
 		\begin{equation}
 			\label{sist:electrico2}
-			v_{ds}^{r}\left ( t \right )=R_{s}\cdot i_{ds}^{r}\left ( t \right )+L_{d}\cdot \frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}-L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )
+			v_{ds}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{ds}^{r}\left ( t \right )+L_{d}\cdot \frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}-L_{q}\cdot i_{qs}^{r}\left ( t \right )\cdot \omega_{r}\left ( t \right )
 		\end{equation}
 		\begin{equation}
 			\label{eqn:expresionNula}
-			v_{0s}^{r}\left ( t \right )=R_{s}\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
+			v_{0s}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
 		\end{equation}
 		Nosotros cuando empezamos a hacer el desarrollo, partimos del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
 		Lo cual significa que, a partir de ahora no las tendremos en cuenta y consideraremos nula a la expresión \ref{eqn:expresionNula}. Sin tenerla en cuenta de acá en adelane.
@@ -196,51 +205,193 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{equation}
 		Y en coordenadas $qd0$ fijas en rotor:
 		\begin{equation}
+			\label{eqn:potenciaDisipada}
 			P_{s\ perd}\left ( t \right )=\frac{3}{2}\cdot R_{s}\left ( t \right )\cdot \left ( {i_{qs}^{r}}^{2}\left ( t \right )+{i_{ds}^{r}}^{2}\left ( t \right )+2\cdot {i_{0s}^{r}}^{2}\left ( t \right ) \right )
 		\end{equation}
 		Donde hay que tener en cuenta que la resistencia del estator $R_{s}$, varía con la temperatura según la expresión:
 		\begin{equation}
+			\label{eqn:variacionRs}
 			R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
 		\end{equation}
 		El balance térmico entonces, queda dado por la siguiente ecuación:
 		\begin{equation}
+			\label{eqn:balanceTermico}
 			P_{s\ perd}\left ( t \right )=C_{ts}\cdot \frac{\mathrm{d} {T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}+\frac{1}{R_{ts-amb}}\cdot \left ( T_{s}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right ) \right )
 		\end{equation}
 
 		\item \textbf{Dinámica del modelo global NL:}\vspace{0.3cm}\\
-		Teniendo en cuenta las ecuaciones \ref{sist:mecanico}, \ref{sist:electromagnetico}, \ref{sist:electrico1}, \ref{sist:electrico2} y las térmicas
+		Teniendo en cuenta la ecuación \ref{globalNL:omegaM}; reemplazando \ref{sist:electromagnetico} en \ref{sist:mecanico}; reacomodando las ecuaciones \ref{sist:electrico1}, \ref{sist:electrico2} y \ref{eqn:expresionNula}; reemplazando \ref{eqn:potenciaDisipada} en \ref{eqn:balanceTermico} y reacomodando; y considerando la ecuación \ref{eqn:variacionRs} el modelo dinámico \textbf{global NL} del sistema nos queda:
+		\begin{equation}
+			\label{eqn:sistGlobalNL}
+			\begin{cases}
+				\dot{\theta_{m}}(t)=\omega_{m}(t)
+				\\
+				\\
+				\dot{\omega }_{m}\left ( t \right )=\frac{3}{2}\cdot\frac{P_{p}}{J_{eq}}\cdot [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} (t)]\cdot i_{qs}^{r}(t)-\frac{b_{eq}}{J_{eq}}\cdot\omega_{m}(t)-\frac{T_{eq}(t)}{J_{eq}}
+				\\
+				\\
+				\frac{\mathrm{d} i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{v_{qs}^{r}(t)}{L_{q}}-\frac{R_{s}\left ( t \right )}{L_{q}}\cdot i_{qs}^{r}(t)-\frac{P_{p}}{L_{q}}\cdot [ \lambda_{m}^{r'}+L_{d}\cdot i_{ds}^{r}(t) ]\cdot \omega_{m}(t)
+				\\
+				\\
+				\frac{\mathrm{d} i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{v_{ds}^{r}(t)}{L_{d}}-\frac{R_{s}\left ( t \right )}{L_{d}}\cdot i_{ds}^{r}(t)+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot i_{qs}^{r}(t)\cdot \omega_{m}(t)
+				\\
+				\\
+				\frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{v_{0s}^{r}(t)}{L_{ls}}-\frac{R_{s}\left ( t \right )}{L_{ls}}\cdot i_{0s}^{r}\left ( t \right )
+				\\
+				\\
+				\frac{\mathrm{d} {T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{\frac{3}{2}\cdot R_{s}\left ( t \right )\cdot \left ( {i_{qs}^{r}}^{2}\left ( t \right )+{i_{ds}^{r}}^{2}\left ( t \right )+2\cdot {i_{0s}^{r}}^{2}\left ( t \right ) \right )-\frac{T_{s}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right )}{R_{ts-amb}}}{C_{ts}}
+				\\
+				\\
+				R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+			\end{cases}
+		\end{equation}
+		Este modelo contiene varias \textbf{no linealidades} al contener productos de variables de estado y también al depender varias de esas ecuaciones de $R_{s}$, que a su vez depende de la temperatura ${T_{s}}^{\circ}$ que es una variable de estado que varia en el tiempo $t$.
+		\\
+		\\
+		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la figura \ref{fig:sistGlobalNL}.
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.9\textwidth]{2_1_2_ModeloGlobalNL.png}
+			\caption{\label{fig:sistGlobalNL} Diagrama en bloques del \textbf{modelo global NL} en \textbf{Simulink} (con transformaciones de \textbf{Park})}
+		\end{figure}
 
 	\end{itemize}
+	%% Esto lo puse porque sino la imagen quedaba mal acomodada, ver si al completar lo primero hace falta o ya no. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    \newpage
 
-    \item \textbf{Linealización Jacobiana}
+	\item \textbf{Linealización Jacobiana}
     \vspace{0.3cm} 
     \\Primero obtendremos el modelo \textbf{global linealizado con parámetros variables (LPV)}, para $ i_{ds}^{r}\left( t \right ) \neq 0 $ (caso gral.). 
     Un sistema \textbf{no lineal} puede ser representado por:
     \begin{equation}
-        \dot{x}\left ( t \right )= f\left ( x\left ( t \right ),u\left ( t \right ) \right ) \ \ \ ,\ \ \ x\left ( t_{0} \right )=x_{0}
+		\begin{cases}
+			\dot{x}\left ( t \right )= f\left ( x\left ( t \right ),u\left ( t \right ),t \right ) \ \ \ ,\ \ \ x\left ( t_{0} \right )=x_{0}
+			\\
+			y\left ( t \right )= C \cdot x\left ( t \right )
+		\end{cases}
     \end{equation}
-    \begin{equation}
-        y\left ( t \right )=h\left ( x\left ( t \right ) \right )
-    \end{equation}
-    donde f es una función vectorial de n × 1 elementos que esta en función de un vector x conformado por las variables de estado.
-    n representa el orden del sistema y la solución de x(t) representa una curva en el espacio de estado, denominada como trayectoria de estado.
-    Asumiendo que toda variable estará definida como,
+    donde $f$ es una función vectorial \textbf{NL} de $n\times 1$ elementos que está en función del vector de estados $x$.
+    El número $n$ es el orden del sistema y la solución de $x(t)$ representa una curva en el espacio de estado \textbf{(trayectoria de estado)}.
+    Asumiendo que cada variable se pueden expresar como
     \begin{equation}
         z\left ( t \right )\equiv Z_{0} + \Delta z\left ( t \right )
     \end{equation}
-    donde Zo es una magnitud cuasi-estacionaria de variación muy lenta con el tiempo y ∆z(t) una magnitud pequeña de variación rápida en el tiempo.
-    El sistema queda expresado:
+    donde $Z_{0}$ es una magnitud cuasi-estacionaria de variaciones lentas en el tiempo \textbf{(baja dinámica)} y $\Delta z(t)$ una magnitud pequeña de variación rápida en el tiempo \textbf{(alta dinámica)}.
+    El sistema queda expresado por:
     \begin{equation}
         \begin{cases}
-            \dot{x}\left ( t \right )\equiv
             \frac{\mathrm{d} X_{o}\left ( t \right )}{\mathrm{d} t}+
             \frac{\mathrm{d} \Delta x\left ( t \right )}{\mathrm{d} t}
             =
             f\left ( X_{o}\left ( t \right )+\Delta x\left ( t \right ),U_{o}\left ( t \right )+\Delta u\left ( t \right ) \right )
-            \\
+            \ \ \rightarrow \ \ 
             X_{o}\left ( 0 \right )=x_{0}\ \ ;\ \ \ \Delta x\left ( 0 \right )=0
+			\\
+			\\
+			Y_{o}(t)+\Delta y(t)=C\cdot (X_{o}\left ( t \right )+\Delta x\left ( t \right ))
+			\ \ \rightarrow \ \ 
+			Y_{o}\left ( t \right )=C\cdot X_{o}(t)\ \ ;\ \ \ \Delta y\left ( t \right )=C\cdot \Delta x\left ( t \right )
         \end{cases}
     \end{equation}
+	Expresando mediante expansión por series de \textbf{Taylor truncada a 1° orden}, podemos plantear:
+	\begin{equation}
+		\begin{array}{l}
+			\textcolor{red}{f(} X_{o}(t)+\Delta x(t),U_{o}(t)+\Delta u(t) \textcolor{red}{)} \approx \dots
+			\\
+			\\
+			\ \ \ \ 
+			\textcolor{red}{f( X_{o}(t),U_{o}(t) )}+
+			\left.\begin{matrix}
+				\begin{bmatrix}
+					\frac{\partial f}{\partial x_{1}} & \dots & \frac{\partial f}{\partial x_{n}}
+				\end{bmatrix}
+			\end{matrix}\right|_{0}(t)\cdot \Delta x(t)+
+			\left.\begin{matrix}
+				\begin{bmatrix}
+					\frac{\partial f}{\partial u_{1}} & \dots & \frac{\partial f}{\partial u_{n}}
+				\end{bmatrix}
+			\end{matrix}\right|_{0}(t)\cdot \Delta u(t)
+		\end{array}
+	\end{equation}
+	A continuación vamos a separar el modelo en dos partes, \textbf{Espacio Global de Puntos de Operación + Modelo Dinámico Local de Pequeñas Desviaciones}.
+	En el caso de que el punto de operación esté fijo, tendremos un sistema LTI; en cambio si este varía, tendremos un sistema LTV.
+	\\
+	El espacio global de puntos de operación se obtiene de la solución del sistema de ecuaciones no lineales definido la ecuación:
+	\begin{equation}
+		\label{eqn:equilibrioDinamico}
+		\frac{\mathrm{d} X_{o}(t)}{\mathrm{d} t}=f(X_{o}(t),U_{o}(t))\approx 0/const
+	\end{equation}
+	Si aplicamos la ecuación \ref{eqn:equilibrioDinamico} a la ecuación \ref{eqn:sistGlobalNL} de nuestro modelo, obtenemos el siguiente sistema de ecuaciones:
+	\begin{equation}
+		\label{eqn:equilibrioDinamicoSistema}
+		\begin{cases}
+			\dot{\Theta_{mo}}(t)=\Omega_{mo}
+			\\
+			\\
+			0=\frac{3}{2} \cdot \frac{ P_{p}}{J_{eq}}\cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} \left ( t \right ) \right ] \cdot I_{qso}^{r}\left ( t \right )-\frac{b_{eq}}{J_{eq}}\cdot \Omega_{mo}\left ( t \right )-\frac{T_{eqo}(t)}{J_{eq}}
+			\\
+			\\
+			0=\frac{V_{qso}^{r}(t)}{L_{q}}-\frac{R_{so}(t)}{L_{q}}\cdot I_{qso}^{r}(t)-\frac{P_{p}}{L_{q}}\cdot [ \lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t) ]\cdot \Omega_{mo}(t)
+			\\
+			\\
+			0=\frac{V_{dso}^{r}(t)}{L_{d}}-\frac{R_{so}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t)+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot I_{qso}^{r}(t)\cdot \Omega_{mo}(t)
+			\\
+			\\
+			0=\frac{V_{0so}^{r}(t)}{L_{ls}}-\frac{R_{so}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t)
+			\\
+			\\
+			0=\frac{\frac{3}{2}\cdot R_{so}(t)\cdot \left ( {I_{qso}^{r}}^{2}(t)+{I_{dso}^{r}}^{2}(t)+2\cdot {I_{0so}^{r}}^{2}(t) \right )-\frac{T_{so}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right )}{R_{ts-amb}}}{C_{ts}}
+			\\
+			\\
+			R_{so}(t)=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{so}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+		\end{cases}
+	\end{equation}
+	Este sistema de ecuaciones representa un \textbf{``equilibrio"\  dinámico} del sistema. Por otro lado, alrededor de los puntos de operación nuestro modelo dinámico local de pequeñas desviaciones viene dado por la ecuación:
+	\begin{equation}
+		\label{eqn:pequeniasDesviaciones}
+		\frac{\mathrm{d} \Delta x(t)}{\mathrm{d} x}=
+		\begin{bmatrix}
+			\left.\begin{matrix}
+				\frac{\partial f}{\partial x}
+			\end{matrix}\right|_{0}(t)
+		\end{bmatrix}\cdot\Delta x(t)+
+		\begin{bmatrix}
+			\left.\begin{matrix}
+				\frac{\partial f}{\partial u}
+			\end{matrix}\right|_{0}(t)
+		\end{bmatrix}\cdot\Delta u(t)
+		\ \ ;\ \ \Delta x(0)=0
+	\end{equation}
+	Si aplicamos la ecuación \ref{eqn:pequeniasDesviaciones} a la ecuación \ref{eqn:sistGlobalNL} de nuestro modelo, obtenemos el siguiente sistema de ecuaciones:
+	\newline
+	\begin{equation}
+		\label{eqn:sistPequeniasDesviaciones}
+		\begin{cases}
+			\Delta\dot{\theta_{m}}(t)=\Delta\omega_{m}(t)
+			\\
+			\\
+			\Delta\dot{\omega }_{m}(t)=\frac{3 P_{p}}{2 J_{eq}}\cdot \left [[\lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} (t)]\cdot\Delta i_{qs}^{r}(t)+[\left ( L_{d}-L_{q} \right )\cdot I_{qso}^{r}(t)]\cdot\Delta i_{ds}^{r} (t)\right ]-\frac{b_{eq}}{J_{eq}}\cdot\Delta\omega_{m}(t)-\frac{\Delta T_{eq}(t)}{J_{eq}}
+			\\
+			\\
+			\frac{\mathrm{d} \Delta i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{qs}^{r}(t)}{L_{q}}-\left [ \frac{R_{so}\left ( t \right )}{L_{q}}\cdot \Delta i_{qs}^{r}(t)+\frac{\Delta R_{s}(t)}{L_{q}}\cdot I_{qso}^{r}(t) \right ]-\frac{P_{p}}{L_{q}}\cdot\left [[\lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t)]\cdot\Delta \omega_{m}(t)+[L_{d}\cdot \Omega_{mo}(t)]\cdot \Delta i_{ds}^{r}(t)\right ]
+			\\
+			\\
+			\frac{\mathrm{d}\Delta i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{ds}^{r}(t)}{L_{d}}-\left [ \frac{R_{so}\left ( t \right )}{L_{d}}\cdot \Delta i_{ds}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t) \right ]+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot\left [  I_{qso}^{r}(t)\cdot \Delta\omega_{m}(t)+\Delta i_{qs}^{r}(t)\cdot \Omega_{mo}(t) \right ]
+			\\
+			\\
+			\frac{\mathrm{d}\Delta i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{0s}^{r}(t)}{L_{ls}}-\left [ \frac{R_{so}\left ( t \right )}{L_{ls}}\cdot \Delta i_{0s}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t) \right ]
+			\\
+			\\
+			\frac{\mathrm{d} {\Delta T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{3R_{so}(t)}{C_{ts}}\cdot \left [ I_{qso}^{r} \cdot \Delta i_{qs}^{r}+I_{dso}^{r} \cdot \Delta i_{ds}^{r}+2I_{0so}^{r} \cdot \Delta i_{0s}^{r} \right ]+\frac{3\Delta R_{s}(t)}{2 C_{ts}}\cdot\left [ {I_{qso}^{r}}^{2}+{I_{dso}^{r}}^{2}+2\cdot{I_{0so}^{r}}^{2} \right ]-\frac{\left [\Delta T_{s}^{\circ}\left ( t \right )-\Delta T_{amb}^{\circ}\left ( t \right ) \right ]}{R_{ts-amb}\cdot C_{ts}}
+			\\
+			\\
+			\Delta R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {\Delta T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+		\end{cases}
+	\end{equation}
+	En forma matricial se puede expresar como:
+	\begin{equation}
+		
+	\end{equation}
 
     \item Linealización por Realimentación NL
     \begin{itemize}
