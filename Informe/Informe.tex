@@ -1008,16 +1008,204 @@ Asi obtenemos:
 	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
 	\end{figure}
 	
-	
-	
-	
+
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
 Trubii
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
+\begin{itemize}
+	\item \textbf{Seguimiento de consignas}
 
-Para la simulación del sistema se utilizará un perfil trapezoidal de posición $q1*(t) \equiv \frac{1}{r}\theta^{*}_{m}(t)$ con $q_{1}^{*}(t)=0  $
-\subsubsection{Verificacióndedesempeñoy/omejoras}
+Para la simulación del sistema se utilizará un perfil trapezoidal 
+de posición 
+$\omega_{l}=q1*(t) \equiv \frac{1}{r}\theta^{*}_{m}(t)$ con $q_{1}^{*}(t)=0 \rightarrow (\Delta t_{ramp}=5s) \rightarrow 2.\pi [rad] \rightarrow (\Delta t_{ramp}=5s) \rightarrow 0$. Como vemos se plantea un giro completo de la articualción en 5s
+del robot con una velocidad constante y luego la vuelta de la misma a la posición cero.
+En la figura \ref{fig:consigna} se puede observar el seguimiento de la consigna dada y en la figura \ref{fig:consigna2} se muestra la velocidad angular. Como vemos las consigna se siguen correctamente.
+Pero se puede observar que hay sobrepicos en ambas figuras, esto se debe a que la señal de consigna elegida no es la mejor, ya que como se ve, en los quiebres bruscos de posición
+se producen escalones de velocidad, lo que a su vez generan impulsos muy grandes de aceleración y esto es lo que produce el gran overshot visto sobre todo en la velocidad.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{consigna.png}
+	\caption{\label{fig:consigna}Posición angular sensada, observada y consigna.}
+	\end{figure}
+
+\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{consigna2.png}
+		\caption{\label{fig:consigna2}Velocidad angular teórica, observada y consigna.}
+		\end{figure}
+
+
+	\item \textbf{Rechazo a perturbaciones}
+	
+	Se analizará la respuesta del sistema ante cargas externas, considerando valores nominales y variación máxima de los parámetros de carga mecánica física.
+	Para observar mas facilmente los efectos de las perturbaciones se da una consigna de torque motor nula y se perturba al sistema con $T_{l}=6.28 N.m$.
+	
+	En la figura \ref{fig:perturbaciones} se puede ver que el sistema presenta un error estacionario ante una perturbación y también que este varía al cambiar los parámetros de carga, en este caso $J_{l}$, vemos además que la mayor variación se da en el transitorio. Por otro lado al variar $b_{l}$ no se notaron cambios por lo que no se grafico. Sin embargo, se puede apreciar que el rechazo a las perturbaciones es prácticamente igual 
+	por lo que el sistema es robusto ante el cambio de estos parámetros dentro de los límites considerados.
+	Y el error se da a causa de implementar un observador PD, el mismo no es capaz de rechazar las perturbaciones del sistema.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{perturbaciones.png}
+		\caption{\label{fig:perturbaciones}Posición angular sensada, observada y consigna.}
+		\end{figure}
+	\end{itemize}
+\subsubsection{Verificación de desempeño y/o mejoras}
+\begin{itemize}
+	\item \textbf{Verificar si se supera/n alguna/s de las Especificaciones de operación}
+	En la siguiente tabla se visualizará los valores alcansados por las variables del sistema y sus límites.
+	\begin{table}[!h]
+		\begin{center}
+		\begin{tabular}{| c | c | c | }
+		\hline
+		  & Valores medidos & Valor nominal  \\ \hline
+		 Tension de fase (V) & 1889 (Pico), 18.4 (R. continuo) & 13.86\\ \hline
+		 Vel. rotor [rad/s]& 577 (Pico) 395 (R. continuo)&  691.15\\ \hline
+		Corriente R. continuo (A) &0.089 & 0.4\\ \hline
+		Corriente corta duración (A) &49.33 &2\\ \hline
+		Temperatura (°C) &54.1 & 115\\ \hline
+		Torque corta duración (N.m) & 1425 & 29.42\\ \hline
+		Torque R. continuo (N.m) & 0.0757 & 7.26\\ \hline
+		\end{tabular}
+		\caption{Variables del sistema}
+		\label{tab:4}
+		\end{center}
+		\end{table}
+En la figura \ref{fig:parametros} se muestra distinta variables internas de la planta.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{parametros.png}
+	\caption{\label{fig:parametros}Torque, corriente, tensión y temperatura.}
+	\end{figure}
+
+Como se muestra en la tabla \ref{tab:4} el sistema, para la consigna planteada, supera ampliamente los límites establecidos,
+ por lo que es necesario remendar esta situación ya que si se opera en esta condiciones, se dañaría gravemente al sistema.
+ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya que, esta sobre exige al sistema provocando que este opere fuera 
+ de sus límites.
+
+ De esta manera se procedió a cambiar la forma de esta consigna, elegiendo un perfil trapezoidal de velocidad para el cual vamos a tener en cuenta las siguientes restricciones:
+ \begin{itemize}
+	 \item Restricción de velocidad: Como ya se mencionó anteriormente la velocidad es directamente proporcional a la tensión por lo que en el caso de neustro motor la velocidad 
+	 va a estar limitada por la tensión máxima de fase admisible, la cual es \textbf{$V_{sfnom}=13.86 V$}, la cual a partir de la ec.\ref{eq:2.1.2.i.2} nos permite calcular nuestra velocidad
+	 máxima, la cual es $\omega_{m}=298.76\frac{rad}{s}$, de esta manera esta queda limitada por el subsistema electrico y no por la parte mecánica, ya que, el tren de transmisión nos 
+	 permite una $\omega_{m}=691.15\frac{rad}{s}$.
+
+	 \item Restricción de aceleración: El torque motor es proporcional a la corriente y a su vez es proporcional a la aceleración, por ende la aceleración del perfil consigna elegiendo
+	 va a estar limitada por las corrientes nominales y picos establecidas por el fabricante.
+
+	 \item Restricción de Jerk: Si bien en las especificaciones de nuestra aplicación no se limita este, es un parámetro muy importante a tener en cuenta ya que es lo que determina las sacudidas 
+	 que se producen sobre el sistema y es la resistencia mecánica de la articulación la que determina su valor máximo permitido. Además con se podrá apreciar un perfil trapezoidal de velocidad
+	 produce sobrepicos en la aceleración, por lo que si se quiere minimizar este efecto, este perfil no es el mejor.
+
+ \end{itemize}
+
+ Teniendo en cuenta las restricciones anteriormente planteadas, y que la velocidad mínima para realizar la consigna demandada es $\omega_{m}=395[\frac{rad}{s}]$, concluimos que esta consigna no es alcanzable
+ por nuestro sistema, por lo que aumentamos $\Delta t_{ramp}$ a 6s, para el cual necesitaríamos un $\omega_{m}=332[\frac{rad}{s}]$ lo cual sigue estan fuera de nuestros límites, por ende se propone hacer un debilitamiento
+ de campo con $i^{r}_{ds}=-0.4A$ lo que provoca que nuestro límite de velocidad pase a ser $\omega_{m_{max}}=355$, por lo tanto para nuestoro perfil de velocidad lo vamos a restringir para una velocidad $\omega_{m}=355[\frac{rad}{s}]\rightarrow \omega_{l}=1.13[\frac{rad}{s}]$ y 
+ $\Delta t_{ramp}=6$ por lo que nuestro perfil queda como se ve en la figura\ref{fig:consignasnuevas}.
+ 
+ \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{consignasnuevas.png}
+	\caption{\label{fig:consignasnuevas}Perfil de posición, velocidad y aceleración}
+	\end{figure}
+
+	En la figura \ref{fig:consignanuevapara} se muestran las variables del sistema ante la nueva consigna establecida.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{consignanuevapara.png}
+		\caption{\label{fig:consignanuevapara}Torque motor, corrientes de fase, temperatura y tensiones de fase}
+		\end{figure}
+
+	Las consignas de velocidad y posición son seguidas a la perfección por el motor, aunque en la velocidad se puede observar un pequeño overshot menor al 0.01 \%, y como se puede observa todas las variables estan dentro de los limites establecidos. Es bueno notar,
+	 que si bien el torque y la corriente estan dentro de los límites de operación presentan overshoots notorios, por lo que ante si se qusiera disminuir las sacudidas del motor lo más posible, habría que buscar otro perfil.
+	 
+	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constane lo que provoca que la temperatura del motor suba mas rápidamente a comparación con cuando esta es nula que la temperatura prácitcamente no varía.
+	
+	\item \textbf{Observador agregado}
+	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
+	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
+
+	\begin{equation}
+		\dot{e}(t)=[A-K_{e}C]e(t)+B_{d}d(t); e(t_{0})=x_{0}
+		e(t)=x(t)-\tilde{x}(t)
+		\label{eq:2.1.2.x.1}
+	\end{equation}
+	Si los polos del observador se encuentran lo suficientemente lejos del origen para hacer al observador estable y rápido, $e(t)$ tendera a ser nulo si el termino $d(t)$ es nulo, es decir si no existen perturbaciones. Este error permanete se debe a la falta de la acción integral, por tanto acontinuación se determinaran
+	los nuevos polos del observador con polos ubicados en $p_{1,2,3}=-3200 \frac{rad}{s}$. 
+	Siendo las nuevas ecuaciones del observador las siguientes:
+	\begin{equation}
+		\left\{\begin{matrix}
+			\frac{d\tilde{\theta}_{m}(t)}{dt}=\tilde{\omega}_{m}(t)+K_{\theta}(\theta_{m}(t)-\tilde{\theta}_{m}(t))\\
+			\frac{d\tilde{\omega}_{m}(t)}{dt}=\frac{T^{'}_{m}(t)}{J_{eq}}+K_{\omega}(\theta_{m}(t)-\tilde{\theta}_{m}(t))++K_{\omega I}\int (\theta_{m}(t)-\tilde{\theta}_{m}(t))dt
+			
+			\end{matrix}\right.
+			\label{eq:2.1.2.x.2}
+	\end{equation}
+	Aplicando la transformada de Laplace a la ecuación anterior se obtiene la funciones de transeferencia de la salida $\tilde{\theta}_{m}$ respecto a las entradas $\theta_{m}$ y $\frac{T'_{m}}{J_{eq}}$. A partir de esta obtenemos el polinomio característico (ec.\ref{eq:2.1.2.x.3}) con el cual podemos definir las constantes de este para el polo deseado.
+
+		\begin{equation}
+		P_{obs}=s^{3}+K_{\theta}s^{2}+K_{\omega}s+K_{\omega I}
+			\label{eq:2.1.2.x.3}
+	\end{equation}
+
+	Asi mediante la ec.\ref{eq:2.1.2.x.3} y el polinomio deseado obtenemos:\\
+	$K_{\theta}=9600 \frac{1}{s}$\\
+	$K_{\omega}=307.2x10^{5} \frac{1}{s^{2}}$\\
+	$K_{\omega I}=3.2768 x 10^{10} \frac{1}{s^{3}}$\\
+
+	De esta manera el diagrama de bloques del observador es el mostrado en la figura \ref{fig:observadornuevo}.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{observadornuevo.png}
+		\caption{\label{fig:observadornuevo}Observador con acción integral}
+		\end{figure}
+	En la figura \ref{fig:obs} se puede observa el rechazo a una perturbación de carga para una consigna de posición igual a cero.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{obs.png}
+		\caption{\label{fig:obs}Rechazo a perturbaciones de carga.}
+		\end{figure}
+
+\item \textbf{Comportamiento térmico}
+Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que
+la temperatura se encuentra dentro de los límites de operación ha aumentado considerablemente y que si se realizan más ciclo se va a tener problemas con esta, por lo que
+se concluye que si la aplicación requiere una operación del motor como la mostrada en la figura \ref{fig:rep}, no se podrá realizar el debilitamiento de campo
+ opteniendo una degradación en el seguimiento de la consigna requerida, ya que el motor va a tener que operar a velocidades menores para sobrepasar los límites de tensión y es probable que 
+ $\Delta t=7 s$. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
+ sin debilitamiento de campo es ínfimo. Hay que aclarar que el motor no podría llevar a cabo esta consigna de movimiento sin debilitamiento de campo, ya que, se supera el límite de tensión,
+  esto se ha realizado únicamente para poder comparar los distintos comportamiento.
+  \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{rep.png}
+	\caption{\label{fig:rep}Consigna de movimiento repetitiva}
+	\end{figure}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{temp.png}
+		\caption{\label{fig:temp}Temperatura del sistema}
+		\end{figure}
+
+\item \textbf{Respuesta no ideal (ancho de banda limitado) de los sensores y acondicionadores de señal}
+Se reemplaza el modelo ideal $G(s)\equiv 1$ para los sensores ausmido hasta aquí,por modelos aproximados equivalentes con características de filtro Pasa Bajos.
+Para medir las corrientes de fase $i_{abcs}(t)$ y la posición angular $\theta_{m}(t)$ se plantea un modelo LP en SS de segundo orden con $\xi=1$. Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer orden con $\tau=20s$.
+
+En las figuras \ref{} y \ref{} se puede ver la degradación de desempeño del sistema cuando se consideran los sensores no ideal, se puede observar que a medida que se disminuye el ancho de banda de estos
+ la respuesta del sistema puede llegar hasta diverger con respecto a la deseada. Por ende se puede concluir que es algo que hay que tener muy presente en el diseño de sistemas de control, por que como se 
+ aprecia en las imagen aparecen errores en los transitorios y estacionarios.
+ \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{theta_consignas.png}
+	\caption{\label{fig:theta_consignas}Posición del sistema con sensores no ideales}
+	\end{figure}
+ \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{omega_sensores.png}
+	\caption{\label{fig:omega_sensores}Velocidad del sistema con sensores no ideales}
+	\end{figure}
+
+\end{itemize}
 \section{Conclusiones}
 
 \section{Referencias}

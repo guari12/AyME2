@@ -1,12 +1,14 @@
 %% Carga Mecanica
 Jl = 0.2520 ;   %kg.m2      % +-
-bl = 0 ;        %Nms / rad  % +-
+bl =0;        %Nms / rad  % +-
 
 Tl_carga = 0 ;    %Nm         % +- (escalon)
 
 %% Tren de Transmision
 r = 314.3008; %Relacion de reduccion total
-
+W0=10000;
+Tau=20;
+W1=4000;
 nl_nom = 21; %rpm
 wl_nom = 2.2; %rad/s
 Tq_nom = 7.26; %Nm
@@ -49,8 +51,9 @@ Kid=5000*Ld;
 Kiq=5000*Lq;
 Ki0=5000*Lls;
 
-Koth=6400;
-Kow=3200^2;
+Koth=9600;
+Kow=307.2e5;
+KowI=3.2768e10;
 %%Punto 2.b
 %%
 ba=0.0113;
@@ -63,6 +66,7 @@ Rsref=1.02
 Ts=50
 
 Rs=1.02
+Jeq1=(Jm+0.2520/r^2);
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
 Kt=(3/2*Pp*lambda_m_r);
