@@ -346,7 +346,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 			R_{so}(t)=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{so}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
 		\end{cases}
 	\end{equation}
-	Este sistema de ecuaciones representa un \textbf{``equilibrio"\  dinámico} del sistema. Por otro lado, alrededor de los puntos de operación nuestro modelo dinámico local de pequeñas desviaciones viene dado por la ecuación:
+	Este sistema de ecuaciones representa un \textbf{``equilibrio"\  dinámico} cuasi-estacionario del sistema. Por otro lado, alrededor de los puntos de operación nuestro modelo dinámico local de pequeñas desviaciones viene dado por la ecuación:
 	\begin{equation}
 		\label{eqn:pequeniasDesviaciones}
 		\frac{\mathrm{d} \Delta x(t)}{\mathrm{d} x}=
@@ -362,7 +362,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\end{bmatrix}\cdot\Delta u(t)
 		\ \ ;\ \ \Delta x(0)=0
 	\end{equation}
-	Si aplicamos la ecuación \ref{eqn:pequeniasDesviaciones} a la ecuación \ref{eqn:sistGlobalNL} de nuestro modelo, obtenemos el siguiente sistema de ecuaciones:
+	Si aplicamos la ecuación \ref{eqn:pequeniasDesviaciones} a la ecuación \ref{eqn:sistGlobalNL} de nuestro modelo, obtenemos el siguiente sistema de ecuaciones del modelo dinámico LPV (pequeñas variaciones locales):
 	\newline
 	\begin{equation}
 		\label{eqn:sistPequeniasDesviaciones}
@@ -388,12 +388,10 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 			\Delta R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {\Delta T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
 		\end{cases}
 	\end{equation}
-	En forma matricial se puede expresar como:
-	\begin{equation}
-		abc.
-	\end{equation}
+	El modelo global NL dado por la ecuación \ref{eqn:sistGlobalNL}, se puede linealizar por series de Taylor truncadas al primer orden obteniendo;
+	un modelo lineal dado por \ref{eqn:sistPequeniasDesviaciones} alrededor de puntos de operación definidos por \ref{eqn:equilibrioDinamicoSistema} con estado inicial genérico.
 
-    \item Linealización por Realimentación NL
+    \item \textbf{Linealización por Realimentación NL}
     \begin{itemize}
     
 	\item\textbf{ Modelo simplificado lineal invariante (LTI) equivalente}.
@@ -438,7 +436,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\end{cases}
 	\label{eq:2.1.2.c.4}
 	\end{equation}
-	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal y la matriz de 				coeficientes A es constante, además el torque electromagnético ec. \ref{} depende solamente de $i^{r}_{qs}$ y la tensión 			inducida en el eje en cuadratura q (ec. \ref{}) depende solamente de $w_{m}$.
+	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal y la matriz de coeficientes A es constante, además el torque electromagnético ec. \ref{} depende solamente de $i^{r}_{qs}$ y la tensión 			inducida en el eje en cuadratura q (ec. \ref{}) depende solamente de $w_{m}$.
 	
 	En la figura \ref{fig:diagLTI} se muestra el diagrama de bloques en forma desagregada del sistema (rosado).
 	
