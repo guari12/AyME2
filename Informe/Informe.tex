@@ -425,13 +425,13 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0\\ 
 	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0\\
 	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}
-	\end{bmatrix} X(t) + \begin{bmatrix}
+	\end{bmatrix}\cdot X(t) + \begin{bmatrix}
 	0 &0 &0 &0\\ 
 	0 &\frac{-1}{J_{eq}} &0 &0\\ 
 	 \frac{1}{L_{q}}&0 &0 & 0\\
 	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}
 	\end{bmatrix} 
-	u(t); 
+	\cdot u(t); 
 	X(t_{0})=x_{0}\\ 
 	y(t)=[1 \ \ 0 \ \ 0 \ \ 1] \ X(t)
 	\end{cases}
@@ -496,14 +496,14 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0&0\\
 	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}&0\\
 	0&0&0&0&\frac{R_{s}}{L_{d}}
-	\end{bmatrix} X(t) + \begin{bmatrix}
+	\end{bmatrix}\cdot X(t) + \begin{bmatrix}
 	0 &0 &0 &0\\ 
 	0 &\frac{-1}{J_{eq}} &0 &0\\ 
 	 \frac{1}{L_{q}}&0 &0 & 0\\
 	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}\\
 	0 &0 &0 &0
 	\end{bmatrix} 
-	u(t); 
+	\cdot u(t); 
 	X(t_{0})=x_{0}\\ 
 	y(t)=[1 \ \ 0 \ \ 0 \ \ 1 \ \ 0] \ X(t)
 	\end{cases}
