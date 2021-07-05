@@ -390,7 +390,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\item\textbf{ Modelo simplificado lineal invariante (LTI) equivalente}.
 	
 	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los 			devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$ y que  el modelo del subsistema térmico es lineal.\\
-	Definimos el vector de estados $X(t)$ ec.\ref{eq:2.1.2.c.1}, la perturbación $d(t)$ ec.\ref{eq:2.1.2.c.3} y el vector de entradas $u(t)$ ec.\ref{eq:2.1.2.c.2} :
+	Definimos el vector de estados $X(t)$ (ec.\ref{eq:2.1.2.c.1}), la perturbación $d(t)$ (ec.\ref{eq:2.1.2.c.3}) y el vector de entradas $u(t)$ (ec.\ref{eq:2.1.2.c.2}) :
 	\begin{equation}
 		X(t)=\begin{bmatrix}
 			\theta_{m}(t)\\
@@ -431,13 +431,13 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	 \frac{1}{L_{q}}&0 &0 & 0\\
 	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}
 	\end{bmatrix} 
-	\cdot u(t); 
+	\cdot u(t); \\
 	X(t_{0})=x_{0}\\ 
-	y(t)=[1 \ \ 0 \ \ 0 \ \ 1] \ X(t)
+	y(t)=[1 \ \ 0 \ \ 0 \ \ 1] \cdot X(t)
 	\end{cases}
 	\label{eq:2.1.2.c.4}
 	\end{equation}
-	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal, la matriz de coeficientes A es constante, además el torque electromagnético (ec. \ref{sist:electromagnetico}) dependerá solamente de $i^{r}_{qs}$ y la tensión inducida en el eje en cuadratura q (ec. \ref{sist:electrico1}) dependerá solamente de $w_{m}$.
+	Es importante notar que con estas restricciones obtenemos un sistema algebraico completamente lineal, la matriz de coeficientes \textbf{A} es constante, además el torque electromagnético (ec. \ref{sist:electromagnetico}) dependerá solamente de $i^{r}_{qs}$ y la tensión inducida en el eje en cuadratura q (ec. \ref{sist:electrico1}) dependerá solamente de $w_{m}$.
 	En la figura \ref{fig:diagLTI} se muestra el diagrama de bloques en forma desagregada del sistema (rosado). Como vemos imponiendo la restricción $i^{r}_{ds}=0$ el sistema toma la forma de un motor de corriente continua.
 	\begin{figure}[h!]
 		\centering
@@ -503,9 +503,9 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}\\
 	0 &0 &0 &0
 	\end{bmatrix} 
-	\cdot u(t); 
+	\cdot u(t); \\
 	X(t_{0})=x_{0}\\ 
-	y(t)=[1 \ \ 0 \ \ 0 \ \ 1 \ \ 0] \ X(t)
+	y(t)=[1 \ \ 0 \ \ 0 \ \ 0 \ \ 0]\cdot \ X(t)
 	\end{cases}
 	\label{eq:2.1.2.e.4}
 	\end{equation}
@@ -527,55 +527,76 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	     En el diagrama de bloques del modelo NL (figura \ref{fig:ElectricoEquivalente})  podemos observar en naranja el desacoplamiento que estarealimentación produce.\\
 	\end{itemize}
 	
-	 \item Comparación del modelo dinámico LTI equivalente aumentado vs. el modelo dinámico global LPV forzando $I^{r}_{ds_{0}} \equiv 0$.
-	 Si forzamos $I^{r}_{ds_{0}} \equiv 0$, el modelo LPV se caracteriza por la siguiente ecuación:
+	 \item \textbf{Comparación del modelo dinámico LTI equivalente aumentado vs. el modelo LPV forzando $I^{r}_{ds_{0}} \equiv 0$}.\\
+	 Si forzamos $\Delta i^{r}_{ds} \equiv 0$ para lo cual  $\Delta v^{r}_{ds}(t)=-\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot\left [  I_{qso}^{r}(t)\cdot \Delta\omega_{m}(t)+\Delta i_{qs}^{r}(t)\cdot \Omega_{mo}(t) \right ]$, consideramos $R_{s}$ constante y el modelo del subsistema térmico lineal, el modelo LPV se caracteriza por la ecuación \ref{eq:2.1.2.f.1}, donde no se ha incorporado el vector de entradas por una cuestión de espacio, además no es relevante para el análisis.
 	 
 	 \begin{equation}
 		\begin{bmatrix}
 	\Delta \dot{\theta}_{m}(t)\\
 	\Delta \dot{\omega}_{m}(t)
 	\\ 
-	\Delta \dot{i^{r}_{qs}}(t)
+	\frac{d \Delta i^{r}_{qs}(t)}{dt}\\
+	\Delta \dot{T}_{s}(t)\\
 	\end{bmatrix}
 	=
 	\begin{bmatrix}
-		0 & 1 &0 \\ 
-		0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} \\ 
-		0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}}
+		0 & 1 &0 &0  \\ 
+		0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p}}{2 J_{eq}}[ \lambda^{r'}_{m}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} (t)]&0 \\ 
+		0  & \frac{- P_{p} }{ L_{q}} [\lambda^{r'}_{m}+L_{d}\cdot I^{r}_{ds0}(t)]& \frac{-R_{s}}{L_{q}}&0\\
+		0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}\\
 		\end{bmatrix} 
 	\begin{bmatrix}
-	\Delta \dot{\theta}_{m}(t)\\
-	\Delta \dot{\omega}_{m}(t)
+	\Delta \theta_{m}(t)\\
+	\Delta \omega_{m}(t)
 	\\ 
-	\Delta \dot{i^{r}_{qs}}(t)
-	\end{bmatrix}
-	 + \begin{bmatrix}
-		0 &0 \\ 
-		0 &\frac{-1}{J_{eq}} \\ 
-		 \frac{1}{L_{q}}&0 
-		\end{bmatrix}
-	\begin{bmatrix}
-	\Delta  v^{r}_{qs}(t)\\ 
-	\Delta T_{leq}(t)
+	\Delta i^{r}_{qs}(t)\\
+	\Delta T_{s}(t)
 	\end{bmatrix}
 	\label{eq:2.1.2.f.1}
 	\end{equation}
 	
-	Aplicando esta restricción y considerando $R_{s}$ vemos que las matrices del modelo LPV ahora no varían con el tiempo por lo que tenemos un modelo LTI en las cercanías del punto de operación, además podemos observar que las matrices son iguales a la del \textbf{modelo LTI equivalente aumentado} por lo que podriamos decir que este último es un caso particular  del \textbf{modelo dinámico global LPV} obtenido anteriormente.\\
-	Evaluaremos el comportamiento del sistema para distintos puntos de operación $I^{r}_{ds_{0}}$. Por la ecuación del torque electromacnético (ec. \ref{eq: 1}) y recordando que estamos trabajando con una máquina de polos salientes, por lo que $L_{d}$ > $L_{q}$ , se puden debucir tres casos:
+	Aplicando esta restricciones y forzando $I^{r}_{ds0} \equiv 0$ , vemos que las matrices del modelo LPV ahora no varían con el tiempo por lo que tenemos un modelo LTI en las cercanías del punto de operación, además podemos observar que las matrices son iguales a las del \textbf{modelo LTI equivalente aumentado} por lo que podriamos decir que este último es un caso particular  del \textbf{modelo dinámico global LPV} obtenido anteriormente. Como se podrá observa en estas ecuaciones no aparece la \textbf{dinámica residual del eje d} ante $i^{r}_{ds}(0)\neq 0$ ni tampoco el \textbf{acoplamiento residual NL en eje q} y esto se debe a que al imponer $I^{r}_{ds_{0}} \equiv 0$ estamos imponiendo indirectamente $i^{r}_{ds}(0)= 0$ ya que al realizar la linealización Jacobiana se le asigna todo el estado incial de las variables de estado a los puntos de operación. \\
+	Evaluaremos el comportamiento del sistema para distintos puntos de operación $I^{r}_{ds_{0}}\neq 0$. Por la ecuación del torque electromacnético (ec. \ref{sist:electromagnetico}) y la ecuación \ref{eq:2.1.2.f.1} y recordando que estamos trabajando con una máquina de polos salientes, por lo que $L_{d}$ > $L_{q}$ , se puden debucir tres casos:
 	
 	\begin{enumerate}
-	\item $i^{r}_{ds}(t)=0$:  el flujo concatenado esta afectado únicamente por los imanes permanentes.
-	\item $i^{r}_{ds}(t)>0$: reforzamiento del campo principal, se logra un mayor torque a costa de menor velocidad
-	\item $i^{r}_{ds}(t)>0$: debilitamiento del campo principal, se logra una mayor velocidad a costa de menor torque
+	\item $I^{r}_{ds0}(t)=0$:  el flujo concatenado esta afectado únicamente por los imanes permanentes.
+	\item $I^{r}_{ds0}(t)>0$: reforzamiento del campo principal, se logra un mayor torque a costa de menor velocidad
+	\item $I^{r}_{ds0}(t)<0$: debilitamiento del campo principal, se logra una mayor velocidad a costa de menor torque
 	\end{enumerate}
-	Si se considera a la máquina como un sistema de potencia constante rápidamente se puede debucir porque estos cambios en el torque afectan a la velocidad.
-	\item Funciones de Transferencia.
+	Vemos que cuando $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A que influyen sobre $\omega_{m}$ (velocidad) y $i^{r}_{qs}$ (Torque).
+	Si se considera a la máquina como un sistema de potencia constante, fálcimente se puede debucir porque estos cambios en el torque afectan a la velocidad.
+	\item \textbf{Función de Transferencia}.
 	
-	 
+	Se desarrollará la función de transferencia para el modelo LTI equivalente aumentado, desde ambas entradas $v^{r}_{qs}(t)$ y $T_{l}$ hacia la salida $\omega_{m}(t)$.\\
+	Para obtener esta función partimos de la ecuación \ref{eqn:sistGlobalNL} y le aplicamos la transformada de Laplace a las ecuaciones que representan a $i^{r}_{qs}$ y a $\omega_{m}$ obteniendo:
+	\begin{equation}
+	i^{r}_{qs}(s).s.L_{q}=V_{qs}(s)-R_{s}.i^{r}_{qs}(s)-\lambda^{r'}_{m}.P_{p}\omega_{m}(s)
+	\label{eq:2.1.2.ff.1}
+	\end{equation}
+	\begin{equation}
+	J_{eq}.s.\omega_{m}(s)=\frac{3}{2}.P_{p}.\lambda^{r'}_{m}.i^{r}_{qs}(s)-b_{eq}.\omega_{m}(s)-T_{leq}(s)
+	\label{eq:2.1.2.ff.2}
+	\end{equation}
+	
+Despejando $i^{r}_{qs}(s)$ de la ec.\ref{eq:2.1.2.ff.1}, reemplazando en la ec.\ref{eq:2.1.2.ff.2} y reordenando:
+
+\begin{eqnarray}
+	\theta_{m}(s)=\frac{\frac{3}{2}P_{p}\lambda^{r'}_{m}}{J_{eq}L_{q}s^{2}+(R_{s}J_{eq}+L_{q}b_{eq})s + \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}+R_{s}b_{eq}} V_{qs}(s) \nonumber\\
+	- \frac{L_{s}+R_{s}}{J_{eq}L_{q}s^{2}+(R_{s}J_{eq}+L_{q}b_{eq})s + \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}+R_{s}b_{eq}} T_{leq}(s)
+	\label{eq:2.1.2.ff.3}
+	\end{eqnarray}
+De donde se obtienen las dos funciones de transferencia:
+\begin{equation}
+	G_{V_{qs}}(s)=\frac{\theta_{m}(s)}{V_{qs}(s)}=\frac{\frac{3}{2}P_{p}\lambda^{r'}_{m}}{J_{eq}L_{q}s^{2}+(R_{s}J_{eq}+L_{q}b_{eq})s + \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}+R_{s}b_{eq}}
+	\label{eq:2.1.2.ff.4}
+	\end{equation}
+	\begin{equation}
+	G_{T_{leq}}(s)=\frac{\theta_{m}(s)}{T_{leq}(s)}=\frac{L_{s}+R_{s}}{J_{eq}L_{q}s^{2}+(R_{s}J_{eq}+L_{q}b_{eq})s + \frac{3}{2}P_{p}^{2}\lambda ^{r'2}_{m}+R_{s}b_{eq}}
+	\label{eq:2.1.2.ff.5}
+	\end{equation} 
 \end{enumerate}
 
-
+Siguiendo el mismo procedimiento se puede obtener las funciones de transferencias dedes las entradas $v^{r}_{qs}(t)$ y $T_{l}$ hacia la salida $i^{r}_{qs}$.\\
 
 
 \subsubsection{Análisis de Estabilidad a lazo abierto para el modelo LTI equivalente aumentado}
