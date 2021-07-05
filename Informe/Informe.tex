@@ -36,17 +36,13 @@ Ingeniería Mecatrónica}
     {\Large \textbf{Resumen}}
 \end{center}
 
-Resumen sobre el proyecto.
+En el presente proyecto se modelará, diseñará, analizará y simulará un sistema de control automático de posición y movimientos para un accionamiento electromecánico de 4 cuadrantes compuesto por una máquina eléctrica de corriente alterna (CA) trifásica sincrónica con excitación por imanes permanentes (PMSM), la cual es alimentada por un inversor trifásico desde una fuente ideal de corriente continua (CC) y un reductor de velocidad de engranajes planetarios de salida hacia la carga mecánica. Se dispone además un sensor de posición (encoder) en el eje del motor, 3 sensores de corriente instantánea de fases en la salida del inversor al estator y un sensor de temperatura del bobinado de estator. La carga mecánica es el brazo de un robot tipo SCARA, para el cual no se ha considerado la dinámica NL a modo de simplificación. Como primera instancia se modelará el sistema completo. Luego se hará un profundo análisis de este, estudiando sus no linealidades, acoplamientos y su comportamiento ante la incertidumbres en sus parámetros. Por último, se llevará a cabo una estrategia de control vectorial con campo orientado a partir de la cual se diseñará un controlador externo de movimiento en cascada con un modulador de torque.
 
-Al final del resumen empezamos con el resto del informe
-
-\newpage
 
 % \tableofcontents % Creamos el indice
 
 \section{Introducción}
 
-Agregar una introducción del proyecto\dots
 
 \section{Desarrollo}
 \subsection{Modelado, Análisis y Simulación dinámica del SISTEMA FÍSICO a “Lazo Abierto” (Sin Controlador externo de Movimiento)}
@@ -63,11 +59,11 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{equation}
 		\omega_{l}\left ( t \right )\equiv \dot{q}_{l}\left ( t \right )= \dot{q}_1\left ( t \right )
 	\end{equation}
-	Donde $q_{1}(t)$ es la posición articular del hombro del robot, $J_{l}$ es el momento de inercia de todos los eslabones del robot referidos al hombro, $b_{l}$ es el coeficiente de amortiguamiento viscoso, $T_{l}$ es el torque de carga o perturbación y $T_{q}$ es el par mecánico entregado a la salida de la caja reductora de engranajes.
+	Donde $q_{1}(t)$ es la posición articular del hombro del robot, $J_{l}$ es el momento de inercia de todos los eslabones del robot referidos al hombro, $b_{l}$ es el coeficiente de amortiguamiento viscoso, $T_{l}$ es el torque de carga o perturbación y $T_{q}$ es el torque motor entregado a la salida de la caja reductora de engranajes.
 	La inercia y el amortiguamiento son dos de los parámetros que varían según la posición de las articulaciones del robot, es decir, $J_{l}(q_{1}(t),q_{2}(t),...,q_{n}(t))$ y una función similar para $b_{l}$.
 	En este caso, se considera un valor nominal para estos parámetros, y sus posibles variaciones máximas, pero sin estar relacionado directamente con las posiciones articulares del robot.
 	
-	\item \textbf{Subsistema de la transmisión:}\vspace{0.3cm}\\
+	\item \textbf{Tren de transmisión:}\vspace{0.3cm}\\
 	El tren de transmisión del robot está formado por una caja reductora, reversible, de engranajes planetarios. Se asume acoplamiento \textbf{rígido}, sin elasticidad torsional y sin backlash (juego). Al considerar una transmisión ideal y sin pérdida de potencia, las ecuaciones que la modelan son:
 	\begin{equation}
 		\label{eqn:relacionTransmision}
@@ -91,8 +87,8 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	Donde $J_{m}$ es la inercia del rotor respecto a su propio eje, $b_{m}$ es la viscosidad del rotor y $T_{m}(t)$ es el torque electromecánico de la máquina eléctrica.
 
 	\item \textbf{Modelo equivalente mecánico (1 GDL):}\vspace{0.3cm}\\
-	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipotesis, que la transmisión es totalmente rígida y sin backlash (juego).
-	Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia.
+	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipótesis, que la transmisión es totalmente rígida y sin backlash (juego).
+    Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia.
 
 	Bajo estas hipotesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
 	\begin{equation}
@@ -154,9 +150,9 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\vspace{0.3cm}\\
 		Para modelar esta máquina, haremos uso de la \textbf{transformación de Park}\footnote[1]{\textbf{Transformación de Park:} forma invariante en módulo de resultante vectorial de variables base $f$} del circuito del estator, llegando así a un modelo idealizado equivalente en coordenadas eléctricas \textbf{qd0} fijas al rotor.
 		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al campo eléctrico rotante.
-		Y como que se trata de un sistema simétrico, luego del transitorio queda totalmente equilibrado, entonces podemos suponer que luego de ese pequeño transitorio $v_{0s}(t)$ tendrá como valor $0$ y se reduce significativamente el número de variables.
+		Y como se trata de un sistema simétrico, luego del transitorio queda totalmente equilibrado, entonces podemos suponer que luego de ese pequeño transitorio $v_{0s}(t)$ tendrá como valor $0$ y se reduce significativamente el número de variables.
 		\vspace{0.3cm}\\
-		Las coordenadas eléctricas del entrehierro $qd0$, fijas a rotor (marco de referencia “sincrónico”) se definen como:
+		Las coordenadas eléctricas del entrehierro $qd0$, fijas al rotor (marco de referencia “sincrónico”) se definen como:
 		\begin{equation}
 			\dot{\theta_{r}}\left ( t \right )\equiv \omega_{r}\left ( t \right )\Leftrightarrow \theta_{r}\left ( t \right )=\int_{0}^{t}\omega_{r}\left ( \xi \right )\cdot d\xi + \theta_{r}\left ( 0 \right )
 		\end{equation}
@@ -186,18 +182,18 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 			\label{eqn:expresionNula}
 			v_{0s}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
 		\end{equation}
-		Nosotros cuando empezamos a hacer el desarrollo, partimos del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
-		Lo cual significa que, a partir de ahora no las tendremos en cuenta y consideraremos nula a la expresión \ref{eqn:expresionNula}. Sin tenerla en cuenta de acá en adelane.
+		Se parte del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
+		Lo cual significa que la expresión \ref{eqn:expresionNula} se puede considerar nula, sin caer en errores.
 		
-		Este sistema se puede representar en diagramas de bloques en \textbf{Simulink} como se ve en la siguiente figura \ref{fig:ElectricoEquivalente}:
+		Este sistema se puede representar en diagramas de bloques en \textbf{Simulink} como se ve en la siguiente figura:
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[width=0.9\textwidth]{2_1_2_ModeloElectricoEquivalente.png}
-			\caption{\label{fig:ElectricoEquivalente} Diagrama en bloques del modelo eléctrico equivalente en \textbf{Simulink} (con transformación de \textbf{Park})}
+			\includegraphics[width=\textwidth]{2_1_2_ModeloElectricoEquivalente.png}
+			\caption{\label{fig:ElectricoEquivalente} Diagrama en bloques de la planta completa en \textbf{Simulink} (con transformación de \textbf{Park})}
 		\end{figure}
 
 		\item \textbf{Subsistema Térmico:}\vspace{0.3cm}\\
-		Para el análisis y modelado térmico de la máquina eléctrica, vamos a partir de los supuestos que vamos a considerar sólo pérdidas resistivas por \textbf{Efecto Joule} en el bobinado del estator y despreciar pérdidas magnéticas. La transferencia de calor es por conducción y convección natural, sin ventilación forzada.
+		Para el análisis y modelado térmico de la máquina eléctrica, vamos a considerar sólo pérdidas resistivas por \textbf{Efecto Joule} en el bobinado del estator y despreciar pérdidas magnéticas. La transferencia de calor es por conducción y convección natural, sin ventilación forzada.
 
 		La potencia de pérdidas en coordenadas $abc$ del estator está dada por:
 		\begin{equation}
@@ -221,6 +217,8 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 
 		\item \textbf{Dinámica del modelo global NL:}\vspace{0.3cm}\\
 		Teniendo en cuenta la ecuación \ref{globalNL:omegaM}; reemplazando \ref{sist:electromagnetico} en \ref{sist:mecanico}; reacomodando las ecuaciones \ref{sist:electrico1}, \ref{sist:electrico2} y \ref{eqn:expresionNula}; reemplazando \ref{eqn:potenciaDisipada} en \ref{eqn:balanceTermico} y reacomodando; y considerando la ecuación \ref{eqn:variacionRs} el modelo dinámico \textbf{global NL} del sistema nos queda:
+		
+		
 		\begin{equation}
 			\label{eqn:sistGlobalNL}
 			\begin{cases}
@@ -248,16 +246,11 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		Este modelo contiene varias \textbf{no linealidades} al contener productos de variables de estado y también al depender varias de esas ecuaciones de $R_{s}$, que a su vez depende de la temperatura ${T_{s}}^{\circ}$ que es una variable de estado que varia en el tiempo $t$.
 		\\
 		\\
-		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la figura \ref{fig:sistGlobalNL}.
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.9\textwidth]{2_1_2_ModeloGlobalNL.png}
-			\caption{\label{fig:sistGlobalNL} Diagrama en bloques del \textbf{modelo global NL} en \textbf{Simulink} (con transformaciones de \textbf{Park})}
-		\end{figure}
+		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la figura \ref{fig:ElectricoEquivalente}.
 
 	\end{itemize}
 	%% Esto lo puse porque sino la imagen quedaba mal acomodada, ver si al completar lo primero hace falta o ya no. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    \newpage
+  
 
 	\item \textbf{Linealización Jacobiana}
     \vspace{0.3cm} 
@@ -316,7 +309,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	A continuación vamos a separar el modelo en dos partes, \textbf{Espacio Global de Puntos de Operación + Modelo Dinámico Local de Pequeñas Desviaciones}.
 	En el caso de que el punto de operación esté fijo, tendremos un sistema LTI; en cambio si este varía, tendremos un sistema LTV.
 	\\
-	El espacio global de puntos de operación se obtiene de la solución del sistema de ecuaciones no lineales definido la ecuación:
+	El espacio global de puntos de operación se obtiene de la solución del sistema de ecuaciones no lineales definido por la ecuación:
 	\begin{equation}
 		\label{eqn:equilibrioDinamico}
 		\frac{\mathrm{d} X_{o}(t)}{\mathrm{d} t}=f(X_{o}(t),U_{o}(t))\approx 0/const
@@ -325,7 +318,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{equation}
 		\label{eqn:equilibrioDinamicoSistema}
 		\begin{cases}
-			\dot{\Theta_{mo}}(t)=\Omega_{mo}
+			\dot{\Theta}_{mo}(t)=\Omega_{mo}(t)
 			\\
 			\\
 			0=\frac{3}{2} \cdot \frac{ P_{p}}{J_{eq}}\cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} \left ( t \right ) \right ] \cdot I_{qso}^{r}\left ( t \right )-\frac{b_{eq}}{J_{eq}}\cdot \Omega_{mo}\left ( t \right )-\frac{T_{eqo}(t)}{J_{eq}}
@@ -367,104 +360,111 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{equation}
 		\label{eqn:sistPequeniasDesviaciones}
 		\begin{cases}
-			\Delta\dot{\theta_{m}}(t)=\Delta\omega_{m}(t)
+			\Delta\dot{\theta}_{m}(t)=\Delta\omega_{m}(t)
 			\\
 			\\
-			\Delta\dot{\omega }_{m}(t)=\frac{3 P_{p}}{2 J_{eq}}\cdot \left [[\lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} (t)]\cdot\Delta i_{qs}^{r}(t)+[\left ( L_{d}-L_{q} \right )\cdot I_{qso}^{r}(t)]\cdot\Delta i_{ds}^{r} (t)\right ]-\frac{b_{eq}}{J_{eq}}\cdot\Delta\omega_{m}(t)-\frac{\Delta T_{eq}(t)}{J_{eq}}
+			\Delta\dot{\omega }_{m}(t)=\frac{3 P_{p}}{2 J_{eq}}\cdot \left [[\lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} (t)]\cdot\Delta i_{qs}^{r}(t)+[\left ( L_{d}-L_{q} \right )\cdot I_{qso}^{r}(t)]\cdot\Delta i_{ds}^{r} (t)\right ]\dots \\  \ \ \ \ \ \ \  \  \ \  \ \  \ \ \ \ - \frac{b_{eq}}{J_{eq}}\cdot\Delta\omega_{m}(t)-\frac{\Delta T_{eq}(t)}{J_{eq}}
 			\\
 			\\
-			\frac{\mathrm{d} \Delta i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{qs}^{r}(t)}{L_{q}}-\left [ \frac{R_{so}\left ( t \right )}{L_{q}}\cdot \Delta i_{qs}^{r}(t)+\frac{\Delta R_{s}(t)}{L_{q}}\cdot I_{qso}^{r}(t) \right ]-\frac{P_{p}}{L_{q}}\cdot\left [[\lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t)]\cdot\Delta \omega_{m}(t)+[L_{d}\cdot \Omega_{mo}(t)]\cdot \Delta i_{ds}^{r}(t)\right ]
+			\frac{\mathrm{d} \Delta i_{qs}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{qs}^{r}(t)}{L_{q}}-\left [ \frac{R_{so}\left ( t \right )}{L_{q}}\cdot \Delta i_{qs}^{r}(t)+\frac{\Delta R_{s}(t)}{L_{q}}\cdot I_{qso}^{r}(t) \right ]\dots \\ \ \ \ \ \ \ \  \  \ \  \ \  \ \ \ \ -\frac{P_{p}}{L_{q}}\cdot\left [[\lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t)]\cdot\Delta \omega_{m}(t)+[L_{d}\cdot \Omega_{mo}(t)]\cdot \Delta i_{ds}^{r}(t)\right ]
 			\\
 			\\
-			\frac{\mathrm{d}\Delta i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{ds}^{r}(t)}{L_{d}}-\left [ \frac{R_{so}\left ( t \right )}{L_{d}}\cdot \Delta i_{ds}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t) \right ]+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot\left [  I_{qso}^{r}(t)\cdot \Delta\omega_{m}(t)+\Delta i_{qs}^{r}(t)\cdot \Omega_{mo}(t) \right ]
+			\frac{\mathrm{d}\Delta i_{ds}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{ds}^{r}(t)}{L_{d}}-\left [ \frac{R_{so}\left ( t \right )}{L_{d}}\cdot \Delta i_{ds}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t) \right ]\dots \\ \ \ \ \ \ \ \  \  \ \  \ \  \ \ \ \ +\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot\left [  I_{qso}^{r}(t)\cdot \Delta\omega_{m}(t)+\Delta i_{qs}^{r}(t)\cdot \Omega_{mo}(t) \right ]
 			\\
 			\\
 			\frac{\mathrm{d}\Delta i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}=\frac{\Delta v_{0s}^{r}(t)}{L_{ls}}-\left [ \frac{R_{so}\left ( t \right )}{L_{ls}}\cdot \Delta i_{0s}^{r}(t)+\frac{\Delta R_{s}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t) \right ]
 			\\
 			\\
-			\frac{\mathrm{d} {\Delta T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{3R_{so}(t)}{C_{ts}}\cdot \left [ I_{qso}^{r} \cdot \Delta i_{qs}^{r}+I_{dso}^{r} \cdot \Delta i_{ds}^{r}+2I_{0so}^{r} \cdot \Delta i_{0s}^{r} \right ]+\frac{3\Delta R_{s}(t)}{2 C_{ts}}\cdot\left [ {I_{qso}^{r}}^{2}+{I_{dso}^{r}}^{2}+2\cdot{I_{0so}^{r}}^{2} \right ]-\frac{\left [\Delta T_{s}^{\circ}\left ( t \right )-\Delta T_{amb}^{\circ}\left ( t \right ) \right ]}{R_{ts-amb}\cdot C_{ts}}
+			\frac{\mathrm{d} {\Delta T_{s}}^{\circ}\left ( t \right )}{\mathrm{d} t}=\frac{3R_{so}(t)}{C_{ts}}\cdot \left [ I_{qso}^{r} \cdot \Delta i_{qs}^{r}+I_{dso}^{r} \cdot \Delta i_{ds}^{r}+2I_{0so}^{r} \cdot \Delta i_{0s}^{r} \right ]+\frac{3\Delta R_{s}(t)}{2 C_{ts}}\cdot\left [ {I_{qso}^{r}}^{2}+{I_{dso}^{r}}^{2}+2\cdot{I_{0so}^{r}}^{2} \right ]\dots \\ \ \ \ \ \ \ \  \  \ \  \ \  \ \ \ \ -\frac{\left [\Delta T_{s}^{\circ}\left ( t \right )  - \Delta T_{amb}^{\circ}\left ( t \right ) \right ]}{R_{ts-amb}\cdot C_{ts}}
 			\\
 			\\
-			\Delta R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {\Delta T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
+			\Delta R_{s}( t )=R_{sREF}\cdot\alpha_{Cu}\cdot {\Delta T_{s}}^{\circ}( t )
 		\end{cases}
 	\end{equation}
-	El modelo global NL dado por la ecuación \ref{eqn:sistGlobalNL}, se puede linealizar por series de Taylor truncadas al primer orden obteniendo;
-	un modelo lineal dado por \ref{eqn:sistPequeniasDesviaciones} alrededor de puntos de operación definidos por \ref{eqn:equilibrioDinamicoSistema} con estado inicial genérico.
+	El modelo global NL dado por la ecuación \ref{eqn:sistGlobalNL}, se puede linealizar por series de Taylor truncadas al primer orden obteniendo 
+	un modelo lineal dado por la ec. \ref{eqn:sistPequeniasDesviaciones} alrededor de puntos de operación definidos por la ec. \ref{eqn:equilibrioDinamicoSistema} con estado inicial genérico.
 
     \item \textbf{Linealización por Realimentación NL}
     \begin{itemize}
     
 	\item\textbf{ Modelo simplificado lineal invariante (LTI) equivalente}.
-	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanetes es nula, la resistencia en los 			devanados del estator es constante con la temperatura y el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$.\\
-	Definimos el vector de estados $X(t)$ ec.\ref{eq:2.1.2.c.1} , el vector de entradas $u(t)$ ec.\ref{eq:2.1.2.c.2} y la perturbación 	$d(t)$ ec.\ref{eq:2.1.2.c.3}:
+	
+	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los 			devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$ y que  el modelo del subsistema térmico es lineal.\\
+	Definimos el vector de estados $X(t)$ ec.\ref{eq:2.1.2.c.1}, la perturbación $d(t)$ ec.\ref{eq:2.1.2.c.3} y el vector de entradas $u(t)$ ec.\ref{eq:2.1.2.c.2} :
 	\begin{equation}
 		X(t)=\begin{bmatrix}
 			\theta_{m}(t)\\
 			\omega_{m}(t) 
 			\\ 
-			i^{r}_{qs}
+			i^{r}_{qs}(t)\\
+			T°_{s}(t)
 		\end{bmatrix}
 		\label{eq:2.1.2.c.1}
 	\end{equation}
-	\begin{equation}
-		u(t)=v^{r}_{qs} 
-		\label{eq:2.1.2.c.2}
-	\end{equation}
-	\begin{equation}
+		\begin{equation}
 		d(t)=\frac{T_{l}(t)}{r} 
 		\label{eq:2.1.2.c.3}
 	\end{equation}
 	
-	Asi el espacio de estados es el siguiente  :
+	\begin{equation}
+		u(t)=\begin{bmatrix}
+			v^{r}_{qs} (t)\\
+			d(t)\\
+			P_{s perd}(t)\\
+			T°_{amb}(t) 
+		\end{bmatrix}
+		\label{eq:2.1.2.c.2}
+	\end{equation}
+
+	Asi el modelo LTI en el espacio de estados es el siguiente  :
 	
 	\begin{equation}
 	\begin{cases}
 	\dot{X}(t)=\begin{bmatrix}
-	0 & 1 &0 \\ 
-	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} \\ 
-	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}}
+	0 & 1 &0 &0\\ 
+	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0\\ 
+	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0\\
+	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}
 	\end{bmatrix} X(t) + \begin{bmatrix}
-	0 &0 \\ 
-	0 &\frac{-1}{J_{eq}} \\ 
-	 \frac{1}{L_{q}}&0 
-	\end{bmatrix} \begin{bmatrix}
-	u(t)\\
-	d(t) 
-	
-	\end{bmatrix} \ ; X(t_{0})=x_{0}\\ 
-	y(t)=[1 \ \ 0 \ \ 0 ] \ X(t)
+	0 &0 &0 &0\\ 
+	0 &\frac{-1}{J_{eq}} &0 &0\\ 
+	 \frac{1}{L_{q}}&0 &0 & 0\\
+	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}
+	\end{bmatrix} 
+	u(t); 
+	X(t_{0})=x_{0}\\ 
+	y(t)=[1 \ \ 0 \ \ 0 \ \ 1] \ X(t)
 	\end{cases}
 	\label{eq:2.1.2.c.4}
 	\end{equation}
-	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal y la matriz de coeficientes A es constante, además el torque electromagnético ec. \ref{} depende solamente de $i^{r}_{qs}$ y la tensión 			inducida en el eje en cuadratura q (ec. \ref{}) depende solamente de $w_{m}$.
-	
-	En la figura \ref{fig:diagLTI} se muestra el diagrama de bloques en forma desagregada del sistema (rosado).
-	
+	Es importante notar que con esta simplificaciones obtenemos un sistema algebraico completamente lineal, la matriz de coeficientes A es constante, además el torque electromagnético (ec. \ref{sist:electromagnetico}) dependerá solamente de $i^{r}_{qs}$ y la tensión inducida en el eje en cuadratura q (ec. \ref{sist:electrico1}) dependerá solamente de $w_{m}$.
+	En la figura \ref{fig:diagLTI} se muestra el diagrama de bloques en forma desagregada del sistema (rosado). Como vemos imponiendo la restricción $i^{r}_{ds}=0$ el sistema toma la forma de un motor de corriente continua.
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.5\textwidth]{DiagramabloquesLTI.png}
-		\caption{\label{fig:diagLTI} Diagrama de bloques de estado del modelo simplificado lineal invariante (LTI) equivalente. Con dinámica residual (rojo) y sin dinámica residual (rosado) }
+		\includegraphics[width=0.9\textwidth]{DiagramabloquesLTI.png}
+		\caption{\label{fig:diagLTI} Diagrama de bloques de estado del modelo simplificado lineal invariante (LTI) equivalente en \textbf{Simulink}. Con dinámica residual (rojo) y sin dinámica residual (rosado). }
 	\end{figure}
-	
-	\item\textbf{ Restricción o Ley de Control mínima}.
+
+	\item\textbf{ Restricción o Ley de Control mínima}.\\
 	Para lograr una $i^{r}_{ds}$ nula y asi obtener el modelo LTI desarrollado en el punto anterior debemos aplicar sobre el eje d la ley de control expresada por la ec. \ref{eq:2.1.2.d.1}.
 	\begin{equation}
-	v^{r}_{ds}(t)=-L_{q}*i^{r}_{qs}(t)*P_{p}*\omega_{m}(t)\ ; i^{r}_{ds}(t_{0})=0
+	v^{r}_{ds}(t)=-L_{q}\cdot i^{r}_{qs}(t)\cdot P_{p}\cdot \omega_{m}(t)\ ; i^{r}_{ds}(t_{0})=0
 	\label{eq:2.1.2.d.1}
 	\end{equation}
 	
-	Esta restricción se obtiene al imponer la condición $i^{r}_{ds}\equiv 0$ en la ec.\ref{eq:}, lo que define una ecuación algebraica que representa una restricción sobre $v^{r}_{ds}(t)$. Asi $v^{r}_{ds}(t)$ deja de ser una variable manipulada. Como podemos ver se ha considerado que la condición inicial de $i^{r}_{ds}$ es nula, ya que si esta no lo fuera tendriamos una dinámica residual de la corriente $i^{r}_{ds}$ lo que provocaría que el modelo no sea lineal en los instantes iniciales, pero esto lo tocaremos en detalle más adelante. Por otro lado para implementar esta ley de control es necesario realimentar a nuestro controlador con las variables de estado $i^{q}_{ds}$ y $\omega_{m}$, y que este genere una consigna de tensiones de fase congruente con dicha restricción. Para ello en el controlador se implementa una transformación directa de Park para asi poder trabajar con las tensiones $v^{r}_{qd0s}$, ya que, de la planta sensamos $v_{abcs}$, asi generamos nuestras consignas de tensiones $v^{r}_{qd0s}$ y luego mediante una transformación inversa de Park obtenemos las tensiones de fase consignas $v_{abcs}$, capaces de reproducir dicha restricción, con las cuales generamos las consignas para alimentar al modulador de tensión, conmutado con modulación de ancho de pulso PWM. En este análisis el modulador de tensión se idealizado considerando solamente las componentes ideales de las ondas de tensión. Esta técnica se denomina \textbf{linealización por realimentación directa no lineal de estado parcial} y obtenemos asi el modelo \textbf{NL desacoplado con Ley de control NL}.\\
-	 En el diagrama de bloques del modelo NL (figura \ref{})  podemos observar en rojo el desacoplamiento que esta restricción impone.\\
-	  En la figura \ref{fig:diagrestriccionminima} se puede observar la implementación de esta ley de Control en color rojo dentro del controlador parcial.
+	Esta restricción se obtiene al imponer la condición $i^{r}_{ds}\equiv 0$ en la ec.\ref{sist:electrico2}, lo que define una ecuación algebraica que representa una restricción sobre $v^{r}_{ds}(t)$. Asi $v^{r}_{ds}(t)$ deja de ser una variable manipulada. Como podemos ver se ha considerado que la condición inicial de $i^{r}_{ds}$ es nula, ya que si esta no lo fuera tendríamos una dinámica residual de la corriente $i^{r}_{ds}$ lo que provocaría que el modelo no sea lineal en los instantes iniciales, esto lo desarrollaremos en detalle más adelante. Por otro lado para implementar esta ley de control es necesario realimentar a nuestro controlador con las variables de estado $i^{r}_{qs}$ y $\omega_{m}$, y que este genere una consigna de tensiones de fase congruente con dicha restricción. Para ello en el controlador se implementa una transformación directa de Park para así poder trabajar con las tensiones $v^{r}_{qd0s}$, ya que, de la planta sensamos $v_{abcs}$, así generamos nuestras consignas de tensiones $v^{r}_{qd0s}$ y luego mediante una transformación inversa de Park obtenemos las consignas de tensiones de fase $v_{abcs}$, capaces de reproducir dicha restricción, y estas consignas de tensiones se generarán mediante el modulador de tensión, conmutado con modulación de ancho de pulso PWM, en este análisis el modulador de tensión se idealiza considerando solamente las componentes fundamentales, sin armónicos de las ondas de tensión. Esta técnica se denomina \textbf{linealización por realimentación directa no lineal de estado parcial} y obtenemos así el modelo \textbf{NL desacoplado con Ley de control NL}.\\
+     En el diagrama de bloques del modelo NL (figura \ref{fig:ElectricoEquivalente}) podemos observar en rojo el desacoplamiento que esta restricción impone.\\
+     En la figura \ref{fig:diagrestriccionminima} se puede ver la implementación de esta ley de Control en color rojo dentro del controlador parcial.
+
 	
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{realimentacionNL.png}
-	\caption{\label{fig:diagrestriccionminima} Impelementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(rojo), controlador parcial (cleste).}
+	\caption{\label{fig:diagrestriccionminima} Impelementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(rojo), controlador parcial (celeste).}
 	\end{figure}
 	
-	\item\textbf{Dinámica residual en el eje d}
-	El modelo de la dinamica residual para para $i^{r}_{ds}$ esta dado por la ec.\ref{eq:2.1.2.e.1} y cuya ecuación de 				transeferencia esta dada por la ec.\ref{eq:2.1.2.e.2}.
+	\item\textbf{Dinámica residual en el eje d}\\
+	El modelo de la dinamica residual para $i^{r}_{ds}$ al aplicar la ley de control mínima para el caso de que $i^{r}_{ds}(0)\neq 0$ se muestra en la ec.\ref{eq:2.1.2.e.1} y su ecuación de transeferencia esta dada por la ec.\ref{eq:2.1.2.e.2}.
 	\begin{equation}
 	\frac{di^{r}_{ds}}{dt}=\frac{R_{s}}{L_{d}}\ i^{r}_{ds}(t)
 	\label{eq:2.1.2.e.1}
@@ -474,56 +474,57 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\label{eq:2.1.2.e.2}
 	\end{equation}
 	
-	Vemos que la dinámica residual esta dada por una ecuación diferencial monótona descendiente con un cero en $s=-154.55$ si tomamos a $Rs$ constante e igual a 1.02. Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje d va establecer rápidamente en cero.
-	Si incorporamos esta dinámica residual a nuestro modelo LTI obtenemos:
-	
-	\begin{equation}
-	X(t)=\begin{bmatrix}
-	\theta_{m}(t)\\
-	\omega_{m}(t) 
-	\\ 
-	i^{r}_{qs}
-	\\
-	i^{r}_{ds}
-	\end{bmatrix}
-	\label{eq:2.1.2.e.3}
+	Vemos que la dinámica residual tiene la forma de una ecuación diferencial monótona descendiente con un cero en $s=-154.55$, si consideramos a $Rs$ constante e igual a 1.02. Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje d va a tender rápidamente a cero.
+	Si incorporamos esta dinámica residual a nuestro modelo LTI (ec.\ref{eq:2.1.2.c.4}) obtenemos:
+		\begin{equation}
+		X(t)=\begin{bmatrix}
+			\theta_{m}(t)\\
+			\omega_{m}(t) 
+			\\ 
+			i^{r}_{qs}(t)\\
+			T°_{s}(t)\\
+		i^{r}_{ds}
+		\end{bmatrix}
+		\label{eq:2.1.2.e.3}
 	\end{equation}
-	
+
 	\begin{equation}
 	\begin{cases}
 	\dot{X}(t)=\begin{bmatrix}
-	0 & 1 &0 &0 \\ 
-	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0 \\ 
-	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}}&0\\
-	0&0&0&\frac{R_{s}}{L_{d}}
+	0 & 1 &0 &0&0\\ 
+	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0&0\\ 
+	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0&0\\
+	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}&0\\
+	0&0&0&0&\frac{R_{s}}{L_{d}}
 	\end{bmatrix} X(t) + \begin{bmatrix}
-	0 &0 \\ 
-	0 &\frac{-1}{J_{eq}} \\ 
-	 \frac{1}{L_{q}}&0 \\
-	 0&0
-	\end{bmatrix} \begin{bmatrix}
-	u(t)\\
-	d(t) 
-	
-	\end{bmatrix} \ ; X(t_{0})=x_{0}\\ 
-	y(t)=[1 \ \ 0 \ \ 0 \ \ 0 ] \ X(t)
+	0 &0 &0 &0\\ 
+	0 &\frac{-1}{J_{eq}} &0 &0\\ 
+	 \frac{1}{L_{q}}&0 &0 & 0\\
+	0 & 0 & \frac{1}{C_{ts}} & \frac{1}{R_{ts-amb} C_{ts}}\\
+	0 &0 &0 &0
+	\end{bmatrix} 
+	u(t); 
+	X(t_{0})=x_{0}\\ 
+	y(t)=[1 \ \ 0 \ \ 0 \ \ 1 \ \ 0] \ X(t)
 	\end{cases}
 	\label{eq:2.1.2.e.4}
 	\end{equation}
 	
 
-	Donde vemos que ahora nuestro vector de estado (ec.\ref{eq:2.1.2.e.3}) tiene un estado más y las entradas son las definidas por las ec.\ref{eq:2.1.2.c.2} y ec.\ref{eq:2.1.2.c.3}. Como podemos ver ahora $i^{r}_{ds}$ puede ser distinta de cero, sin embargo no se ha considerado el acoplamiento residual Nl con el eje q (ec. \ref{eq:2.1.2.e.4}) y esto se debe a que como comentamos mas arriba la dinámica residual de este eje es monótona descendiente por lo que rápidamente $i^{r}_{ds}$ decae a cero, por lo que, en regimen forzado esta no va a tener influencia sobre el eje d.
 	
-	En la figura \ref{fig:diagLTI} se puede apreciar el modelo LTI considerando la dinámica residual del eje d (rojo).
+
+	Donde vemos que ahora nuestro vector de estado (ec.\ref{eq:2.1.2.e.3}) tiene un estado más y las entradas son las definidas por la ec.\ref{eq:2.1.2.c.2}. Como podemos ver, ahora $i^{r}_{ds}$ puede ser distinta de cero, sin embargo no se ha considerado el \textbf{acoplamiento residual NL con el eje q} dado por la ec. \ref{eq:2.1.2.e.5} y esto se debe a que como comentamos mas arriba la dinámica residual de este eje es monótona descendiente por lo que rápidamente $i^{r}_{ds}$ decae a cero, por ende, en régimen forzado esta no va a tener influencia sobre el \textbf{eje q}.
 	
 	\begin{equation}
 	v^{r*}_{qs}(t)=L_{d}. i^{r}_{ds}(t).P_{p}.\omega_{m}(t)
 	\label{eq:2.1.2.e.5}
 	\end{equation}
 	
-	   \item\textbf{Ley de Control complementaria mínima en el eje q}.
+	En la figura \ref{fig:diagLTI} se puede apreciar el modelo LTI considerando la dinámica residual del eje d (rojo).
+	
+	   \item\textbf{Ley de Control complementaria mínima en el eje q}.\\
 	    Para eliminar completamente este acoplamiento residual NL aún en régimen natural y obtener un modelo equivalente 				completamente lineal, independiente del estado inicial de $i^{r}_{ds}$ se debe realimentar al sistema con la ley de control 			dada por la ec.\ref{eq:2.1.2.e.5}. En la figura \ref{fig:diagrestriccionminima} se puede apreciar el controlador parcial con la implementación de esta restricción en color naranja, obteniendo asi el modelo \textbf{LTI equivalente aumentado} el cual aplica la ley de control mínima en el eje d y la ley de control complementaria en el eje q.\\
-	     En el diagrama de bloques del modelo NL (figura \ref{})  podemos observar en naranja el desacoplamiento que esta restricción 		produce.\\
+	     En el diagrama de bloques del modelo NL (figura \ref{fig:ElectricoEquivalente})  podemos observar en naranja el desacoplamiento que estarealimentación produce.\\
 	\end{itemize}
 	
 	 \item Comparación del modelo dinámico LTI equivalente aumentado vs. el modelo dinámico global LPV forzando $I^{r}_{ds_{0}} \equiv 0$.
