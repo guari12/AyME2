@@ -43,6 +43,23 @@ En el presente proyecto se modelará, diseñará, analizará y simulará un sist
 
 \section{Introducción}
 
+Las máquinas eléctricas de CA tienen mejores prestaciones que las máquinas de CC, aun así su control es bastante complejo.
+A pesar de eso, en los últimos años se han hecho varios avances para poder explotar todas las ventajas de las máquinas de CA, como su mayor robustez, menor mantenimiento y costo, mejor respuesta dinámica y mayor capacidad de carga.
+Y es por esa razón que hoy en día se utilizan ampliamente en la industria, por lo que es muy interesante su estudio.
+\\
+\par
+Presentaremos el control de una máquina de CA, específicamente un motor síncrono con imanes permanentes.
+Vamos a dividir el desarrollo en dos grandes partes.
+La primera parte, presenta el problema a resolver y se desarrolla el modelado, análisis y simulación dinámica a lazo abierto (sin control realimentado) para verificar que el sistema es estable.
+La simulación permite analizar la respuesta dinámica en el dominio del tiempo.
+Luego mediante el análisis de las matrices en el espacio de estados, se puede determinar si el sistema es completamente controlable y observable.
+\\
+\par
+En la segunda parte, realizaremos el diseño, análisis y simulación de un controlador de \textbf{Movimiento en Cascada} con \textbf{Modulador de Torque} equivalente, es decir, un \textbf{Control Vectorial}.
+Obteniendo diferentes resultados que permitiran observar los parámetros de operación (corriente, tensión, velocidad y torque).
+Además, hay que tener en cuenta y verificar que estos parámetros no excedan los límites especificados de la máquina.
+Finalmente, ajustaremos los parámetros en el Controlador y el Observador, para resolver de manera optima y eficiente, el problema propuesto.
+Como medidas del rendimiento y desempeño vamos a considerar, el seguimiento de consigna dada (en posición o velocidad), el rechazo a las perturbaciones y la que las variables estén entre los límites admisibles.
 
 \section{Desarrollo}
 \subsection{Modelado, Análisis y Simulación dinámica del SISTEMA FÍSICO a “Lazo Abierto” (Sin Controlador externo de Movimiento)}
@@ -389,7 +406,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
     
 	\item\textbf{ Modelo simplificado lineal invariante (LTI) equivalente}.
 	
-	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los 			devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$ y que  el modelo del subsistema térmico es lineal.\\
+	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo (ec. \ref{eqn:sistGlobalNL}), considerando que la corriente $i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que $i^{r}_{0s}=0$ y que el modelo del subsistema térmico es lineal.\\
 	Definimos el vector de estados $X(t)$ (ec.\ref{eq:2.1.2.c.1}), la perturbación $d(t)$ (ec.\ref{eq:2.1.2.c.3}) y el vector de entradas $u(t)$ (ec.\ref{eq:2.1.2.c.2}) :
 	\begin{equation}
 		X(t)=\begin{bmatrix}
@@ -1045,20 +1062,150 @@ Asi obtenemos:
 	La gráfica de los polos del controlador, el regulador de corriente y los polos de la planta original se muestran en la figura\ref{fig:Polosmodelos}, adonde se puede ver que el lazo de corriente es mucho mas rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
 			 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Polosmodelos.png}
+	\includegraphics[width=0.6\textwidth]{Polosmodelos.png}
 	\caption{\label{fig:Polosmodelos}Polos de la planta, lazo de corriente y controlador PID.}
 	\end{figure}
 	
 	Dados que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros. La variación de $B_{l}$ no tuvo prácticamente repercusión sobre los polos del sistema. Pero la variación de $J_{l}$, si produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{PoloJeq.png}
+	\includegraphics[width=0.6\textwidth]{PoloJeq.png}
 	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
 	\end{figure}
 	
-
+\newpage
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
-Trubii
+
+Una técnica muy utilizada para estimar una variable de estado, que no puede ser sensada y digitalizada, es implementar un observador dentro del controlador. El mismo tiene un modelo aproximado de la planta mediante el cual estima las variables de estado internas de un sistema dinámico que no son accesibles físicamente.
+\par
+Para nuestro sistema, solo disponemos de sensores de corriente de fase, un sensor de temperatura del bobinado estator y un sensor de desplazamiento angular para el eje del rotor del motor (encoder).
+Por lo tanto, si consideramos al sistema simplificado con consigna $i_{ds}(t) = 0$ que nos lleva a un sistema equivalente al de una máquina de CC lineal con sus tres variables de estado, $\theta_m(t)$, $\omega_m(t)$, $i_{qs}(t)$, llegamos a que la velocidad angular del rotor no es accesible directamente a través de un sensor (como un tacómetro).
+\par
+Entonces se implementará un observador, para estimar la velocidad angular del rotor y así implementar el control final del motor.
+Observaremos el subsistema mecánico, con su realimentación física por efectos viscosos, desacoplado.
+Es decir, la planta estará dada por las siguientes ecuaciones:
+\begin{equation}
+	J_{eq}\cdot \dot{\omega_m}(t) = T_m(t) − T_{eq}(t)
+\end{equation}
+\begin{equation}
+	\frac{\mathrm{d} \theta_m(t)}{\mathrm{d} t}=\omega_m(t)
+\end{equation}
+Matricialmente la planta se puede representar como:
+\begin{equation}
+	S_{LTI}:
+	\begin{cases}
+		\dot{\textbf{x}}(t) = 
+		\begin{bmatrix}
+		0 & 1 \\ 
+		0 & 0
+		\end{bmatrix} \textbf{x}(t) + 
+		\begin{bmatrix}
+			0  \\ 
+			\frac{1}{J_{eq}} 
+		\end{bmatrix}
+		u(t) + 
+		\begin{bmatrix}
+			0  \\ 
+			-\frac{1}{J_{eq}} 
+		\end{bmatrix}
+		d(t)
+		\\
+		y(t)= \textbf{C}\cdot \textbf{x}(t)
+	\end{cases}
+\end{equation}
+Donde:
+\begin{equation}
+	\textbf{x}(t)=
+	\begin{bmatrix}
+		\theta_m(t) \\ 
+		\omega_m(t) 
+	\end{bmatrix}
+	\ \ ;\ \ u(t)=T_{m}^{'}(t)\ \ ;\ \ d(t)=T_{eq}(t)\ \ ;\ \ \textbf{C}=
+	\begin{bmatrix}
+		1 & 0
+	\end{bmatrix}
+\end{equation}
+El observador entonces, viene dado por la siguiente ecuación:
+\begin{equation}
+	Observador :
+	\begin{cases}
+		\dot{\tilde{\textbf{x}}}(t)=\tilde{A}\cdot \tilde{\textbf{x}}(t)+\tilde{B}\cdot u(t)+\textbf{K}_\textbf{e}\left(y(t)-\tilde{y}(t)\right)\ \ ;\ \ \dot{\tilde{\textbf{x}}}(t_0)=0
+		\\
+		\tilde{y}(t)=\textbf{C}\cdot\tilde{\textbf{x}}(t)
+	\end{cases}
+\end{equation}
+Donde:
+\begin{equation}
+	\tilde{\textbf{x}}(t)=
+	\begin{bmatrix}
+		\tilde{\theta}_m(t)\\
+		\tilde{\omega}_m(t)
+	\end{bmatrix}
+	\ \ ;\ \ u(t)=T_{m}^{'}(t)\ \ ;\ \ \textbf{K}_\textbf{e}=
+	\begin{bmatrix}
+		K_{oth}\\
+		K_{ow}
+	\end{bmatrix}
+\end{equation}
+Donde en el mejor caso $\tilde{\textbf{A}} \equiv \textbf{A}$ y $\tilde{\textbf{B}} \equiv \textbf{B}$; $y(t)$ corresponde a la variable de estado tomada de la planta física real.
+En nuestro caso la variable medida es $\theta_m(t)$ y la salida del observador será $\tilde{\theta}_m(t)$.
+Reordenando, definimos al modelo del Observador Asintótico según la ecuación:
+\begin{equation}
+	O_{Asintótico}:
+	\begin{cases}
+		\dot{\tilde{\textbf{x}}}(t)=\left[
+			\begin{bmatrix}
+				0 & 1\\
+				0 & 0
+			\end{bmatrix}
+			-\textbf{K}_{\textbf{e}}\cdot \textbf{C}
+		\right]
+		\tilde{\textbf{x}}(t)+
+		\begin{bmatrix}
+			0\\
+			\frac{1}{J_{eq}}
+		\end{bmatrix}
+		u(t)+\textbf{K}_{\textbf{e}}\cdot y(t)
+		\\
+		y(t)=\textbf{C}\cdot \textbf{x}(t)
+	\end{cases}
+\end{equation}
+Luego de verificar la observabilidad del sistema con salida $\theta_m(t)$, vamos a pasar al siguiente paso que es la ubicación de polos del observador en el plano s.
+El polinomio característico se obtiene de calcular el determinante:
+\begin{equation}
+	det(sI-[\tilde{A}-K_e\cdot C])
+\end{equation}
+Por lo que la posición de los polos es dependiente de $K_{oth}$ y $K_{ow}$.
+Si se quieren ubicar dos polos reales e iguales en $p_{obs1,2}=-3200\frac{rad}{s}$.
+Hay que igualar el polinomio:
+\begin{equation}
+	det\left( 
+		\begin{bmatrix}
+			s+K_{oth} & -1 \\
+			K_{ow} & s
+		\end{bmatrix}
+	 \right)=s^2+s\cdot K_{oth}+K_{ow}
+\end{equation}
+con el polinomio deseado que tiene la forma:
+\begin{equation}
+	(s+3200)^2=s^2+6400s+3200^2
+\end{equation}
+De donde obtenemos que:
+\begin{equation}
+	\begin{matrix}
+		K_{oth}=6400 \left[\frac{1}{s}\right]\\
+		\\
+		K_{ow} =3200^2 \left[\frac{1}{s^2}\right]
+	\end{matrix}
+\end{equation}
+En diagramas de bloques, podemos representar el observador como se ve en la figura:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{diagramaObservador.png}
+	\caption{\label{fig:consigna2}Diagramas en bloques del observador}
+\end{figure}
+
+
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
 \begin{itemize}
 	\item \textbf{Seguimiento de consignas}
@@ -1254,7 +1401,29 @@ En las figuras \ref{} y \ref{} se puede ver la degradación de desempeño del si
 	\end{figure}
 
 \end{itemize}
+
+\newpage
 \section{Conclusiones}
+Logramos diseñar, modelar y simular todas las etapas de un controlador de una máquina de CA (a lazo cerrado), tanto como a lazo abierto, de forma exitosa.
+A pesar de todas las simplificaciones hechas, el estudio de la máquina fue bastente amplio e integrador de todos los conocimientos abordados por la cátedra, sirviendo como referencia de como aplicar estos conocimientos en la vida profesional y en sistemas no tan idealizados.
+Pudimos notar que a pesar de la dificultad que presentan las máquinas de CA, con las simplificaciones y estrategias planteadas, el estudio es equivalente al de una máquina de CC.
+Y también que si bien los polos del sistema son todos estables, por estar en el semiplano negativo de la variable s (\textbf{Laplace}), hay una fuerte dependencia con algunos parámetros que hemos considerado constantes.
+\\
+\par
+Por esto es que sería bueno, a futuro, implementar una serie de mejorar que se proponen a continuación.
+Las más importantes que hemos notado son:
+\begin{itemize}
+	\item Puede estudiarse un controlador con reforzamiento o debilitamiento de campo, a partir del uso de la corriente en directo.
+	\item Implementar una estrategia de control que contemple la posición (e inercia) del \textbf{resto de las articulaciones} del brazo, ya que la estabilidad de varios polos a lazo cerrado del sistema dependen de este factor.
+	\item También sería interesante, considerar un modelo que contemple la variación de las resistencias de los bobinados en función de la temperatura para un ajuste más preciso del sistema.
+\end{itemize}
+Entonces como conclusión, en base al desarrollo y análisis sobre los polos, las matrices del sistema y las respuestas a lazo cerrado del mismo.
+Podemos decir que, el sistema es \textbf{controlable}, \textbf{eficiente}, \textbf{robusto} y con buen \textbf{rechazo} a las perturbaciones externas dentro de los rangos establecidos.
+\\
+\par
+A pesar de que falta implementar varias posibles mejoras, que no se llevaron a cabo con el fin de no complejizar más el estudio del sistema.
+Y de las simplificaciones realizadas, como considerar ideales algunas partes del sistema completo.
+El estudio realizado fue de gran utilidad para poder entender de manera conceptual el problema y adquirir herramientas para ver como llevar a la práctica los conocimientos que aborda la cátedra.
 
 \section{Referencias}
 
