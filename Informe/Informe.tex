@@ -1019,21 +1019,96 @@ Asi obtenemos:
 	La gráfica de los polos del controlador el regulador de corriente y los polos de la planta original se muestran en la figura\ref{fig:Polosmodelos}, adonde se puede ver que el lazo de corriente es mucho mas rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
 			 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Polosmodelos.png}
+	\includegraphics[width=0.6\textwidth]{Polosmodelos.png}
 	\caption{\label{fig:Polosmodelos}Polos de la planta, lazo de corriente y controlador PID.}
 	\end{figure}
 	
 	Dados que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros. La variación de $B_{l}$ no tuvo prácticamente reprecusión sobre los polos del sistema. Pero la variación de $J_{l}$, si produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{PoloJeq.png}
+	\includegraphics[width=0.6\textwidth]{PoloJeq.png}
 	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
 	\end{figure}
 	
-
+\newpage
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
 Trubii
-Una de las técnicas mas usadas para estimar una variable de estado que no puede ser sensada y digitalizada, es implementar a nivel controlador un observador. El mismo es capaz de estimar las variables de estado internas de un sistema dinámico que no son accesibles físicamente.
+\par
+Una técnica muy utilizada para estimar una variable de estado, que no puede ser sensada y digitalizada, es implementar un observador dentro del controlador. El mismo tiene un modelo aproximado de la planta mediante el cual estima las variables de estado internas de un sistema dinámico que no son accesibles físicamente.
+\par
+Para nuestro sistema, solo disponemos de sensores de corriente de fase, un sensor de temperatura del bobinado estator y un sensor de desplazamiento angular para el eje del rotor del motor (encoder).
+Por lo tanto, si consideramos al sistema simplificado con consigna $i_{ds}(t) = 0$ que nos lleva a un sistema equivalente al de una máquina de CC lineal con sus tres variables de estado, $\theta_m(t)$, $\omega_m(t)$, $i_{qs}(t)$, llegamos a que la velocidad angular del rotor no es accesible directamente a través de un sensor (como un tacómetro).
+\par
+Entonces se implementará un observador, para estimar la velocidad angular del rotor y así implementar el control final del motor.
+Observaremos el subsistema mecánico, con su realimentación física por efectos viscosos, desacoplado.
+Es decir, la planta estará dada por las siguientes ecuaciones:
+\begin{equation}
+	J_{eq}\cdot \dot{\omega_m}(t) = T_m(t) − T_{eq}(t)
+\end{equation}
+\begin{equation}
+	\frac{\mathrm{d} \theta_m(t)}{\mathrm{d} t}=\omega_m(t)
+\end{equation}
+Matricialmente la planta se puede representar como:
+\begin{equation}
+	S_{LTI}:
+	\begin{cases}
+		\dot{\textbf{x}}(t) = 
+		\begin{bmatrix}
+		0 & 1 \\ 
+		0 & 0
+		\end{bmatrix} \textbf{x}(t) + 
+		\begin{bmatrix}
+			0  \\ 
+			\frac{1}{J_{eq}} 
+		\end{bmatrix}
+		u(t) + 
+		\begin{bmatrix}
+			0  \\ 
+			-\frac{1}{J_{eq}} 
+		\end{bmatrix}
+		d(t)
+		\\
+		y(t)= \textbf{C}\cdot \textbf{x}(t)
+	\end{cases}
+\end{equation}
+Donde:
+\begin{equation}
+	\textbf{x}(t)=
+	\begin{bmatrix}
+		\theta_m(t) \\ 
+		\omega_m(t) 
+	\end{bmatrix}
+	\ \ ;\ \ u(t)=T_{m}^{'}(t)\ \ ;\ \ d(t)=T_{eq}(t)\ \ ;\ \ \textbf{C}=
+	\begin{bmatrix}
+		1 & 0
+	\end{bmatrix}
+\end{equation}
+El observador entonces, viene dado por la siguiente ecuación:
+\begin{equation}
+	Observador :
+	\begin{cases}
+		\dot{\tilde{\textbf{x}}}(t)=\tilde{A}\cdot \tilde{\textbf{x}}(t)+\tilde{B}\cdot u(t)+\textbf{K}_\textbf{e}\left(y(t)-\tilde{y}(t)\right)\ \ ;\ \ \dot{\tilde{\textbf{x}}}(t_0)=0
+		\\
+		\tilde{y}(t)=\textbf{C}\cdot\tilde{\textbf{x}}(t)
+	\end{cases}
+\end{equation}
+Donde:
+\begin{equation}
+	\tilde{\textbf{x}}(t)=
+	\begin{bmatrix}
+		\tilde{\theta}_m(t)\\
+		\tilde{\omega}_m(t)
+	\end{bmatrix}
+	\ \ ;\ \ u(t)=T_{m}^{'}(t)\ \ ;\ \ \textbf{K}_\textbf{e}=
+	\begin{bmatrix}
+		K_{oth}\\
+		K_{ow}
+	\end{bmatrix}
+\end{equation}
+Donde en el mejor caso $\tilde{\textbf{A}} \equiv \textbf{A}$ y $\tilde{\textbf{B}} \equiv \textbf{B}$; $y(t)$ corresponde a la variable de estado tomada de la planta física real.
+En nuestro caso la misma, es $\theta_m(t)$ y por tanto la salida del observador sera $\tilde{\theta}_m(t)$.
+Reordenando la ecuación, se define el modelo de Observador Asintótico como:
+
 
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
 \begin{itemize}
