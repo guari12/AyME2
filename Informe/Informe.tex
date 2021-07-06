@@ -1375,12 +1375,30 @@ En las figuras \ref{} y \ref{} se puede ver la degradación de desempeño del si
 	\end{figure}
 
 \end{itemize}
+
+\newpage
 \section{Conclusiones}
-Trubi: Empiezo con conlusiones
-Se logró exitosamente diseñar, modelar y simular todas las etapas de un controlador de una máquina de CA así como previamente el modelado y estudio de la misma a lazo abierto. A pesar de que se hicieron varias simpli􏰀caciones, se tuvo que estudiar el sistema desde cero, sirviendo como método de aprendizaje, englobando todos los contenidos de la cátedra y aprendiendo sobre la manera en la que sería todo esto implementado a nivel del controlador en un sistema real. Se corrobora que el estudio de esta máquina eléctrica de CA luego de las simpli􏰀caciones y estrategias implementadas se asemeja al de un motor de CC. Se puede dejar como estudio futuro la manera en la que ejercer un control con reforzamiento/debilitamiento de campo a partir del uso de la corriente en directo.
-Si bien todos los polos del sistema se encontraban en el semieje negativo del plano imaginario se observó sin embargo una importante migración de polos a lazo cerrado respecto a la inercia de la carga por lo que nos inclinamos a pensar que sería importante en un futuro realizar un modelo que contemple los cambios de inercia en función de la posición de las demás articulaciones y quizá encontrar una estrategia de control que sea capaz de actuar en base a estos cambios de inercia midiendo el estado de las otras posiciones articulares para darle la robustez necesaria al controlador.
-Queda también considerar a futuro un modelo que contemple la resistencia del devanado como función de la temperatura para obtener un monitoreo más preciso de la misma.
-Se puede concluir, en base al desarrollo y análisis presentado sobre los polos, sobre las matrices de controlabilidad y sobre de las respuestas a lazo cerrado que el sistema es controlable con e􏰀ciencia y el controlador considerablemente robusto por lo que es capaz de rechazar las perturbaciones externas dentro de los rangos establecidos.
+Logramos diseñar, modelar y simular todas las etapas de un controlador de una máquina de CA (a lazo cerrado), tanto como a lazo abierto, de forma exitosa.
+A pesar de todas las simplificaciones hechas, el estudio de la máquina fue bastente amplio e integrador de todos los conocimientos abordados por la cátedra, sirviendo como referencia de como aplicar estos conocimientos en la vida profesional y en sistemas no tan idealizados.
+Pudimos notar que a pesar de la dificultad que presentan las máquinas de CA, con las simplificaciones y estrategias planteadas, el estudio es equivalente al de una máquina de CC.
+Y también que si bien los polos del sistema son todos estables, por estar en el semiplano negativo de la variable s (\textbf{Laplace}), hay una fuerte dependencia con algunos parámetros que hemos considerado constantes.
+\\
+\par
+Por esto es que sería bueno, a futuro, implementar una serie de mejorar que se proponen a continuación.
+Las más importantes que hemos notado son:
+\begin{itemize}
+	\item Puede estudiarse un controlador con reforzamiento o debilitamiento de campo, a partir del uso de la corriente en directo.
+	\item Implementar una estrategia de control que contemple la posición (e inercia) del \textbf{resto de las articulaciones} del brazo, ya que la estabilidad de varios polos a lazo cerrado del sistema dependen de este factor.
+	\item También sería interesante, considerar un modelo que contemple la variación de las resistencias de los bobinados en función de la temperatura para un ajuste más preciso del sistema.
+\end{itemize}
+Entonces como conclusión, en base al desarrollo y análisis sobre los polos, las matrices del sistema y las respuestas a lazo cerrado del mismo.
+Podemos decir que, el sistema es \textbf{controlable}, \textbf{eficiente}, \textbf{robusto} y con buen \textbf{rechazo} a las perturbaciones externas dentro de los rangos establecidos.
+\\
+\par
+A pesar de que falta implementar varias posibles mejoras, que no se llevaron a cabo con el fin de no complejizar más el estudio del sistema.
+Y de las simplificaciones realizadas, como considerar ideales algunas partes del sistema completo.
+El estudio realizado fue de gran utilidad para poder entender de manera conceptual el problema y adquirir herramientas para ver como llevar a la práctica los conocimientos que aborda la cátedra.
+
 \section{Referencias}
 
 \end{document}
