@@ -70,14 +70,15 @@ Jeq1=(Jm+0.2520/r^2);
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
 Kt=(3/2*Pp*lambda_m_r);
-C=[1 0 0 0 0] ;
+C=[0 0 1 0 0] ;
 A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0 0;
     0 -Rs/Ld 0 0 0;
     3/2*Pp*lambda_m_r/Jeq 0 -beq/Jeq 0 0;
     0 0 1 0 0;
     0 0 0 0 -1/(Rts_amb*Cts)];
 B=[1/Lq 0  0 0 ; 0 0 0 0 ;0 -1/Jeq 0 0; 0 0 0 0;0 0 1/Cts 1/(Rts_amb*Cts) ];
-D=[0 0 0 0];
+B=[1/Lq;0;0;0;0]
+D=[0];
 %%Analisis estabilidad
 %%
 sys_dc = ss(A,B,C,D)

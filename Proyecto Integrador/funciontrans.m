@@ -39,8 +39,9 @@ plot(g(3,2),'bo')
 plot(g(2,3),'ko')
 plot(g(1,3),'ko')
 
+grid on
 
-legend('J_{l}=0.126','J_{l}=0','J_{l}=0.378')
+legend('J_{l}=0.126','J_{l}=0.2520','J_{l}=0.378')
 xlabel('real','FontWeight','bold','FontSize',12)
 ylabel('imag','FontWeight','bold','FontSize',12)
 set(gcf,'color','white','Position',[255 69 708 597])
