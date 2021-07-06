@@ -389,7 +389,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
     
 	\item\textbf{ Modelo simplificado lineal invariante (LTI) equivalente}.
 	
-	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo, considerando que la corriente  		$i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los 			devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que  $i^{r}_{0s}=0$ y que  el modelo del subsistema térmico es lineal.\\
+	A continuación se presenta el modelo (LTI) en espacio de estado obtenido del modelo NL completo (ec. \ref{eqn:sistGlobalNL}), considerando que la corriente $i^{r}_{ds}$ en directo con el campo magnético principal generado por imanes permanentes es nula, la resistencia en los devanados del estator es constante con la temperatura, el sistema es equilibrado y simétrico, por lo que $i^{r}_{0s}=0$ y que el modelo del subsistema térmico es lineal.\\
 	Definimos el vector de estados $X(t)$ (ec.\ref{eq:2.1.2.c.1}), la perturbación $d(t)$ (ec.\ref{eq:2.1.2.c.3}) y el vector de entradas $u(t)$ (ec.\ref{eq:2.1.2.c.2}) :
 	\begin{equation}
 		X(t)=\begin{bmatrix}
@@ -1033,6 +1033,8 @@ Asi obtenemos:
 
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
 Trubii
+Una de las técnicas mas usadas para estimar una variable de estado que no puede ser sensada y digitalizada, es implementar a nivel controlador un observador. El mismo es capaz de estimar las variables de estado internas de un sistema dinámico que no son accesibles físicamente.
+
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
 \begin{itemize}
 	\item \textbf{Seguimiento de consignas}
