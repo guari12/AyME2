@@ -43,6 +43,23 @@ En el presente proyecto se modelará, diseñará, analizará y simulará un sist
 
 \section{Introducción}
 
+Las máquinas eléctricas de CA tienen mejores prestaciones que las máquinas de CC, aun así su control es bastante complejo.
+A pesar de eso, en los últimos años se han hecho varios avances para poder explotar todas las ventajas de las máquinas de CA, como su mayor robustez, menor mantenimiento y costo, mejor respuesta dinámica y mayor capacidad de carga.
+Y es por esa razón que hoy en día se utilizan ampliamente en la industria, por lo que es muy interesante su estudio.
+\\
+\par
+Presentaremos el control de una máquina de CA, específicamente un motor síncrono con imanes permanentes.
+Vamos a dividir el desarrollo en dos grandes partes.
+La primera parte, presenta el problema a resolver y se desarrolla el modelado, análisis y simulación dinámica a lazo abierto (sin control realimentado) para verificar que el sistema es estable.
+La simulación permite analizar la respuesta dinámica en el dominio del tiempo.
+Luego mediante el análisis de las matrices en el espacio de estados, se puede determinar si el sistema es completamente controlable y observable.
+\\
+\par
+En la segunda parte, realizaremos el diseño, análisis y simulación de un controlador de \textbf{Movimiento en Cascada} con \textbf{Modulador de Torque} equivalente, es decir, un \textbf{Control Vectorial}.
+Obteniendo diferentes resultados que permitiran observar los parámetros de operación (corriente, tensión, velocidad y torque).
+Además, hay que tener en cuenta y verificar que estos parámetros no excedan los límites especificados de la máquina.
+Finalmente, ajustaremos los parámetros en el Controlador y el Observador, para resolver de manera optima y eficiente, el problema propuesto.
+Como medidas del rendimiento y desempeño vamos a considerar, el seguimiento de consigna dada (en posición o velocidad), el rechazo a las perturbaciones y la que las variables estén entre los límites admisibles.
 
 \section{Desarrollo}
 \subsection{Modelado, Análisis y Simulación dinámica del SISTEMA FÍSICO a “Lazo Abierto” (Sin Controlador externo de Movimiento)}
@@ -1032,8 +1049,7 @@ Asi obtenemos:
 	
 \newpage
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
-Trubii
-\par
+
 Una técnica muy utilizada para estimar una variable de estado, que no puede ser sensada y digitalizada, es implementar un observador dentro del controlador. El mismo tiene un modelo aproximado de la planta mediante el cual estima las variables de estado internas de un sistema dinámico que no son accesibles físicamente.
 \par
 Para nuestro sistema, solo disponemos de sensores de corriente de fase, un sensor de temperatura del bobinado estator y un sensor de desplazamiento angular para el eje del rotor del motor (encoder).
@@ -1106,8 +1122,62 @@ Donde:
 	\end{bmatrix}
 \end{equation}
 Donde en el mejor caso $\tilde{\textbf{A}} \equiv \textbf{A}$ y $\tilde{\textbf{B}} \equiv \textbf{B}$; $y(t)$ corresponde a la variable de estado tomada de la planta física real.
-En nuestro caso la misma, es $\theta_m(t)$ y por tanto la salida del observador sera $\tilde{\theta}_m(t)$.
-Reordenando la ecuación, se define el modelo de Observador Asintótico como:
+En nuestro caso la variable medida es $\theta_m(t)$ y la salida del observador será $\tilde{\theta}_m(t)$.
+Reordenando, definimos al modelo del Observador Asintótico según la ecuación:
+\begin{equation}
+	O_{Asintótico}:
+	\begin{cases}
+		\dot{\tilde{\textbf{x}}}(t)=\left[
+			\begin{bmatrix}
+				0 & 1\\
+				0 & 0
+			\end{bmatrix}
+			-\textbf{K}_{\textbf{e}}\cdot \textbf{C}
+		\right]
+		\tilde{\textbf{x}}(t)+
+		\begin{bmatrix}
+			0\\
+			\frac{1}{J_{eq}}
+		\end{bmatrix}
+		u(t)+\textbf{K}_{\textbf{e}}\cdot y(t)
+		\\
+		y(t)=\textbf{C}\cdot \textbf{x}(t)
+	\end{cases}
+\end{equation}
+Luego de verificar la observabilidad del sistema con salida $\theta_m(t)$, vamos a pasar al siguiente paso que es la ubicación de polos del observador en el plano s.
+El polinomio característico se obtiene de calcular el determinante:
+\begin{equation}
+	det(sI-[\tilde{A}-K_e\cdot C])
+\end{equation}
+Por lo que la posición de los polos es dependiente de $K_{oth}$ y $K_{ow}$.
+Si se quieren ubicar dos polos reales e iguales en $p_{obs1,2}=-3200\frac{rad}{s}$.
+Hay que igualar el polinomio:
+\begin{equation}
+	det\left( 
+		\begin{bmatrix}
+			s+K_{oth} & -1 \\
+			K_{ow} & s
+		\end{bmatrix}
+	 \right)=s^2+s\cdot K_{oth}+K_{ow}
+\end{equation}
+con el polinomio deseado que tiene la forma:
+\begin{equation}
+	(s+3200)^2=s^2+6400s+3200^2
+\end{equation}
+De donde obtenemos que:
+\begin{equation}
+	\begin{matrix}
+		K_{oth}=6400 \left[\frac{1}{s}\right]\\
+		\\
+		K_{ow} =3200^2 \left[\frac{1}{s^2}\right]
+	\end{matrix}
+\end{equation}
+En diagramas de bloques, podemos representar el observador como se ve en la figura:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{diagramaObservador.png}
+	\caption{\label{fig:consigna2}Diagramas en bloques del observador}
+\end{figure}
 
 
 \subsubsection{Simulación en tiempo continuo con modelo completo NL}
@@ -1306,7 +1376,11 @@ En las figuras \ref{} y \ref{} se puede ver la degradación de desempeño del si
 
 \end{itemize}
 \section{Conclusiones}
-
+Trubi: Empiezo con conlusiones
+Se logró exitosamente diseñar, modelar y simular todas las etapas de un controlador de una máquina de CA así como previamente el modelado y estudio de la misma a lazo abierto. A pesar de que se hicieron varias simpli􏰀caciones, se tuvo que estudiar el sistema desde cero, sirviendo como método de aprendizaje, englobando todos los contenidos de la cátedra y aprendiendo sobre la manera en la que sería todo esto implementado a nivel del controlador en un sistema real. Se corrobora que el estudio de esta máquina eléctrica de CA luego de las simpli􏰀caciones y estrategias implementadas se asemeja al de un motor de CC. Se puede dejar como estudio futuro la manera en la que ejercer un control con reforzamiento/debilitamiento de campo a partir del uso de la corriente en directo.
+Si bien todos los polos del sistema se encontraban en el semieje negativo del plano imaginario se observó sin embargo una importante migración de polos a lazo cerrado respecto a la inercia de la carga por lo que nos inclinamos a pensar que sería importante en un futuro realizar un modelo que contemple los cambios de inercia en función de la posición de las demás articulaciones y quizá encontrar una estrategia de control que sea capaz de actuar en base a estos cambios de inercia midiendo el estado de las otras posiciones articulares para darle la robustez necesaria al controlador.
+Queda también considerar a futuro un modelo que contemple la resistencia del devanado como función de la temperatura para obtener un monitoreo más preciso de la misma.
+Se puede concluir, en base al desarrollo y análisis presentado sobre los polos, sobre las matrices de controlabilidad y sobre de las respuestas a lazo cerrado que el sistema es controlable con e􏰀ciencia y el controlador considerablemente robusto por lo que es capaz de rechazar las perturbaciones externas dentro de los rangos establecidos.
 \section{Referencias}
 
 \end{document}
