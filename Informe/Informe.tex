@@ -567,7 +567,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\label{eq:2.1.2.f.1}
 	\end{equation}
 	
-	Aplicando esta restricciones y forzando $I^{r}_{ds0} \equiv 0$ , vemos que las matrices del modelo LPV ahora no varían con el tiempo por lo que tenemos un modelo LTI en las cercanías del punto de operación, además podemos observar que las matrices son iguales a las del \textbf{modelo LTI equivalente aumentado} por lo que podriamos decir que este último es un caso particular  del \textbf{modelo dinámico global LPV} obtenido anteriormente. Como se podrá observa en estas ecuaciones no aparece la \textbf{dinámica residual del eje d} ante $i^{r}_{ds}(0)\neq 0$ ni tampoco el \textbf{acoplamiento residual NL en eje q} y esto se debe a que al imponer $I^{r}_{ds_{0}} \equiv 0$ estamos imponiendo indirectamente $i^{r}_{ds}(0)= 0$ ya que al realizar la linealización Jacobiana se le asigna todo el estado incial de las variables de estado a los puntos de operación. \\
+	Aplicando esta restricciones y forzando $I^{r}_{ds0} \equiv 0$ , vemos que las matrices del modelo LPV ahora no varían con el tiempo por lo que tenemos un modelo LTI en las cercanías del punto de operación, además podemos observar que las matrices son iguales a las del \textbf{modelo LTI equivalente aumentado} por lo que podriamos decir que este último es un caso particular  del \textbf{modelo dinámico global LPV} para un punto de operación $I^{r}_{ds0} \equiv 0$  con $\Delta i^{r}_{ds} \equiv 0$ . Como se podrá observa en estas ecuaciones no se ha considerado la \textbf{dinámica residual del eje d} ante $i^{r}_{ds}(0)\neq 0$ ni tampoco el \textbf{acoplamiento residual NL en eje q},ya que por motivos que ya sabemos se puede despreciar sin caer en grandes errores, pero además al realizar la linealización Jacobiana se le asigna todo el estado incial de las variables de estado a los puntos de operación, por ende $\Delta i^{r}_{ds}(0) \equiv 0$  . \\
 	Evaluaremos el comportamiento del sistema para distintos puntos de operación $I^{r}_{ds_{0}}\neq 0$. Por la ecuación del torque electromacnético (ec. \ref{sist:electromagnetico}) y recordando que estamos trabajando con una máquina de polos salientes, por lo que $L_{d}$ > $L_{q}$ , se puden debucir tres casos:
 	
 	\begin{enumerate}
@@ -576,11 +576,11 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\item $I^{r}_{ds0}(t)<0$: debilitamiento del campo principal, se logra un menor torque.
 	\end{enumerate}
 	
-	Pero esto es asi, cuando sea desacoplado el acoplamiento con $i^{r}_{ds}$ en el eje q. Vemos que cuando $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A que influyen sobre $\omega_{m}$ (velocidad) y $i^{r}_{qs}$ . Y se puede observar que dependiento del valor de $\omega_{m}$ este acoplamiento puede tener el efecto contrario sobre $i^{r}_{qs}$, lo que variará el valor del torque. Es decir, por ejemplo, si la velocidad y el torque son positivos, y además no se tienen perturbaciones, y afecto al sistema con un valor $I^{r}_{ds0}(t)>0$, esta va disminuir la corriente $i^{r}_{qs}$ y en mayor medida $(L_{d})$ que con la que aumenta el torque $(L_{d}-L_{q})$, por ende el efecto va a ser el contrario, se va a producir un debilitamiento en el torque. \\
+	Pero esto es asi, cuando se ha desacoplado el acoplamiento con $i^{r}_{ds}$ en el eje q. Vemos que cuando $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A que influyen sobre $\omega_{m}$ (velocidad) y $i^{r}_{qs}$, además se producirá también una migración de los puntos de operación $I^{r}_{qs0}(t)$ y $\Omega_{m0}$ . Y se puede observar que dependiento del valor de $\omega_{m}$ este acoplamiento puede tener el efecto contrario que el explicado anteriormente sobre el torque. Es decir, por ejemplo, si la velocidad y el torque son positivos, y además no se tienen perturbaciones, y afecto al sistema con un valor $I^{r}_{ds0}(t)>0$, esta va disminuir la corriente $i^{r}_{qs}$ y en mayor medida $(L_{d})$ que con la que aumenta el torque $(L_{d}-L_{q})$, por ende el efecto va a ser el contrario, se va a producir un debilitamiento en el torque. Se concluye entonces que si no se desacopla la influencia de $i^{r}_{ds}$ en el eje q, una $i^{r}_{ds}\neq 0$, no solo va a producir un cambio sobre el torque, si no que va a cambiar notablemente la dinamica del sistema (matriz A) y también va a influir considerablemente sobre el punto de operación $I^{r}_{qs0}$.\\
 	\item \textbf{Función de Transferencia}.
 	
 	Se desarrollará la función de transferencia para el modelo LTI equivalente aumentado, desde ambas entradas $v^{r}_{qs}(t)$ y $T_{l}$ hacia la salida $\omega_{m}(t)$.\\
-	Para obtener esta función partimos de la ecuación \ref{eqn:sistGlobalNL} y le aplicamos la transformada de Laplace a las ecuaciones que representan a $i^{r}_{qs}$ y a $\omega_{m}$ obteniendo:
+	Para obtener esta función partimos de la ecuación \ref{eq:2.1.2.e.4} y le aplicamos la transformada de Laplace a las ecuaciones que representan a $i^{r}_{qs}$ y a $\omega_{m}$ obteniendo:
 	\begin{equation}
 	i^{r}_{qs}(s).s.L_{q}=V_{qs}(s)-R_{s}.i^{r}_{qs}(s)-\lambda^{r'}_{m}.P_{p}\omega_{m}(s)
 	\label{eq:2.1.2.ff.1}
@@ -623,7 +623,7 @@ Siguiendo el mismo procedimiento se puede obtener las funciones de transferencia
 
 \begin{itemize} 
 \item \textbf{Polos y ceros del sistema.}\\
-Para el cálculo de los polos y ceros se tomaron $R_{s}=1.02 \Omega $ y valores nominales de los parámetros de carga.\\
+Para el cálculo de los polos y ceros se tomaron $R_{s}=1.02 \Omega $ y valores nominales de los parámetros de carga.
 \subitem \textbf{Subsistema mecánico}\\
 Se calculan los polos y ceros para la variable de estado $\theta_{m}$ a partir de las funciones de transferencias $G^{\theta}_{v^{r}_{qs}}$ (ec.\ref{eq:2.1.2.ff.4}) y $G^{\theta}_{T_{leq}}$ (ec. \ref{eq:2.1.2.ff.5}).
  
@@ -684,7 +684,7 @@ Además la variable de estado $i^{r}_{ds}$ tiene un polo calculado anteriormente
 Vemos que ambas variables son estables y que $i^{r}_{qs}$ tiene una respuesta subamortiguada.
 \subitem \textbf{Subsistema térmico}\\
 Calculando las funciones de transferencias  $G^{T_{s}}_{P_{s perd}}$ y $G^{T_{s}}_{T_{amb}}$ encontramos que el subsistema tiene un polo en $s=-0.00833$ con una constante de tiempo $\tau=120 s$, lo que nos dice que es un sistema muy lento pero estable.
-
+\newpage
 \item \textbf{Migración de propiedades.}\\
 Se hace necesario evaluar la estabilidad del sistema ante la variación de los parámetros de carga, ya que como sabemos el robot presenta dinámica no lineal acoplada y se considera como aproximación la dinámica de carga `vista' desde el eje de la articualción hombro, asumiendo variación de sus parámetros equivalentes. En la figura \ref{fig:varpolos} se observa como cambian los polos del sistema cuando se varían estos parámetros dentro de sus límites de incertidumbre.
 
@@ -735,17 +735,18 @@ Se cálculo la observabilidad del modelo LTI (ec .\ref{eq:2.1.2.e.4}) mediante e
 	\end{equation}
 
 	
-Según el criterio de Kalman para que el sistema sea observable el rango de la matriz $O$ tiene que ser igual a la cantidad $n$ de estados. Al calcular la observabilidad desde $\theta_{m}(t)$ mediante la ec.\ref{eq:2.1.2.kk.2}, obtenemos que el rango de esta matriz es 3, por lo que el sistema no es completamente observable, esto se debe a que $i^{r}_{ds}$ no es un estado observable desde $\theta_{m}(t)$, ya que como se puede apreciar en la ec.\ref{eq:2.1.2.e.4} este estado no tiene influencia sobre  $\theta_{m}(t)$, lo mismo ocurre para $T°_{s}$ .
+Según el criterio de Kalman para que el sistema sea observable el rango de la matriz $O$ tiene que ser igual a la cantidad $n$ de estados. Al calcular la observabilidad desde $\theta_{m}(t)$ mediante la ec.\ref{eq:2.1.2.kk.1}, obtenemos que el rango de esta matriz es 3, por lo que el sistema no es completamente observable, esto se debe a que $i^{r}_{ds}$ no es un estado observable desde $\theta_{m}(t)$, ya que como se puede apreciar en la ec.\ref{eq:2.1.2.e.4} este estado no tiene influencia sobre  $\theta_{m}(t)$, lo mismo ocurre para $T°_{s}$ .
 
 Otra alternativa es medir la observabilidad desde $\omega_{m}$ en donde obtenemos que esta se degrada aún más, ya que además de $i^{r}_{ds}$ y  $T°_{s}$, $\theta_{m}(t)$ tampoco es observable desde esta. 
 
 \subsubsection{Análisis de Controlabilidad completa de estado para el modelo LTI equivalente aumentado}
-Se procedió a calcular la controlabilidad del modelo LTI ec.\ref{eq:2.1.2.e.4} apartir del criterio de Kalman (ec. \ref{eq:2.1.2.l.1}).
+Se procedió a calcular la controlabilidad del modelo LTI (ec.\ref{eq:2.1.2.e.4}) apartir del criterio de Kalman (ec. \ref{eq:2.1.2.l.1}).
 
 	\begin{equation}
 		Rango \ de \ C=[B \ A.B \ ... \ A^{n-1}.B]= n
 	\label{eq:2.1.2.l.1}
 	\end{equation}
+	
 	Donde A es la definida en la ec.\ref{eq:2.1.2.kk.2} y B es :
 	\begin{equation}
 		B= \begin{bmatrix}
@@ -765,7 +766,6 @@ NL vs LTI equivalente aumentado}
 \begin{itemize}
 
 \item \textbf{Respuesta del estado interno a pulso de consigna de tensión de estator en eje q, superpuesto con doble pulso de torque de carga.}
-A continuación se presentan las respuestas del sistema.
 	
 	En la figura \ref{fig:iq_LTIvsNL} se puede observar que la corriente establecida en el eje q es igual para ambos modelos, tanto cuando $i^{r}_{ds}(0)=0$ como cuando $i^{r}_{ds}(0)=\pm 0.5$ esto se debe a que como puede verse en la figura \ref{fig:ids}, $i^{r}_{ds}$ decrece rápidamente a cero antes que se establezca la consigna $v^{r}_{qs}$, por lo que al estar la máquina estática esta no tiene efecto alguno sobre el sistema y por lo tanto no se produce acoplamiento de esta sobre el eje q ni tiene efecto sobre el torque, es decir, que esta corriente inicial solamente se va a discipar en el bobinado estatórico. Es por esto que las demás figuras únicamente se graficaron para el modelo NL, ya que presentan el mismo compartamiento para el modelo LTI para la entrada dada como consigna, independientemente de $i^{r}_{ds}(0)$.\\
 			\begin{figure}[h!]
@@ -780,7 +780,7 @@ A continuación se presentan las respuestas del sistema.
 	\includegraphics[width=0.45\textwidth]{ids.png}
 	\caption{\label{fig:ids} $i^{r}_{ds}$vs t.}
 	\end{figure}
-	Producto del forzamiento de $i^{r}_{ds}=0$ podemos ver que el sistema se comporta como un motor de CC, ya que la velocidad del motor depende de manera proporcional al voltage de entrada y inversalmente proporcional al torque de carga esto se puede ver claramente observando la figura \ref{fig:theta_m} y la figura \ref{fig:vd_vq}, vemos que luego de afectar con el escalón $v^{r}_{qs}$ la velocidad después de un transtorio se establece constante, lo mismo ocurre en $t=0.3$ cuando se afecta al sistema con un escalón $T_{l}$ provocando una disminución de la velocidad. También hay que notar el excesivo sobrepico en $i^{r}_{qs}$ producto de la consigna de tensión, lo que indica que no es buena práctica afectar al sistema con este tipo de entradas, se puede también observar el aumento de la corriente por la entrada de torque, dado que el sistema necesitará mayor torque motor para contrarrestar este. \\
+	Producto del forzamiento de $i^{r}_{ds}=0$ podemos ver que el sistema se comporta como un motor de CC, ya que la velocidad del motor depende de manera proporcional al voltage de entrada e inversamente proporcional al torque de carga esto se puede ver claramente observando la figura \ref{fig:theta_m} y la figura \ref{fig:vd_vq}, vemos que luego de afectar con el escalón $v^{r}_{qs}$ la velocidad después de un transtorio se establece constante, lo mismo ocurre en $t=0.3$ cuando se afecta al sistema con un escalón $T_{l}$ provocando una disminución de la velocidad. También hay que notar el excesivo sobrepico en $i^{r}_{qs}$ producto de la consigna de tensión, lo que indica que no es buena práctica afectar al sistema con este tipo de entradas, se puede también observar el aumento de la corriente por la entrada de torque, dado que el sistema necesitará mayor torque motor para contrarrestar este. \\
 	
 	\begin{figure}[h!]
 	\centering
@@ -883,12 +883,12 @@ En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque v
 	%\item \textbf{Comparar comportamiento de $i^{r}_{ds}(t)$ para $i^{r}_{ds}(0)=\pm  0.5 A$ vs $i^{r}_{ds}(0)=0A$ }
 	\item \textbf{Field forcing and weakening a lazo abierto }
 	
-	Por último, se aplica una consigna de tensión en el eje d, $v^{r \ *}_{ds}(t)=\pm 1.9596 V_{cc}$ en $t=0.5 s$ para el evaluar el efecto de reforzamiento y debilitamiento de campo. En las figuras \ref{fig:Tdistintode0} y \ref{fig:wdistintode0} se puede observa el efecto de este para el \textbf{modelo NL desacoplado con Ley de control NL} sobre el torque y la velocidad.\\
-	Se puede observar claramente lo comentado en el inciso \textbf{2.1.2.d}, nada más que ahora $i^{r}_{qs}<0$ por lo que al aplicar la tensión consigna $v^{r \ *}_{ds}(t)= 1.9596 V_{cc}$ se produce un reforzamiento del campo aumentando el torque y disminuyendo la velocidad, por otro lado si la consigna de tensión es  $v^{r \ *}_{ds}(t)= -1.9596 V_{cc}$ se produce un debilitamiento del campo provocandose un cambio en el cuadrante de operación, ya que se pasa a operar en el primer cuadrante, osea que en vez de frenar se motoriza, teniendo ahora un torque positivo, y esto se debe a la migración del punto de operación de $i^{r}_{qs}$ debido al acoplamiento con la corriente $i^{r}_{ds}$ (ec. \ref{eq:2.1.2.f.1}).
+	Por último, se aplica una consigna de tensión en el eje d, $v^{r \ *}_{ds}(t)=\pm 1.9596 V_{cc}$ en $t=0.5 s$ para evaluar el efecto de reforzamiento y debilitamiento de campo. En las figuras \ref{fig:Tdistintode0} y \ref{fig:wdistintode0} se puede observar el efecto de este para el \textbf{modelo NL desacoplado con Ley de control NL} sobre el torque y la velocidad.\\
+	Se puede observar claramente lo comentado en el inciso \textbf{2.1.2.d}, nada más que ahora $i^{r}_{qs}<0$ por lo que al aplicar la tensión consigna $v^{r \ *}_{ds}(t)= 1.9596 V_{cc}$ se produce un reforzamiento del campo aumentando el torque (lo hace más negativo, es decir, que se tiene el efecto buscado), por otro lado si la consigna de tensión es  $v^{r \ *}_{ds}(t)= -1.9596 V_{cc}$ se produce un cambio en el cuadrante de operación, ya que se pasa a operar en el primer cuadrante, osea que en vez de frenar se motoriza, teniendo ahora un torque positivo, y esto se debe a la migración del punto de operación de $i^{r}_{qs}$ (pasa de ser negativa a positivo) debido al acoplamiento con la corriente $i^{r}_{ds}$ (ec. \ref{eq:2.1.2.e.5}).
 	
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Tdistintode0.png}
+	\includegraphics[width=0.65\textwidth]{Tdistintode0.png}
 	\caption{\label{fig:Tdistintode0} Field forcing and weakening $T_{m}$. \textbf{Modelo NL desacoplado con Ley de control NL }.}
 	\end{figure}
 	
@@ -898,7 +898,7 @@ En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque v
 	\caption{\label{fig:wdistintode0} Field forcing and weakening $\omega_{m}$.\textbf{ Modelo NL desacoplado con Ley de control NL .}}
 	\end{figure}
 	
-	Lo mismo se puede ver que ocurre en la figura \ref{fig:Tdistintode0LTI} para el \textbf{modelo LTI equivalente aumentado} aunque en menor medida, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el sistema por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y dado que por las características constructivas del motor $L_{d}$ y $L_{q}$ son muy parecidas, por ende la influencia este término es significativamente menor en comparación a la de los demás.\\
+	En la figura \ref{fig:Tdistintode0LTI} se puede ver lo que ocurre para el \textbf{modelo LTI equivalente aumentado}, vemos que aquí el efecto de $i^{r}_{ds}\neq 0$ es mucho menor, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el sistema por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y no influye directamente sobre el punto de operación de $i^{r}_{qs}$, y dado que por las características constructivas del motor $L_{d}$ y $L_{q}$ son muy parecidas, la influencia de este término es significativamente menor en comparación a la de los demás.\\
 	La diferencia de comportamiento entre ambos modelos se da entonces por el acoplamiento NL en el eje q, donde vemos que el reforzamiento y debilitamiento de campo tiene mayor influencia en el modelo NL por este acoplamiento que produce que $i^{r}_{ds}$ refuerce o debilite también $i^{r}_{qs}$ lo que hace que tenga mayor influencia sobre el torque.
 	
 	\begin{figure}[h!]
@@ -909,6 +909,7 @@ En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque v
 \end{itemize}
 \newpage
 \subsection{Diseño, Análisis y Simulación con CONTROLADOR de Movimiento en Cascada con Modulador de Torque equivalente (Control Vectorial)}
+\subsubsection{Modulador de Torque equivalente}
 \begin{itemize}
 \item \textbf{Desacoplamiento de todas las realimentaciones físicas naturales de estado hacia la entrada}\\
 	 En la figura \ref{fig:Tmodulador} se puede observar el desacoplamiento de todas las realimentaciones. Se ha remarcado en \textbf{rojo} la \textbf{La ley de control mínima} que anteriormente se implementó en el \textbf{modelo NL desacoplado con ley de control NL} y en \textbf{naranja} la \textbf{Ley de control complementaria mínima en el eje q}  que se implementó en el \textbf{modelo LTI equivalente aumentado}, es decir que podría decirse que los modelos realizados anteriormente son un caso particular de realizar el desacoplamiento de todas las realimentaciones de estado. En \textbf{gris} se nuestra el desacople de las caídas ohmicas, en verde la caida por tensión inducida producto de $\lambda^{`r}_{m}$ y en \textbf{celeste} se ha desacoplado la caida de torque por fricción.
@@ -923,7 +924,7 @@ En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque v
 	
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{Ts.png}
+	\includegraphics[width=0.45\textwidth]{Ts.png}
 	\caption{\label{fig:Ts}Variación de $R_{s}$ con $T°_{s}$.}
 	\end{figure}
 
@@ -989,13 +990,13 @@ Si idealizamos el problema y consideramos que los parámetros físicos modelados
 	\label{eq:2.1.2.k.7}
 	\end{equation}
 	
-	En la figura \ref{fig:TTmodulador_id} se dio una consigna de $T_{m}=0.0063$ y un $T_{l}$ igual al que se propuso en la sección \textbf{2.1.6}, se puede observar el aumento del torque motor al hacer el reforzamiento de campo con $i^{r}_{ds}(t)=1 A$ y en la figura \ref{fig:vqmodulador_id} se puede notar el cambio en la tensión en el eje q producto de esta corriente. Se puede concluir que este reforzamiento no produce mejoras significativas sobre el torque motor a comparación con el considerable aumento que se genera en la tensión del eje q, por ende tal vez no sea la mejor estrategia si se quiere un mayor torque, pero si lo que se busca es disminuir las tensiones, puede ser una buena opción realizar un debilitamiento de campo, ya que como vemos se disminuye muy poco el torque pero mucho la tensión en el eje q.
+	En la figura \ref{fig:TTmodulador_id} se dio una consigna de $T_{m}=0.0063$ a $t=0.1$ hasta $t=0.7$ y un $T_{l}$ igual al que se propuso en la sección \textbf{2.1.6}, se puede observar el aumento del torque motor al hacer el reforzamiento de campo con $i^{r}_{ds}(t)=1 A$ y en la figura \ref{fig:vqmodulador_id} se puede notar el cambio en la tensión en el eje q producto de esta corriente. Se puede concluir que este reforzamiento no produce mejoras significativas sobre el torque motor a comparación con el considerable aumento que se genera en la tensión del eje q, por ende tal vez no sea la mejor estrategia si se quiere un mayor torque, pero si lo que se busca es disminuir las tensiones, puede ser una buena opción realizar un debilitamiento de campo, ya que como vemos se disminuye muy poco el torque pero mucho la tensión en el eje q. Esta variación en la tensión del eje q con $i^{r}_{ds}(t)$  se debe a la \textbf{Ley de control mínima complementaria} (ec.\ref{eq:2.1.2.e.5}).
 	
 	Por otro lado, hay que notar que el sistema a comparación con la sección \textbf{2.1.6} no presenta oscilaciones en los transitorios y que el rechazo al torque de carga es practicamente nulo, ya que si hubiese rechazo el torque total debería ser igual al consigna. 
 	 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.55\textwidth]{TTmodulador_id.png}
-	\caption{\label{fig:TTmodulador_id}Torque total $T_{T}=T_{m}+T_{l}$ para $i^{r}_{ds}\neq0$.}
+	\includegraphics[width=0.5\textwidth]{TTmodulador_id.png}
+	\caption{\label{fig:TTmodulador_id}Torque total $T_{T}=T^{*'}_{m}-\frac{T_{l}}{r}$ para $i^{r}_{ds}\neq0$.}
 	\end{figure}
 		 	\begin{figure}[h!]
 	\centering
@@ -1009,11 +1010,13 @@ A continuación se diseñará el controlador (``PID'') en cascada con el modulad
 	J_{eq}\theta(s)s^{2}+b_{eq}\theta(s)s=T^{`}_{m}(s)-T_{leq}(s) \ ; \ T_{leq}= \frac{T_{l}}{r}
 	\label{eq:2.1.2.q.1}
 	\end{equation}
+	
 La ecuación del controlador PID es:
 		\begin{equation}
 	T^{*`}_{m}(s)=e_{w}(s)[ba+\frac{1}{s}Ksa + \frac{1}{s^{2}}Ksia]
 	\label{eq:2.1.2.q.2}
 	\end{equation}
+	
 Recordando la ec.\ref{eq:2.1.2.k.7} y la ec. \ref{eq:2.1.2.k.5} se obtiene:
 
 	\begin{equation}
@@ -1058,18 +1061,19 @@ Así, mediante estas ecuaciones obtenemos las ecuaciones de transferencias:
 	En la figura \ref{fig:controladorPID} se observa el diagrama en bloques del controlador PID.
 		 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.55\textwidth]{controladorPID.png}
+	\includegraphics[width=0.5\textwidth]{controladorPID.png}
 	\caption{\label{fig:controladorPID}Controlador PID.}
 	\end{figure}
+	\newpage
+	La ubicación en el plano complejo de los polos del controlador, el regulador de corriente y los polos de la planta original se muestran en la figura \ref{fig:Polosmodelos}, adonde se puede ver que el lazo de corriente es mucho mas rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
 	
-	La gráfica de los polos del controlador, el regulador de corriente y los polos de la planta original se muestran en la figura\ref{fig:Polosmodelos}, adonde se puede ver que el lazo de corriente es mucho mas rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
-			 	\begin{figure}[h!]
+	\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.55\textwidth]{Polosmodelos.png}
 	\caption{\label{fig:Polosmodelos}Polos de la planta, lazo de corriente y controlador PID.}
 	\end{figure}
 	
-	Dados que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros. La variación de $B_{l}$ no tuvo prácticamente repercusión sobre los polos del sistema. Pero la variación de $J_{l}$, si produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
+	Dado que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros. La variación de $B_{l}$ no tuvo prácticamente repercusión sobre los polos del sistema. Pero la variación de $J_{l}$, si produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.55\textwidth]{PoloJeq.png}
@@ -1092,6 +1096,7 @@ Es decir, la planta estará dada por las siguientes ecuaciones:
 \begin{equation}
 	\frac{\mathrm{d} \theta_m(t)}{\mathrm{d} t}=\omega_m(t)
 \end{equation}
+
 Matricialmente la planta se puede representar como:
 \begin{equation}
 	S_{LTI}:
@@ -1115,6 +1120,7 @@ Matricialmente la planta se puede representar como:
 		y(t)= \textbf{C}\cdot \textbf{x}(t)
 	\end{cases}
 \end{equation}
+
 Donde:
 \begin{equation}
 	\textbf{x}(t)=
@@ -1127,6 +1133,7 @@ Donde:
 		1 & 0
 	\end{bmatrix}
 \end{equation}
+
 El observador entonces, viene dado por la siguiente ecuación:
 \begin{equation}
 	Observador :
@@ -1136,6 +1143,7 @@ El observador entonces, viene dado por la siguiente ecuación:
 		\tilde{y}(t)=\textbf{C}\cdot\tilde{\textbf{x}}(t)
 	\end{cases}
 \end{equation}
+
 Donde:
 \begin{equation}
 	\tilde{\textbf{x}}(t)=
@@ -1149,6 +1157,7 @@ Donde:
 		K_{ow}
 	\end{bmatrix}
 \end{equation}
+
 Donde en el mejor caso $\tilde{\textbf{A}} \equiv \textbf{A}$ y $\tilde{\textbf{B}} \equiv \textbf{B}$; $y(t)$ corresponde a la variable de estado tomada de la planta física real.
 En nuestro caso la variable medida es $\theta_m(t)$ y la salida del observador será $\tilde{\theta}_m(t)$.
 Reordenando, definimos al modelo del Observador Asintótico según la ecuación:
@@ -1172,11 +1181,13 @@ Reordenando, definimos al modelo del Observador Asintótico según la ecuació
 		y(t)=\textbf{C}\cdot \textbf{x}(t)
 	\end{cases}
 \end{equation}
+
 Luego de verificar la observabilidad del sistema con salida $\theta_m(t)$, vamos a pasar al siguiente paso que es la ubicación de polos del observador en el plano s.
 El polinomio característico se obtiene de calcular el determinante:
 \begin{equation}
 	det(sI-[\tilde{A}-K_e\cdot C])
 \end{equation}
+
 Por lo que la posición de los polos es dependiente de $K_{oth}$ y $K_{ow}$.
 Si se quieren ubicar dos polos reales e iguales en $p_{obs1,2}=-3200\frac{rad}{s}$.
 Hay que igualar el polinomio:
@@ -1192,6 +1203,7 @@ con el polinomio deseado que tiene la forma:
 \begin{equation}
 	(s+3200)^2=s^2+6400s+3200^2
 \end{equation}
+
 De donde obtenemos que:
 \begin{equation}
 	\begin{matrix}
@@ -1200,6 +1212,7 @@ De donde obtenemos que:
 		K_{ow} =3200^2 \left[\frac{1}{s^2}\right]
 	\end{matrix}
 \end{equation}
+
 En diagramas de bloques, podemos representar el observador como se ve en la figura:
 \begin{figure}[h!]
 	\centering
@@ -1238,7 +1251,7 @@ se producen escalones de velocidad, lo que a su vez generan impulsos muy grandes
 	\item \textbf{Rechazo a perturbaciones}
 	
 	Se analizará la respuesta del sistema ante cargas externas, considerando valores nominales y variación máxima de los parámetros de carga mecánica física.
-	Para observar mas facilmente los efectos de las perturbaciones se da una consigna de torque motor nula y se perturba al sistema con $T_{l}=6.28 N.m$.
+	Para observar mas facilmente los efectos de las perturbaciones se da una consigna de posición nula y se perturba al sistema con $T_{l}=6.28 N.m$.
 	
 	En la figura \ref{fig:perturbaciones} se puede ver que el sistema presenta un error estacionario ante una perturbación y también que este varía al cambiar los parámetros de carga, en este caso $J_{l}$, vemos además que la mayor variación se da en el transitorio. Por otro lado al variar $b_{l}$ no se notaron cambios por lo que no se graficó. Sin embargo, se puede apreciar que el rechazo a las perturbaciones es prácticamente igual 
 	por lo que el sistema es robusto ante el cambio de estos parámetros dentro de los límites considerados.
@@ -1253,7 +1266,7 @@ se producen escalones de velocidad, lo que a su vez generan impulsos muy grandes
 \subsubsection{Verificación de desempeño y/o mejoras}
 \begin{itemize}
 	\item \textbf{Verificar si se supera/n alguna/s de las Especificaciones de operación}\\
-	En la siguiente tabla (\ref{tab:4}) se visualizará los valores alcansados por las variables del sistema y sus límites. En la figura \ref{fig:parametros} se muestran distintas variables internas de la planta.
+	En la siguiente tabla (\ref{tab:4}) se visualizará los valores alcanzados por las variables del sistema y sus límites. En la figura \ref{fig:parametros} se muestran distintas variables internas de la planta.
 	\begin{table}[h!]
 		\begin{center}
 		\begin{tabular}{| c | c | c | }
@@ -1295,13 +1308,13 @@ Como se muestra en la tabla \ref{tab:4}, el sistema para la consigna planteada s
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{parametros.png}
-	\caption{\label{fig:parametros}Torque, corriente, tensión y temperatura.}
+	\caption{\label{fig:parametros}Torque motor consigna referido al eje de salida de la transmisión $(T^{*'}_{q}=T^{*'}_{m}.r)$, corriente, tensión y temperatura.}
 	\end{figure}
  \end{itemize}
 
  Teniendo en cuenta las restricciones anteriormente planteadas, y que la velocidad mínima para realizar la consigna demandada es $\omega_{m}=395[\frac{rad}{s}]$, concluimos que esta consigna no es alcanzable
- por nuestro sistema, por lo que aumentamos $\Delta t_{ramp}$ a 6s, para el cual necesitaríamos una velocidad mínima $\omega_{m}=332[\frac{rad}{s}]$, lo cual sigue estan fuera de nuestros límites, por ende se propone hacer un debilitamiento
- de campo con $i^{r}_{ds}=-0.4A$ lo que provoca que nuestro límite de velocidad pase a ser $\omega_{m_{max}}=355$, por lo tanto el perfil de velocidad lo vamos a restringir para una velocidad máxima $\omega_{m}=355[\frac{rad}{s}]\rightarrow \omega_{l}=1.13[\frac{rad}{s}]$ y 
+ por nuestro sistema, por lo que aumentamos $\Delta t_{ramp}$ a 6s, para el cual necesitaríamos una velocidad mínima $\omega_{m}=332[\frac{rad}{s}]$, lo cual sigue estando fuera de nuestros límites, por ende se propone hacer un debilitamiento
+ de campo con $i^{r}_{ds}=-0.4A$, lo que provoca que nuestro límite de velocidad pase a ser $\omega_{m_{max}}=355$, por lo tanto el perfil de velocidad lo vamos a restringir para una velocidad máxima $\omega_{m}=355[\frac{rad}{s}]\rightarrow \omega_{l}=1.13[\frac{rad}{s}]$ y 
  $\Delta t_{ramp}=6$ por lo que nuestro perfil queda como se ve en la figura \ref{fig:consignasnuevas}.
  
  \begin{figure}[h!]
@@ -1315,23 +1328,23 @@ Como se muestra en la tabla \ref{tab:4}, el sistema para la consigna planteada s
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.7\textwidth]{consignanuevapara.png}
-		\caption{\label{fig:consignanuevapara}Torque motor, corrientes de fase, temperatura y tensiones de fase}
+		\caption{\label{fig:consignanuevapara}Torque motor consigna referido al eje de salida de la transmisión $(T^{*'}_{q}=T^{*'}_{m}.r)$, corrientes, temperatura y tensiones}
 		\end{figure}
 
 	Las consignas de velocidad y posición son seguidas a la perfección por el motor, aunque en la velocidad se puede observar un pequeño overshoot menor al 0.01 \%, y como se puede observa todas las variables estan dentro de los limites establecidos. Es bueno notar,
 	 que si bien el torque y la corriente estan dentro de los límites de operación presentan overshoots notorios, por lo que si se qusiera disminuir las sacudidas del motor lo más posible, habría que buscar otro perfil.
 	 
-	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constante, lo que provoca que la temperatura del motor suba mas rápidamente a comparación cuando esta es nula que la temperatura prácitcamente no varía.
+	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constante, lo que provoca que la temperatura del motor suba mas rápidamente a comparación cuando esta es nula que la temperatura prácticamente no varía.
 	\newpage
 	\item \textbf{Observador agregado}\\
 	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
 	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
 
-	\begin{equation}
-		\dot{e}(t)=[A-K_{e}C]e(t)+B_{d}d(t); e(t_{0})=x_{0}
+	\begin{eqnarray}
+		\dot{e}(t)=[A-K_{e}C]e(t)+B_{d}d(t); \ e(t_{0})=x_{0}  \ \ \
 		e(t)=x(t)-\tilde{x}(t)
 		\label{eq:2.1.2.x.1}
-	\end{equation}
+	\end{eqnarray}
 	Si los polos del observador se encuentran lo suficientemente lejos del origen para hacer al observador estable y rápido, $e(t)$ tendera a ser nulo si el termino $d(t)$ es nulo, es decir si no existen perturbaciones. Este error permanente se debe a la falta de la acción integral, por tanto a continuación se determinaran
 	los nuevos parámetros del observador con polos ubicados en $p_{1,2,3}=-3200 \frac{rad}{s}$, siendo las nuevas ecuaciones del observador las siguientes:
 	\begin{equation}
@@ -1371,7 +1384,7 @@ Como se muestra en la tabla \ref{tab:4}, el sistema para la consigna planteada s
 Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que aunque
 la temperatura se encuentra dentro de los límites de operación ha aumentado considerablemente y que si se realizan más ciclo se va a tener problemas con esta, por lo que
 se concluye que si la aplicación requiere una operación del motor como la mostrada en la figura \ref{fig:rep}, no se podrá realizar el debilitamiento de campo
- opteniendo una degradación en el seguimiento de la consigna requerida, ya que el motor va a tener que operar a velocidades menores para no sobrepasar los límites de tensión y es probable que se tenga que optar por un
+ obteniendo una degradación en el seguimiento de la consigna requerida, ya que el motor va a tener que operar a velocidades menores para no sobrepasar los límites de tensión y es probable que se tenga que optar por un
  $\Delta t=7 s$. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
  sin debilitamiento de campo es ínfimo. Hay que aclarar que el motor no podría llevar a cabo esta consigna de movimiento sin debilitamiento de campo, ya que se supera el límite de tensión,
   esto se ha realizado únicamente para poder comparar los distintos comportamiento.
@@ -1421,11 +1434,11 @@ Y también que si bien los polos del sistema son todos estables, por estar en el
 \\
 \par
 Por esto es que sería bueno, a futuro, implementar una serie de mejorar que se proponen a continuación.
-Las más importantes que hemos notado son:
+La más importante que hemos notado es:
 \begin{itemize}
-	\item Puede estudiarse un controlador con reforzamiento o debilitamiento de campo, a partir del uso de la corriente en directo.
 	\item Implementar una estrategia de control que contemple la posición (e inercia) del \textbf{resto de las articulaciones} del brazo, ya que la estabilidad de varios polos a lazo cerrado del sistema dependen de este factor.
 \end{itemize}
+
 Entonces como conclusión, en base al desarrollo y análisis sobre los polos, las matrices del sistema y las respuestas a lazo cerrado del mismo.
 Podemos decir que, el sistema es \textbf{controlable}, \textbf{eficiente}, \textbf{robusto} y con buen \textbf{rechazo} a las perturbaciones externas dentro de los rangos establecidos.
 \\

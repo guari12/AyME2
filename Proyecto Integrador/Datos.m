@@ -6,9 +6,6 @@ Tl_carga = 0 ;    %Nm         % +- (escalon)
 
 %% Tren de Transmision
 r = 314.3008; %Relacion de reduccion total
-W0=10000;
-Tau=20;
-W1=4000;
 nl_nom = 21; %rpm
 wl_nom = 2.2; %rad/s
 Tq_nom = 7.26; %Nm
@@ -59,17 +56,23 @@ KowI=3.2768e10;
 ba=0.0113;
 ksa=9.04;
 ksia=2892.8;
+%% Sensores
+%%
+W0=10000;
+Tau=20;
+W1=10000;
 %%
 %%Funcion de transferencia
 %syms Rs Lq2 Pp2 lamb Ld2 Lls2 Jm2 Jl2 r2 bm2 bl2
 Rsref=1.02
-Ts=50
+Ts=40
 
 Rs=1.02
 Jeq1=(Jm+0.2520/r^2);
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
 Kt=(3/2*Pp*lambda_m_r);
+
 C=[0 0 1 0 0] ;
 A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0 0;
     0 -Rs/Ld 0 0 0;
@@ -79,38 +82,38 @@ A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0 0;
 B=[1/Lq 0  0 0 ; 0 0 0 0 ;0 -1/Jeq 0 0; 0 0 0 0;0 0 1/Cts 1/(Rts_amb*Cts) ];
 B=[1/Lq;0;0;0;0]
 D=[0];
-%%Analisis estabilidad
-%%
-sys_dc = ss(A,B,C,D)
-sys_tf = tf(sys_dc)
-sys_zpk = zpk(sys_dc)
-pole(sys_tf)
-pzmap(sys_tf)
-%%Analisis Controlabilidad
-%%
-Co = ctrb(sys_dc)
-unco = length(A) - rank(Co)
-[Abar,Bbar,Cbar,T,k] = ctrbf(A,B,C)
-%%Analisis Observabilidad
-%%
-Ob = obsv(sys_dc)
-% Number of unobservable states
-unob = length(A)-rank(Ob)
-[Abar1,Bbar1,Cbar1,T1,k1] = obsvf(A,B,C) 
-%G=C*inv([s*eye(5,5) -A])*B+D
-%[b,a]=ss2tf(A,B,C,D,2)
-%%
-%roots(a)
-
-%%Punto 6.a
-%%
-Vqsnom=19.596
-tstep1=0.1
-tstep4=0.7
-
-Tlmax=6.28
-tstep2=0.3
-tstep3=0.5
-tstep5=0.9
+% %%Analisis estabilidad
+% %%
+% sys_dc = ss(A,B,C,D)
+% sys_tf = tf(sys_dc)
+% sys_zpk = zpk(sys_dc)
+% pole(sys_tf)
+% %pzmap(sys_tf)
+% %%Analisis Controlabilidad
+% %%
+% Co = ctrb(sys_dc)
+% unco = length(A) - rank(Co)
+% [Abar,Bbar,Cbar,T,k] = ctrbf(A,B,C)
+% %%Analisis Observabilidad
+% %%
+% Ob = obsv(sys_dc)
+% % Number of unobservable states
+% unob = length(A)-rank(Ob)
+% [Abar1,Bbar1,Cbar1,T1,k1] = obsvf(A,B,C) 
+% %G=C*inv([s*eye(5,5) -A])*B+D
+% %[b,a]=ss2tf(A,B,C,D,2)
+% %%
+% %roots(a)
+% 
+% %%Punto 6.a
+% %%
+% Vqsnom=19.596
+% tstep1=0.1
+% tstep4=0.7
+% 
+% Tlmax=6.28
+% tstep2=0.3
+% tstep3=0.5
+% tstep5=0.9
 
 
