@@ -1400,14 +1400,38 @@ se concluye que si la aplicación requiere una operación del motor como la mos
 		\end{figure}
 
 \item \textbf{Respuesta no ideal (ancho de banda limitado) de los sensores y acondicionadores de señal}\\
-Se reemplaza el modelo ideal $G(s)\equiv 1$ para los sensores ausmido hasta aquí, por modelos aproximados equivalentes con características de filtro Pasa Bajos. En la figura \ref{fig:modelocompleto} se presenta el modelo completo del sistema con los sensores no ideales.
+Se reemplaza el modelo ideal $G(s)\equiv 1$ para los sensores asumidos hasta aquí, por modelos aproximados equivalentes con características de filtro Pasa Bajos. En la figura \ref{fig:modelocompleto} se presenta el modelo completo del sistema con los sensores no ideales.\\
+
  \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{modelocompleto.png}
 	\caption{\label{fig:modelocompleto} Modelo completo con sensores no ideales}
 	\end{figure}
 	
-Para medir las corrientes de fase $i_{abcs}(t)$ y la posición angular $\theta_{m}(t)$ se plantea un modelo LP en SS de segundo orden con $\xi=1$. Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer orden con $\tau=20s$.
+Para medir las corrientes de fase $i_{abcs}(t)$ y la posición angular $\theta_{m}(t)$ se plantea un modelo LP en SS de segundo orden con $\xi=1$. 
+Para la implementación de estos sensores se los representó mediante la forma canónica observable en el espacio de estado, así mediante la función de transferencia (ec. \ref{eq:2.1.2.ww.1}) se obtuvo la ecuacion \ref{eq:2.1.2.ww.2}.
+		\begin{equation}
+		G_{sensores}(s)=\frac{\omega_{o}^{2}}{s^{2}+ 2\cdot\xi\cdot\omega_{o}\cdot s + \omega_{0}^{2}}
+			\label{eq:2.1.2.ww.1}
+	\end{equation}
+			\begin{equation}
+\begin{cases}
+\dot{X}(t)=\begin{bmatrix}
+0 & -\omega_{0}^{2}\\ 
+1 & -2\cdot\xi\cdot\omega_{0}
+\end{bmatrix}
+\cdot X(t)  \ + \
+\begin{bmatrix}
+\omega_{0}^{2}\\ 
+0
+\end{bmatrix} \cdot
+u(t)
+\\ 
+Y(t)=[0 \ \ 1]\cdot X(t)
+\end{cases}
+			\label{eq:2.1.2.ww.2}
+	\end{equation}\\
+Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer orden con $\tau=20s$.
 
 En las figuras \ref{fig:theta_consignas} y \ref{fig:omega_sensores} se puede ver la degradación de desempeño del sistema cuando se consideran los sensores no ideal, se puede observar que a medida que se disminuye el ancho de banda de estos
  la respuesta del sistema puede llegar hasta diverger con respecto a la deseada. Por ende se puede concluir que es algo que hay que tener muy presente en el diseño de sistemas de control, por que como se 
