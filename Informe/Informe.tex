@@ -56,9 +56,9 @@ Luego mediante el análisis de las matrices en el espacio de estados, se puede 
 \\
 \par
 En la segunda parte, realizaremos el diseño, análisis y simulación de un controlador de \textbf{Movimiento en Cascada} con \textbf{Modulador de Torque} equivalente, es decir, un \textbf{Control Vectorial}.
-Obteniendo diferentes resultados que permitiran observar los parámetros de operación (corriente, tensión, velocidad y torque).
+Obteniendo diferentes resultados que permitirán observar los parámetros de operación (corriente, tensión, velocidad y torque).
 Además, hay que tener en cuenta y verificar que estos parámetros no excedan los límites especificados de la máquina.
-Finalmente, ajustaremos los parámetros en el Controlador y el Observador, para resolver de manera optima y eficiente, el problema propuesto.
+Finalmente, ajustaremos los parámetros en el Controlador y el Observador, para resolver de manera óptima y eficiente, el problema propuesto.
 Como medidas del rendimiento y desempeño vamos a considerar, el seguimiento de consigna dada (en posición o velocidad), el rechazo a las perturbaciones y la que las variables estén entre los límites admisibles.
 
 \section{Desarrollo}
@@ -81,7 +81,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	En este caso, se considera un valor nominal para estos parámetros, y sus posibles variaciones máximas, pero sin estar relacionado directamente con las posiciones articulares del robot.
 	
 	\item \textbf{Tren de transmisión:}\vspace{0.3cm}\\
-	El tren de transmisión del robot está formado por una caja reductora, reversible, de engranajes planetarios. Se asume acoplamiento \textbf{rígido}, sin elasticidad torsional y sin backlash (juego). Al considerar una transmisión ideal y sin pérdida de potencia, las ecuaciones que la modelan son:
+	El tren de transmisión del robot está formado por una caja reductora, reversible, de engranajes planetarios. Se asume acoplamiento \textbf{rígido}, sin elasticidad torsional y sin backlash (juego). Al considerar una transmisión ideal, las ecuaciones que la modelan son:
 	\begin{equation}
 		\label{eqn:relacionTransmision}
 		\omega_{l}\left ( t \right )=\frac{1}{r}\cdot w_{m}\left ( t \right )
@@ -105,7 +105,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 
 	\item \textbf{Modelo equivalente mecánico (1 GDL):}\vspace{0.3cm}\\
 	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipótesis, que la transmisión es totalmente rígida y sin backlash (juego).
-    Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia.
+    Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia (excepto por la fricción viscosa).
 
 	Bajo estas hipotesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
 	\begin{equation}
@@ -154,14 +154,14 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
     \renewcommand{\theenumi}{\alph{enumi}} %Letras minúsculas
     \item \textbf{Modelo global no lineal (NL)}
     
-    Para definir el modelo completo del sistema, ya abordamos la parte mecánica. Ahora veamos el resto de los subsistemas para terminar de definir el modelo completo de nuestro sistema físico.
+    Para definir el modelo completo del sistema, ya abordamos la parte mecánica. Ahora veremos el resto de los subsistemas para terminar de definir el modelo completo de nuestro sistema físico.
 	\begin{itemize}
 		\item \textbf{Subsistema Electromagnético:}\vspace{0.3cm}\\
-		El motor sincrónico trifásico de CA con excitación por imanes permanentes (PMSM) tiene el estator conectado en estrella (con bornes de fases abcs) y neutro flotante en el centro de la estrella.
-		El subsistema es un sistema simétrico al considerar las tres tensiones de fases de igual amplitud y desfasadas 120 grados eléctricos, y equilibrado al poseer de un neutro flotante.
+		El motor sincrónico trifásico de CA con excitación por imanes permanentes (PMSM) tiene el estator conectado en estrella (con bornes de fases abc) y neutro flotante en el centro de la estrella.
+		El subsistema es un sistema \textbf{simétrico} y \textbf{equilibrado} (por su construcción física), con las tres tensiones de fases de igual amplitud y desfasadas 120 grados eléctricos.
 		\vspace{0.3cm}\\
 		Para modelar esta máquina, haremos uso de la \textbf{transformación de Park}\footnote[1]{\textbf{Transformación de Park:} forma invariante en módulo de resultante vectorial de variables base $f$} del circuito del estator, llegando así a un modelo idealizado equivalente en coordenadas eléctricas \textbf{qd0} fijas al rotor.
-		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al campo eléctrico rotante.
+		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al rotor de la máquina.
 		Y como se trata de un sistema simétrico, luego del transitorio queda totalmente equilibrado, entonces podemos suponer que luego de ese pequeño transitorio $v_{0s}(t)$ tendrá como valor $0$ y se reduce significativamente el número de variables.
 		\vspace{0.3cm}\\
 		Las coordenadas eléctricas del entrehierro $qd0$, fijas al rotor (marco de referencia “sincrónico”) se definen como:
@@ -194,7 +194,8 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 			\label{eqn:expresionNula}
 			v_{0s}^{r}\left ( t \right )=R_{s}\left ( t \right )\cdot i_{0s}^{r}\left ( t \right )+L_{ls}\cdot \frac{\mathrm{d} i_{0s}^{r}\left ( t \right )}{\mathrm{d} t}
 		\end{equation}
-		Se parte del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}. Lo que implica que $i_{0s}^{r}(t)$ tipicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
+		Se parte del supuesto que el sistema eléctrico es \textbf{simétrico}, \textbf{equilibrado} y con \textbf{neutro flotante}.
+		Lo que implica que $i_{0s}^{r}(t)$ típicamente tendrá un valor nulo, por ende su derivada también y así también la tensión $v_{0s}^{r}(t)$.
 		Lo cual significa que la expresión \ref{eqn:expresionNula} se puede considerar nula, sin caer en errores.
 		
 		Este sistema se puede representar en diagramas de bloques en \textbf{Simulink} como se ve en la siguiente figura:
@@ -428,7 +429,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 		\label{eq:2.1.2.c.2}
 	\end{equation}
 
-	Asi el modelo LTI en el espacio de estados es el siguiente  :
+	Así el modelo LTI en el espacio de estados es el siguiente  :
 	
 	\begin{equation}
 	\begin{cases}
@@ -458,35 +459,40 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\end{figure}
 
 	\item\textbf{ Restricción o Ley de Control mínima}.\\
-	Para lograr una $i^{r}_{ds}$ nula y asi obtener el modelo LTI desarrollado en el punto anterior debemos aplicar sobre el eje d la ley de control expresada por la ec. \ref{eq:2.1.2.d.1}.
+	Para lograr una $i^{r}_{ds}$ nula y así obtener el modelo LTI desarrollado en el punto anterior debemos aplicar sobre el eje de la ley de control expresada por la ec. \ref{eq:2.1.2.d.1}.
 	\begin{equation}
 	v^{r}_{ds}(t)=-L_{q}\cdot i^{r}_{qs}(t)\cdot P_{p}\cdot \omega_{m}(t)\ ; i^{r}_{ds}(t_{0})=0
 	\label{eq:2.1.2.d.1}
 	\end{equation}
 	
-	Esta restricción se obtiene al imponer la condición $i^{r}_{ds}\equiv 0$ en la ec.\ref{sist:electrico2}, lo que define una ecuación algebraica que representa una restricción sobre $v^{r}_{ds}(t)$. Asi $v^{r}_{ds}(t)$ deja de ser una variable manipulada. Como podemos ver se ha considerado que la condición inicial de $i^{r}_{ds}$ es nula, ya que si esta no lo fuera tendríamos una dinámica residual de la corriente $i^{r}_{ds}$ lo que provocaría que el modelo no sea lineal en los instantes iniciales, esto lo desarrollaremos en detalle más adelante. Por otro lado para implementar esta ley de control es necesario realimentar a nuestro controlador con las variables de estado $i^{r}_{qs}$ y $\omega_{m}$, y que este genere una consigna de tensiones de fase congruente con dicha restricción. Para ello en el controlador se implementa una transformación directa de Park para así poder trabajar con las tensiones $v^{r}_{qd0s}$, ya que, de la planta sensamos $v_{abcs}$, así generamos nuestras consignas de tensiones $v^{r}_{qd0s}$ y luego mediante una transformación inversa de Park obtenemos las consignas de tensiones de fase $v_{abcs}$, capaces de reproducir dicha restricción, y estas consignas de tensiones se generarán mediante el modulador de tensión, conmutado con modulación de ancho de pulso PWM, en este análisis el modulador de tensión se idealiza considerando solamente las componentes fundamentales, sin armónicos de las ondas de tensión. Esta técnica se denomina \textbf{linealización por realimentación directa no lineal de estado parcial} y obtenemos así el modelo \textbf{NL desacoplado con Ley de control NL}.\\
-     En el diagrama de bloques del modelo NL (figura \ref{fig:ElectricoEquivalente}) podemos observar en rojo el desacoplamiento que esta restricción impone.\\
-     En la figura \ref{fig:diagrestriccionminima} se puede ver la implementación de esta ley de Control en color rojo dentro del controlador parcial.
+	Esta restricción se obtiene al imponer la condición $i^{r}_{ds}\equiv 0$ en la ec.\ref{sist:electrico2}, lo que define una ecuación algebraica que representa una restricción sobre $v^{r}_{ds}(t)$.
+	Así $v^{r}_{ds}(t)$ deja de ser una variable manipulada. Como podemos ver se ha considerado que la condición inicial de $i^{r}_{ds}$ es nula, ya que si esta no lo fuera tendríamos una dinámica residual de la corriente $i^{r}_{ds}$ lo que provocaría que el modelo no sea lineal en los instantes iniciales, esto lo desarrollaremos en detalle más adelante.
+	Por otro lado para implementar esta ley de control es necesario realimentar a nuestro controlador con las variables de estado $i^{r}_{qs}$ y $\omega_{m}$, y que este genere una consigna de tensiones de fase consistente con dicha restricción.
+	Para ello en el controlador se implementa una transformación directa de Park para así poder trabajar con las tensiones $v^{r}_{qd0s}$, ya que, de la planta sensamos las corrientes $i_{abcs}$, así generamos nuestras consignas de tensiones $v^{r}_{qd0s}$ y luego mediante una transformación inversa de Park obtenemos las consignas de tensiones de fase $v_{abcs}$, capaces de reproducir dicha restricción, y estas consignas de tensiones se generarán mediante el modulador de tensión, conmutado con modulación de ancho de pulso PWM, en este análisis el modulador de tensión se idealiza considerando solamente las componentes fundamentales, sin armónicos de las ondas de tensión.
+	Esta técnica se denomina \textbf{linealización por realimentación directa no lineal de estado parcial} y obtenemos así el modelo \textbf{NL desacoplado con Ley de control NL}.\\
+    En el diagrama de bloques del modelo NL (figura \ref{fig:ElectricoEquivalente}) podemos observar en rojo el desacoplamiento que esta restricción impone.\\
+    En la figura \ref{fig:diagrestriccionminima} se puede ver la implementación de esta ley de control en color rojo dentro del controlador parcial.
 
 	
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{realimentacionNL.png}
-	\caption{\label{fig:diagrestriccionminima} Impelementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(rojo), controlador parcial (celeste).}
+	\caption{\label{fig:diagrestriccionminima} Implementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(rojo), controlador parcial (celeste).}
 	\end{figure}
 	
 	\item\textbf{Dinámica residual en el eje d}\\
-	El modelo de la dinamica residual para $i^{r}_{ds}$ al aplicar la ley de control mínima para el caso de que $i^{r}_{ds}(0)\neq 0$ se muestra en la ec.\ref{eq:2.1.2.e.1} y su ecuación de transeferencia esta dada por la ec.\ref{eq:2.1.2.e.2}.
+	El modelo de la dinamica residual para $i^{r}_{ds}$ al aplicar la ley de control mínima para el caso de que $i^{r}_{ds}(0)\neq 0$ se muestra en la ec.\ref{eq:2.1.2.e.1} y aplicando la transformada de Laplace, su respuesta natural está dada por la ec.\ref{eq:2.1.2.e.2}.
 	\begin{equation}
-	\frac{di^{r}_{ds}}{dt}=\frac{R_{s}}{L_{d}}\ i^{r}_{ds}(t)
+	\frac{di^{r}_{ds}}{dt}=-\frac{R_{s}}{L_{d}}\ i^{r}_{ds}(t)
 	\label{eq:2.1.2.e.1}
 	\end{equation}
 	\begin{equation}
-	\frac{I^{r}_{ds}(s)}{E(s)}=\frac{1}{s+\frac{R_{s}}{L_{d}}}
+	\frac{I^{r}_{ds}(s)}{I^{r}_{ds 0}}=\frac{1}{s+\frac{R_{s}}{L_{d}}}
 	\label{eq:2.1.2.e.2}
 	\end{equation}
 	
-	Vemos que la dinámica residual tiene la forma de una ecuación diferencial monótona descendiente con un cero en $s=-154.55$, si consideramos a $Rs$ constante e igual a 1.02. Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje d va a tender rápidamente a cero.
+	Vemos que la dinámica residual tiene la forma de una ecuación diferencial monótona descendiente con un cero en $s=-154.55\ \frac{rad}{s}$, si consideramos a $Rs$ constante e igual a $1.02\ \Omega$.
+	Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje de va a tender rápidamente a cero.
 	Si incorporamos esta dinámica residual a nuestro modelo LTI (ec.\ref{eq:2.1.2.c.4}) obtenemos:
 		\begin{equation}
 		X(t)=\begin{bmatrix}
@@ -507,7 +513,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0&0\\ 
 	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0&0\\
 	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}&0\\
-	0&0&0&0&\frac{R_{s}}{L_{d}}
+	0&0&0&0&-\frac{R_{s}}{L_{d}}
 	\end{bmatrix}\cdot X(t) + \begin{bmatrix}
 	0 &0 &0 &0\\ 
 	0 &\frac{-1}{J_{eq}} &0 &0\\ 
@@ -623,7 +629,7 @@ Siguiendo el mismo procedimiento se puede obtener las funciones de transferencia
 
 \begin{itemize} 
 \item \textbf{Polos y ceros del sistema.}\\
-Para el cálculo de los polos y ceros se tomaron $R_{s}=1.02 \Omega $ y valores nominales de los parámetros de carga.
+Para el cálculo de los polos y ceros se tomaron $R_{s}=1.02\ \Omega $ y valores nominales de los parámetros de carga.
 \subitem \textbf{Subsistema mecánico}\\
 Se calculan los polos y ceros para la variable de estado $\theta_{m}$ a partir de las funciones de transferencias $G^{\theta}_{v^{r}_{qs}}$ (ec.\ref{eq:2.1.2.ff.4}) y $G^{\theta}_{T_{leq}}$ (ec. \ref{eq:2.1.2.ff.5}).
  
@@ -642,11 +648,11 @@ Los polos del sistema se obtienen mediante el polinomio característica (ec. \re
 	\end{equation}
 	
 De donde facilmente se obtiene:\\
-$s_{1}=0$
+$s_{1}=0\ \frac{rad}{s}$
 
 y para calcular los otros polos utilizamos un programa de cálculo como Matlab y asi obtenemos:\\
-$s_{2}=-89.26 + 301.57 i$\\
-$s_{3}=-89.26 - 301.57 i$
+$s_{2}=-89.26 + 301.57 i\ \frac{rad}{s}$\\
+$s_{3}=-89.26 - 301.57 i\ \frac{rad}{s}$
 
 Para calcular la frecuencia natural y el coeficiente de amortiguamiento se obtuvo de la ec. \ref{eq:2.1.2.g.2} la siguiente ecuación :
 
@@ -676,16 +682,19 @@ En la figura \ref{fig:polos} se puede observa los polos en el plano imaginario.
 	\caption{\label{fig:polos}  Polos de $G^{\theta}_{v^{r}_{qs}}$ y $G^{\theta}_{T_{leq}}$}
 	\end{figure}
 
-\subitem \textbf{Subsistema eléctrico}\\
-Apartir de las funciones de transferencias $G^{i^{r}_{qs}}_{v^{r}_{qs}}$ (ec.\ref{eq:2.1.2.ff.6})y $G^{i^{r}_{qs}}_{T_{leq}}$ (ec.\ref{eq:2.1.2.ff.7}) para la salida $i^{r}_{qs}$, se tiene un cero para la entrada $v^{r}_{qs}$ en $s=-2.654$ y dos polos iguales a $s_{2}$ y $s_{3}$.
+	\vspace{0.2cm}
+\subitem \textbf{Subsistema eléctrico}\vspace{0.2cm} \\
+Apartir de las funciones de transferencias $G^{i^{r}_{qs}}_{v^{r}_{qs}}$ (ec.\ref{eq:2.1.2.ff.6})y $G^{i^{r}_{qs}}_{T_{leq}}$ (ec.\ref{eq:2.1.2.ff.7}) para la salida $i^{r}_{qs}$, se tiene un cero para la entrada $v^{r}_{qs}$ en $s=-2.654\ \frac{rad}{s}$ y dos polos iguales a $s_{2}$ y $s_{3}$.
 
-Además la variable de estado $i^{r}_{ds}$ tiene un polo calculado anteriormente en $s=-154,55$, por lo que este sistema tiene una constante de tiempo $\tau=6.47 ms$, lo que demuestra la rapidez de $i^{r}_{ds}$ de la que se hacia hincapié anteriormente.
+Además la variable de estado $i^{r}_{ds}$ tiene un polo calculado anteriormente en $s=-154,55\ \frac{rad}{s}$, por lo que este sistema tiene una constante de tiempo $\tau=6.47 ms$, lo que demuestra la rapidez de $i^{r}_{ds}$ de la que se hacia hincapié anteriormente.
 
 Vemos que ambas variables son estables y que $i^{r}_{qs}$ tiene una respuesta subamortiguada.
-\subitem \textbf{Subsistema térmico}\\
-Calculando las funciones de transferencias  $G^{T_{s}}_{P_{s perd}}$ y $G^{T_{s}}_{T_{amb}}$ encontramos que el subsistema tiene un polo en $s=-0.00833$ con una constante de tiempo $\tau=120 s$, lo que nos dice que es un sistema muy lento pero estable.
+
+\vspace{0.2cm}
+\subitem \textbf{Subsistema térmico}\vspace{0.2cm} \\
+Calculando las funciones de transferencias  $G^{T_{s}}_{P_{s perd}}$ y $G^{T_{s}}_{T_{amb}}$ encontramos que el subsistema tiene un polo en $s=-0.00833\ \frac{rad}{s}$ con una constante de tiempo $\tau=120 s$, lo que nos dice que es un sistema muy lento pero estable.
 \newpage
-\item \textbf{Migración de propiedades.}\\
+\item \textbf{Migración de propiedades.}\vspace{0.2cm}\\
 Se hace necesario evaluar la estabilidad del sistema ante la variación de los parámetros de carga, ya que como sabemos el robot presenta dinámica no lineal acoplada y se considera como aproximación la dinámica de carga `vista' desde el eje de la articualción hombro, asumiendo variación de sus parámetros equivalentes. En la figura \ref{fig:varpolos} se observa como cambian los polos del sistema cuando se varían estos parámetros dentro de sus límites de incertidumbre.
 
 	Se puedo observar como el aumento de $J_{l}$ provoca una pequeña disminución de la parte real y una mayor de la parte imaginaria del polo y se puede concluir que si los limites de incertidumbre son correctos el sistema va a permanecer estable. Por otra lado el la figura \ref{fig:varpolosbl} se puede ver la variación de estos con respecto a $b_{l}$ y se puede concluir que la variación de este parámetro dentro de sus límites de incertidumbre prácticamente no afecta al sistema.
@@ -725,7 +734,7 @@ Se cálculo la observabilidad del modelo LTI (ec .\ref{eq:2.1.2.e.4}) mediante e
 	0 & -\frac{b_{eq}}{J_{eq}} & \frac{3 P_{p} \lambda^{r'}_{m}}{2 J_{eq}} & 0&0\\ 
 	0  & \frac{- P_{p} \lambda^{r'}_{m}}{ L_{q}} & \frac{-R_{s}}{L_{q}} & 0&0\\
 	0 & 0 & 0 & -\frac{1}{R_{ts-amb} C_{ts}}&0\\
-	0&0&0&0&\frac{R_{s}}{L_{d}}
+	0&0&0&0&-\frac{R_{s}}{L_{d}}
 	\end{bmatrix}
 	\label{eq:2.1.2.kk.2}
 	\end{equation}
@@ -818,21 +827,23 @@ NL vs LTI equivalente aumentado}
 	\newpage
 	Partiendo de la transformación inversa de Park y tomando $i^{r}_{ds}(t) \equiv 0$ , $i^{r}_{0s}(t)=0$ y $v^{r}_{0s}(t)=0$ podemos obtener analíticamente la forma de la tensión y corrientes $abcs$.
 	
-	$i_{as}(t)=cos(\theta_{r}(t)).i^{r}_{qs}(t)$\\
-	$i_{bs}(t)=cos(\theta_{r}(t)-\frac{2}{3}\pi).i^{r}_{qs}(t)$\\
-	$i_{cs}(t)=cos(\theta_{r}(t)+\frac{2}{3}\pi).i^{r}_{qs}(t)$\\
-	$v_{as}(t)=cos(\theta_{r}(t)).v^{r}_{qs}(t)$ - $ sin(\theta_{r}(t)). v^{r}_{ds}(t)$\\
-	$v_{bs}(t)=cos(\theta_{r}(t)-\frac{2}{3}\pi).v^{r}_{qs}(t)$-$sin(\theta_{r}(t)-\frac{2}{3}\pi). v^{r}_{ds}(t)$\\
-	$v_{cs}(t)=cos(\theta_{r}(t)+\frac{2}{3}\pi).v^{r}_{qs}(t)$-$sin(\theta_{r}(t)+\frac{2}{3}\pi). v^{r}_{ds}(t)$\\
+	$i_{as}(t)=i^{r}_{qs}(t)\cdot cos(\theta_{r}(t))$\\
+	$i_{bs}(t)=i^{r}_{qs}(t)\cdot cos(\theta_{r}(t)-\frac{2}{3}\pi)$\\
+	$i_{cs}(t)=i^{r}_{qs}(t)\cdot cos(\theta_{r}(t)+\frac{2}{3}\pi)$\\
+	$v_{as}(t)=v^{r}_{qs}(t)\cdot cos(\theta_{r}(t)) + (L_q\cdot i_{ds}^{r}(t)\cdot P_p \cdot \omega_m(t))\cdot sin(\theta_{r}(t))$\\
+	$v_{bs}(t)=v^{r}_{qs}(t)\cdot cos(\theta_{r}(t)-\frac{2}{3}\pi) + (L_q\cdot i_{ds}^{r}(t)\cdot P_p \cdot \omega_m(t))\cdot sin(\theta_{r}(t)-\frac{2}{3}\pi)$\\
+	$v_{cs}(t)=v^{r}_{qs}(t)\cdot cos(\theta_{r}(t)+\frac{2}{3}\pi) + (L_q\cdot i_{ds}^{r}(t)\cdot P_p \cdot \omega_m(t))\cdot sin(\theta_{r}(t)+\frac{2}{3}\pi)$\\
 	
 	Como se puede ver las corrientes y tensiones de fase estatóricas siempre van a estar desfasadas 120° eléctricos, y para el caso planteado la amplitud de las corrientes dependerá únicamente de $i^{r}_{qs}(t)$ y la de las tensiones de $v^{r}_{qs}$ y $v^{r}_{ds}$  .\\
 En la figura \ref{fig:T vs velocidad} se presenta la curva paramétrica torque vs velocidad con la cual es posible evaluar los cuadrantes de operación del sistema. En primer lugar se debe observar como el motor parte del equilibrio estacionario (cuadrado blanco) y se desplaza hacia un punto de equilibrio dinámico (cuadro verde) producto de la consigna de tensión, en este punto el motor se encuentra en el \textbf{primer cuadrante}. En segundo lugar, debido a $T_{l}$ el punto de equilibrio dinámico se traslada al representado por el cuadrado azul, vemos ahora que el torque motor es mayor pero la velocidad menor. Después producto de la nueva consigna de torque $T_{l}$ ahora negativa, vemos que el sistema pasa a operar en el \textbf{segundo cuadrante}(cuadrado rosado), como se observa la velocidad ha aumentado y el torque motor es negativo (mayor tensión inducida que tensión de alimentación), es decir que el motor está frenando. Luego el sistema pasa a operar en el punto dado por el cuadrado violeta debido a que se le ha quitado la alimentación a este y por lo tanto aumenta el torque motor y la acción de frenado del motor hacia el torque de carga, y disminuye la velocidad. Por último al sacar la consigna de $T_{l}$ vemos como el motor comienza a volver hacia el punto de equilibrio estacionario (cuadrado blanco).
 	
 	\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.7\textwidth]{T vs velocidad.png}
-	\caption{\label{fig:T vs velocidad} Curva paramétrica $T_{m}$ vs $\omega_{m}$.}
+		\centering
+		\includegraphics[width=0.7\textwidth]{T_vs_velocidad.png}
+		\caption{\label{fig:T vs velocidad} Curva paramétrica $T_{m}$ vs $\omega_{m}$.}
 	\end{figure}
+
+
 	\newpage
 	\item \textbf{Determinación de velocidad y corriente final de establecimiento luego de cada transitorio, especificaciones en el dominio del tiempo.}
 	
