@@ -117,4 +117,12 @@ D=[0];
 % tstep3=0.5
 % tstep5=0.9
 
+%% Sensores no ideales
 
+zitaEncoder = 1
+wnEncoder = 2000
+
+zitaCorrientes = 1
+wnCorrientes = 9000
+
+tauTemperatura = 20 % seg
