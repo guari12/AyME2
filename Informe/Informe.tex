@@ -585,11 +585,17 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\item $I^{r}_{ds0}(t)>0$: reforzamiento del campo principal, se logra un mayor torque.
 	\item $I^{r}_{ds0}(t)<0$: debilitamiento del campo principal, se logra un menor torque.
 	\end{enumerate}
-	
-	Pero esto es así, cuando se ha desacoplado el acoplamiento con $i^{r}_{ds}$ en el eje q. Vemos que cuando $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A que influyen sobre $\omega_{m}$ (velocidad) y $i^{r}_{qs}$, además se producirá también una migración de los puntos de operación $I^{r}_{qs0}(t)$ y $\Omega_{m0}$.
-	Y se puede observar que dependiendo del valor de $\omega_{m}$ este acoplamiento puede tener el efecto contrario que el explicado anteriormente sobre el torque.
-	Es decir, por ejemplo, si la velocidad y el torque son positivos, y además no se tienen perturbaciones, y afecto al sistema con un valor $I^{r}_{ds0}(t)>0$, esta va disminuir la corriente $i^{r}_{qs}$ y en mayor medida $(L_{d})$ que con la que aumenta el torque $(L_{d}-L_{q})$, por ende el efecto va a ser el contrario, se va a producir un debilitamiento en el torque.
-	Se concluye entonces que si no se desacopla la influencia de $i^{r}_{ds}$ en el eje q, una $i^{r}_{ds}\neq 0$, no solo va a producir un cambio sobre el torque, si no que va a cambiar notablemente la dinámica del sistema (matriz A) y también va a influir considerablemente sobre el punto de operación $I^{r}_{qs0}$.\\
+	Analizando la ecuación \ref{sist:electromagnetico} del par electromagnético,
+	\begin{equation}
+		T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
+	\end{equation}
+	y sabiendo que para máquinas de polos salientes (como es nuestro caso) $L_d > L_q$, entonces si $i_{ds}^{r}(t) > 0$, $T_m$ será de mayor magnitud.
+	Estos cambios en el par de la máquina tendrán efectos sobre la velocidad de la misma, ya que si el sistema es considerado de potencia constante, sucederá que un aumento en el par provoca una disminución en la velocidad angular de máquina y viceversa.
+
+	\\También veamos que cuando cambia $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A (ecuación \ref{eq:2.1.2.f.1}) que influyen sobre $\omega_{m}$ (velocidad) e $i^{r}_{qs}$, además se produce también una migración de los puntos de operación $I^{r}_{qs0}(t)$ y $\Omega_{m0}$.
+	% Y se puede observar que dependiendo del valor de $\omega_{m}$ este acoplamiento puede tener el efecto contrario que el explicado anteriormente sobre el torque.
+	% Es decir, por ejemplo, si la velocidad y el torque son positivos, y además no se tienen perturbaciones, y afecto al sistema con un valor $I^{r}_{ds0}(t)>0$, esta va disminuir la corriente $i^{r}_{qs}$ y en mayor medida $(L_{d})$ que con la que aumenta el torque $(L_{d}-L_{q})$, por ende el efecto va a ser el contrario, se va a producir un debilitamiento en el torque.
+	Se concluye entonces que si no se desacopla la influencia de $i^{r}_{ds}$ en el eje q, una $i^{r}_{ds}\neq 0$, no sólo va a producir un cambio sobre el torque, sino que también va a cambiar notablemente la dinámica del sistema (matriz A) y también va a influir considerablemente sobre el punto de operación $I^{r}_{qs0}$.\\
 	\item \textbf{Función de Transferencia}.
 	
 	Se desarrollará la función de transferencia para el modelo LTI equivalente aumentado, desde ambas entradas $v^{r}_{qs}(t)$ y $T_{l}$ hacia la salida $\omega_{m}(t)$.\\
