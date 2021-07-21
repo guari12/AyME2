@@ -44,9 +44,9 @@ Id0=0;
 
 
 %% Lazo de control
-Kid=5000*Ld;
-Kiq=5000*Lq;
-Ki0=5000*Lls;
+Rd=5000*Ld;
+Rq=5000*Lq;
+R0=5000*Lls;
 
 Koth=9600;
 Kow=307.2e5;
@@ -58,9 +58,9 @@ ksa=9.04;
 ksia=2892.8;
 %% Sensores
 %%
-W0=10000;
+W0=11000;
 Tau=20;
-W1=10000;
+W1=11000;
 %%
 %%Funcion de transferencia
 %syms Rs Lq2 Pp2 lamb Ld2 Lls2 Jm2 Jl2 r2 bm2 bl2
@@ -71,9 +71,9 @@ Rs=1.02
 Jeq1=(Jm+0.2520/r^2);
 beq=(bm+bl/r^2);
 Jeq=(Jm+Jl/r^2);
-Kt=(3/2*Pp*lambda_m_r);
-
-C=[0 0 1 0 0] ;
+KT=(3/2*Pp*lambda_m_r);
+KTd=(Ld-Lq)*3/2*Pp;
+C=[0 0 0 1 0] ;
 A=[-Rs/Lq 0 -(Pp/Lq)*lambda_m_r 0 0;
     0 -Rs/Ld 0 0 0;
     3/2*Pp*lambda_m_r/Jeq 0 -beq/Jeq 0 0;
@@ -88,7 +88,8 @@ D=[0];
 % sys_tf = tf(sys_dc)
 % sys_zpk = zpk(sys_dc)
 % pole(sys_tf)
-% %pzmap(sys_tf)
+% pzmap(sys_tf,'r')
+
 % %%Analisis Controlabilidad
 % %%
 % Co = ctrb(sys_dc)

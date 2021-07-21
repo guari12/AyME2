@@ -1,14 +1,14 @@
-Tmotor_final=out.Tm_id;
+Tmotor_final=out.Tm;
 iq_final=out.iq;
 id_final=out.id;
-vq_final=out.vqs_id;
+vq_final=out.vq;
 vd_final=out.vd;
 ts_final=out.Ts;
 
 subplot(2,2,1)
 plot(Tmotor_final)
 
-legend('T_{m}')
+legend('T^{*}_{q}')
 xlabel('Tiempo [s]','FontWeight','bold','FontSize',12)
 ylabel('N.m','FontWeight','bold','FontSize',12)
 title('')
