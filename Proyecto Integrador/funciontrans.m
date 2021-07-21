@@ -5,43 +5,43 @@ Rsref=1.02
 
 Jlv=[Jl-0.1260 Jl Jl+0.126];
 %blv=[-0.63 0 0.63];
-g=zeros(3,length(Jlv));
-for i=1:length(Jlv)
-%%Analisis estabilidad
-%%
-Jeq1=(Jm+Jlv(i)/r^2);
-sys_tf = tf(1,[Jeq1 ba+bl/r^2 ksa ksia]);
-g(:,i)=pole(sys_tf);
-% pzmap(sys_tf,'o')
-% hold on
-end
-% sys_tf = tf(1, [Jeq*Lq (Rs*Jeq+Lq*beq) (3/2*Pp^2*lambda_m_r^2 + Rs*beq) 0]);
-% s1=tf(1,[Lq/Kiq 1]);
-% s2=tf(1,[Jeq ba+bl/r^2 ksa ksia]);
-% g=pole(sys_tf)
-% g2=pole(s1)
-% g3=pole(s2)
+% g=zeros(3,length(Jlv));
+% for i=1:length(Jlv)
+% %%Analisis estabilidad
+% %%
+% Jeq1=(Jm+Jlv(i)/r^2);
+% sys_tf = tf(1,[Jeq1 ba+bl/r^2 ksa ksia]);
+% g(:,i)=pole(sys_tf);
+% % pzmap(sys_tf,'o')
+% % hold on
+% end
+sys_tf = tf(1, [Jeq*Lq (Rs*Jeq+Lq*beq) (3/2*Pp^2*lambda_m_r^2 + Rs*beq) 0]);
+s1=tf(1,[Lq/Kiq 1]);
+s2=tf(1,[Jeq ba+bl/r^2 ksa ksia]);
+g=pole(sys_tf)
+g2=pole(s1)
+g3=pole(s2)
 
 %%Migracion de parametros
 %%
 figure
-plot(real(g(1,1))+0.01i,'ro')
+plot(real(g(1,1))+0.01i,'rx')
 
 hold on 
-plot(real(g(1,2))+0.01i,'bo')
-plot(real(g(3,3))+0.01i,'ko')
-plot(g(2,1),'ro')
-plot(g(3,1),'ro')
+plot(real(g2(1,1))+0.01i,'bx')
+plot(real(g3(1,1))+0.01i,'kx')
+plot(g(2,1),'rx')
+plot(g(3,1),'rx')
+% 
+% plot(g2(2,1),'bx')
+% plot(g2(3,1),'bx')
 
-plot(g(2,2),'bo')
-plot(g(3,2),'bo')
-
-plot(g(2,3),'ko')
-plot(g(1,3),'ko')
+plot(g3(2,1),'kx')
+plot(g3(3,1),'kx')
 
 grid on
 
-legend('J_{l}=0.126','J_{l}=0.2520','J_{l}=0.378')
+legend('Polos planta original','Polos lazos de corriente','Polos controlador')
 xlabel('real','FontWeight','bold','FontSize',12)
 ylabel('imag','FontWeight','bold','FontSize',12)
 set(gcf,'color','white','Position',[255 69 708 597])
