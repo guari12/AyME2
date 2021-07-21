@@ -1,5 +1,5 @@
 t=0:0.0001:405-0.0001;
-t1=0:0.0001:405-0.0001;
+t1=0:0.0001:5-0.0001;
 % [q,qd,qdd]=trapveltraj([0 2*pi 2*pi 0],length(t),'PeakVelocity',1.5,'EndTime',[ 5 5 5 ]);
 q=zeros(1,length(t));
 q1=zeros(1,length(t1)*3);
@@ -17,7 +17,7 @@ end
 qd=diff(q)/0.0001;
 
 qd_out=timeseries(qd,t(1:end-1),'name','posicion')
-plot(t,q,t(1:end-1),qd,t(1:end-2),qdd,t(1:end-3),qddd);
+plot(t,q,t(1:end-1),qd);
 legend('q_{1}','dq_{1}/dt')
 xlabel('Tiempo [s]','FontWeight','bold','FontSize',12)
 ylabel('rad, rad/s, rad/s^{2}','FontWeight','bold','FontSize',12)
