@@ -1449,22 +1449,38 @@ Para la implementación de estos sensores se los representó mediante la forma c
 			\begin{equation}
 \begin{cases}
 \dot{X}(t)=\begin{bmatrix}
-0 & -\omega_{0}^{2}\\ 
-1 & -2\cdot\xi\cdot\omega_{0}
+0 & 1\\ 
+-\omega_{0}^{2} & -2\cdot\xi\cdot\omega_{0}
 \end{bmatrix}
 \cdot X(t)  \ + \
 \begin{bmatrix}
-\omega_{0}^{2}\\ 
-0
+0\\ 
+1
 \end{bmatrix} \cdot
 u(t)
 \\ 
-Y(t)=[0 \ \ 1]\cdot X(t)
+Y(t)=[\omega_{0}^{2} \ \ 0]\cdot X(t)
 \end{cases}
 			\label{eq:2.1.2.ww.2}
 	\end{equation}\\
-Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer orden con $\tau=20s$.
-
+Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer orden con $\tau=20s$. La función de transferencia de este sensor queda:
+\begin{equation}
+	G_{sensor\ temp.}(s)=\frac{ \frac{1}{\tau } }{ s + \frac{1}{\tau } }
+\end{equation}
+\begin{equation}
+	\begin{cases}
+	\dot{X}(t)=\begin{bmatrix}
+	-\frac{1}{\tau }
+	\end{bmatrix}
+	\cdot X(t)  \ + \
+	\begin{bmatrix}
+	1
+	\end{bmatrix} \cdot
+	u(t)
+	\\ 
+	Y(t)=[\frac{1}{\tau}]\cdot X(t)
+	\end{cases}
+		\end{equation}
 En las figuras \ref{fig:theta_consignas} y \ref{fig:omega_sensores} se puede ver la degradación de desempeño del sistema cuando se consideran los sensores no ideal, se puede observar que a medida que se disminuye el ancho de banda de estos
  la respuesta del sistema puede llegar hasta diverger con respecto a la deseada. Por ende se puede concluir que es algo que hay que tener muy presente en el diseño de sistemas de control, por que como se 
  aprecia en las imagen aparecen errores en los transitorios y estacionarios.
@@ -1487,7 +1503,6 @@ Logramos diseñar, modelar y simular todas las etapas de un controlador de una 
 A pesar de todas las simplificaciones hechas, el estudio de la máquina fue bastante amplio e integrador de todos los conocimientos abordados por la cátedra, sirviendo como referencia de cómo aplicar estos conocimientos en la vida profesional y en sistemas no tan idealizados.
 Pudimos notar que a pesar de la dificultad que presentan las máquinas de CA, con las simplificaciones y estrategias planteadas, el estudio es equivalente al de una máquina de CC.
 Y también que si bien los polos del sistema son todos estables, por estar en el semiplano negativo de la variable s (\textbf{Laplace}), hay una fuerte dependencia con algunos parámetros que hemos considerado constantes.
-\\
 \par
 Por esto es que sería bueno, a futuro, implementar una serie de mejoras que se proponen a continuación.
 La más importante que hemos notado es:
@@ -1497,7 +1512,6 @@ La más importante que hemos notado es:
 
 Entonces como conclusión, en base al desarrollo y análisis sobre los polos, las matrices del sistema y las respuestas a lazo cerrado del mismo.
 Podemos decir que, el sistema es \textbf{controlable}, \textbf{eficiente}, \textbf{robusto} y con buen \textbf{rechazo} a las perturbaciones externas dentro de los rangos establecidos.
-\\
 \par
 A pesar de que falta implementar varias posibles mejoras, que no se llevaron a cabo con el fin de no complejizar más el estudio del sistema.
 Y de las simplificaciones realizadas, como considerar ideales algunas partes del sistema completo.
