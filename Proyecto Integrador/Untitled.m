@@ -2,11 +2,14 @@ t=0:0.0001:15-0.0001;
 t1=0:0.0001:5-0.0001;
 % [q,qd,qdd]=trapveltraj([0 2*pi 2*pi 0],length(t),'PeakVelocity',1.5,'EndTime',[ 5 5 5 ]);
 q=zeros(1,length(t));
+q1=zeros(1,length(t1)*3);
 qd=zeros(1,length(t));
-
-q(1:length(t1))=trapaccel(2*pi,5,0,0,t1,1.45,2.5);
-q(length(t1)+1:2*length(t1))=2*pi;
-q(2*length(t1)+1:end)=trapaccel(0,5,2*pi,0,t1,1.45,2.5);
+q1(1:length(t1))=trapaccel(2*pi,5,0,0,t1,1.45,3);
+q1(length(t1)+1:2*length(t1))=2*pi;
+q1((1+2*length(t1)):end)=trapaccel(0,5,2*pi,0,t1,1.45,3);
+for i=1:1
+ q(length(q1)*(i-1)+1:length(q1)*i)=q1;
+end
 % q_out=timeseries(qd,t,'name','posicion')
 % q_out2=timeseries(q,t,'name','posicion')
 % 

@@ -1,6 +1,6 @@
 function theta=trapaccel(h,T,theta_0,dtheta_0,t,Vmax,Amax)
 
-h=h-theta_0
+h=h-theta_0;
     if h>0
         theta=zeros(1,length(t));
         dtheta=zeros(1,7);
