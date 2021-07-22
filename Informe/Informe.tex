@@ -1060,7 +1060,7 @@ A continuación se diseñará el controlador (``PID'') en cascada con el modulad
 Para obtener la ecuación de transferencia del sistema con el controlador de movimiento partiremos del modulador de torque obtenido en el inciso anterior, lo que nos permite tener un acceso directo a manipular el torque motor.
 Considerando esto, la ecuación del sistema es:
 		\begin{equation}
-	J_{eq}\theta(s)s^{2}+b_{eq}\theta(s)s=T^{`}_{m}(s)-T_{leq}(s) \ ; \ T_{leq}= \frac{T_{l}}{r}
+	J_{eq}\theta(s)s^{2}+b_{eq}\theta(s)s=T^{`}_{m}(s)+K_{T_{d}}\cdot i^{r}_{ds}\cdot i^{r}_{qs}-T_{leq}(s) \ ; \ T_{leq}= \frac{T_{l}}{r}
 	\label{eq:2.1.2.q.1}
 	\end{equation}
 	
@@ -1070,17 +1070,18 @@ La ecuación del controlador PID es:
 	\label{eq:2.1.2.q.2}
 	\end{equation}
 	
-Recordando la ec.\ref{eq:2.1.2.k.7} y la ec. \ref{eq:2.1.2.k.5} se obtiene:
+Recordando la ec.\ref{eq:2.1.2.k.8} y la ec. \ref{eq:2.1.2.k.5} se obtiene:
 
-	\begin{equation}
-	T^{`}_{m}(s)=\frac{1}{\frac{L_{q}}{R_{q}}s+1}[T^{*'}_{m}(s)+b_{m}\omega_{m}(t)] \ ; \ G_{I}(s)=\frac{1}{\frac{L_{q}}{R_{q}}s+1}
+	\begin{eqnarray}
+	T^{`}_{m}(s)=\frac{1}{\frac{L_{q}}{R_{q}}s+1}[T^{*'}_{m}(s)+b_{m}\omega_{m}(t)-K_{T_{d}}\cdot i^{r}_{ds}\cdot i^{r}_{qs}] \ ; \ G_{I}(s)=\frac{1}{\frac{L_{q}}{R_{q}}s+1}
 	\label{eq:2.1.2.q.4}
-	\end{equation}
+	\end{eqnarray}
 
-	\begin{equation}
-	J_{eq}\theta(s)s^{2}+b_{eq}\theta(s)s-G_{I}(s).b_{m}\theta(s)s=G_{I}(s)e_{w}(s)[ba+\frac{1}{s}Ksa + \frac{1}{s^{2}}Ksia]-T_{leq}(s)
+	\begin{eqnarray}
+	J_{eq}\theta(s)s^{2}+b_{eq}\theta(s)s-G_{I}(s).b_{m}\theta(s)s=G_{I}(s)e_{w}(s)[ba+\frac{1}{s}Ksa + \frac{1}{s^{2}}Ksia]-T_{leq}(s) \nonumber \\
+	-\textcolor{red}{G_{I}(s).K_{T_{d}}\cdot i^{r}_{ds}\cdot i^{r}_{qs} + K_{T_{d}}\cdot i^{r}_{ds}\cdot i^{r}_{qs}}
 	\label{eq:2.1.2.q.5}
-	\end{equation}
+	\end{eqnarray}
 	
 Así, mediante estas ecuaciones obtenemos las ecuaciones de transferencias:
  
@@ -1093,7 +1094,7 @@ Así, mediante estas ecuaciones obtenemos las ecuaciones de transferencias:
 	\label{eq:2.1.2.q.6}
 	\end{equation}
 	
-	Si consideramos que el lazo de corriente es lo suficientemente rápido ($G_{I}\equiv 1$), entonces los polos del sistema se determinan por el siguiente polinomio característico:
+	Si consideramos que el lazo de corriente es lo suficientemente rápido ($G_{I}\equiv 1$), entonces se puede desacoplar la influencia de $i^{r}_{ds}$ sobre el torque y los polos del sistema se determinan por el siguiente polinomio característico:
 	\begin{equation}
 	P_{c}=J_{eq}s^{3}+[b_{leq}+ba]s^{2}+sKsa+Ksia; \ b_{leq}= \frac{b_{l}}{r^{2}} 
 	\label{eq:2.1.2.q.7}
@@ -1114,26 +1115,25 @@ Así, mediante estas ecuaciones obtenemos las ecuaciones de transferencias:
 	En la figura \ref{fig:controladorPID} se observa el diagrama en bloques del controlador PID.
 		 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{controladorPID.png}
+	\includegraphics[width=0.7\textwidth]{controladorPID.png}
 	\caption{\label{fig:controladorPID}Controlador PID.}
 	\end{figure}
-	\newpage
 	La ubicación en el plano complejo de los polos del controlador, el regulador de corriente y los polos de la planta original se muestran en la figura \ref{fig:Polosmodelos}, donde se puede ver que el lazo de corriente es mucho más rápido que los demás y que los polos del controlador son más rápidos que los de la planta original.
 	
 	\begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.55\textwidth]{Polosmodelos.png}
+	\includegraphics[width=0.5\textwidth]{Polosmodelos.png}
 	\caption{\label{fig:Polosmodelos}Polos de la planta, lazo de corriente y controlador PID.}
 	\end{figure}
-	
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{PoloJeq.png}
+	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
+	\end{figure}
 	Dado que los polos en la figura \ref{fig:Polosmodelos} fueron graficados para valores nominales de $J_{l}$ y $B_{l}$ y que estos valores nominales pueden variar dentro de los límites especificados por la aplicación, se realizó un análisis de la migración de los polos del controlador con la variación de estos parámetros.
 	La variación de $B_{l}$ no tuvo prácticamente repercusión sobre los polos del sistema.
 	Pero la variación de $J_{l}$, sí produjo cambios considerables sobre los polos de este (figura \ref{fig:PoloJeq}), es por esto que se puede concluir, que el controlador, si bien es estable para todo valor considerado de los parámetros, la inercia presenta una gran influencia sobre la estabilidad de este, por lo que no se descarta que en caso de poseer mayores variaciones sea necesario recurrir a estrategias de control que se adapten en función de la inercia variable del sistema.
-	\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.55\textwidth]{PoloJeq.png}
-	\caption{\label{fig:PoloJeq}Variación de los polos del controlador con $J_{l}$.}
-	\end{figure}
+	
 	
 \subsubsection{Incorporación y diseño de Observador de Estado de orden reducido sólo para la parte mecánica de este controlador}
 
@@ -1446,7 +1446,7 @@ Se verificó la temperatura del bobinado para una operación continua repetitiva
 		\includegraphics[width=0.7\textwidth]{temp.png}
 		\caption{\label{fig:temp}Temperatura del sistema}
 		\end{figure}
-
+\newpage
 \item \textbf{Respuesta no ideal (ancho de banda limitado) de los sensores y acondicionadores de señal}\\
 Se reemplaza el modelo ideal $G(s)\equiv 1$ para los sensores asumidos hasta aquí, por modelos aproximados equivalentes con características de filtro Pasa Bajos. En la figura \ref{fig:modelocompleto} se presenta el modelo completo del sistema con los sensores no ideales.\\
 
