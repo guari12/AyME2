@@ -331,22 +331,22 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{equation}
 		\label{eqn:equilibrioDinamicoSistema}
 		\begin{cases}
-			\dot{\Theta}_{mo}(t)=\Omega_{mo}(t)
+			cte.\simeq \Omega_{mo}(t)
 			\\
 			\\
-			0=\frac{3}{2} \cdot \frac{ P_{p}}{J_{eq}}\cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} \left ( t \right ) \right ] \cdot I_{qso}^{r}\left ( t \right )-\frac{b_{eq}}{J_{eq}}\cdot \Omega_{mo}\left ( t \right )-\frac{T_{eqo}(t)}{J_{eq}}
+			0\simeq \frac{3}{2} \cdot \frac{ P_{p}}{J_{eq}}\cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot I_{dso}^{r} \left ( t \right ) \right ] \cdot I_{qso}^{r}\left ( t \right )-\frac{b_{eq}}{J_{eq}}\cdot \Omega_{mo}\left ( t \right )-\frac{T_{eqo}(t)}{J_{eq}}
 			\\
 			\\
-			0=\frac{V_{qso}^{r}(t)}{L_{q}}-\frac{R_{so}(t)}{L_{q}}\cdot I_{qso}^{r}(t)-\frac{P_{p}}{L_{q}}\cdot [ \lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t) ]\cdot \Omega_{mo}(t)
+			0\simeq \frac{V_{qso}^{r}(t)}{L_{q}}-\frac{R_{so}(t)}{L_{q}}\cdot I_{qso}^{r}(t)-\frac{P_{p}}{L_{q}}\cdot [ \lambda_{m}^{r'}+L_{d}\cdot I_{dso}^{r}(t) ]\cdot \Omega_{mo}(t)
 			\\
 			\\
-			0=\frac{V_{dso}^{r}(t)}{L_{d}}-\frac{R_{so}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t)+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot I_{qso}^{r}(t)\cdot \Omega_{mo}(t)
+			0 \simeq \frac{V_{dso}^{r}(t)}{L_{d}}-\frac{R_{so}\left ( t \right )}{L_{d}}\cdot I_{dso}^{r}(t)+\frac{P_{p}\cdot L_{q}}{L_{d}}\cdot I_{qso}^{r}(t)\cdot \Omega_{mo}(t)
 			\\
 			\\
-			0=\frac{V_{0so}^{r}(t)}{L_{ls}}-\frac{R_{so}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t)
+			0 \simeq \frac{V_{0so}^{r}(t)}{L_{ls}}-\frac{R_{so}\left ( t \right )}{L_{ls}}\cdot I_{0so}^{r}(t)
 			\\
 			\\
-			0=\frac{\frac{3}{2}\cdot R_{so}(t)\cdot \left ( {I_{qso}^{r}}^{2}(t)+{I_{dso}^{r}}^{2}(t)+2\cdot {I_{0so}^{r}}^{2}(t) \right )-\frac{T_{so}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right )}{R_{ts-amb}}}{C_{ts}}
+			0 \simeq \frac{\frac{3}{2}\cdot R_{so}(t)\cdot \left ( {I_{qso}^{r}}^{2}(t)+{I_{dso}^{r}}^{2}(t)+2\cdot {I_{0so}^{r}}^{2}(t) \right )-\frac{T_{so}^{\circ}\left ( t \right )-T_{amb}^{\circ}\left ( t \right )}{R_{ts-amb}}}{C_{ts}}
 			\\
 			\\
 			R_{so}(t)=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{so}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
@@ -1389,7 +1389,7 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 	 
 	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constante, lo que provoca que la temperatura del motor suba mas rápidamente a comparación cuando esta es nula que la temperatura prácticamente no varía.
 	\newpage
-	\item \textbf{Observador agregado}\\
+	\item \textbf{Observador Aumentado}\\
 	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
 	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
 	\begin{eqnarray}
