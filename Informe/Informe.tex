@@ -586,11 +586,6 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\item $I^{r}_{ds0}(t)<0$: debilitamiento del campo principal, se logra un menor torque.
 	\end{enumerate}
 	
-	Analizando la ecuación \ref{sist:electromagnetico} del par electromagnético,
-	\begin{equation}
-		T_{m}\left ( t \right )=\frac{3}{2} \cdot P_{p} \cdot \left [ \lambda_{m}^{r'}+\left ( L_{d}-L_{q} \right )\cdot i_{ds}^{r} \left ( t \right ) \right ] \cdot i_{qs}^{r}\left ( t \right )
-	\end{equation}
-	y sabiendo que para máquinas de polos salientes (como es nuestro caso) $L_d > L_q$, entonces si $i_{ds}^{r}(t) > 0$, $T_m$ será de mayor magnitud.
 	Estos cambios en el par de la máquina tendrán efectos sobre la velocidad de la misma, ya que si el sistema es considerado de potencia constante, sucederá que un aumento en el par provoca una disminución en la velocidad angular de máquina y viceversa.
 
 	También veamos que cuando cambia $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A (ecuación \ref{eq:2.1.2.f.1}) que influyen sobre $\omega_{m}$ (velocidad) e $i^{r}_{qs}$, además se produce también una migración de los puntos de operación $I^{r}_{qs0}(t)$ y $\Omega_{m0}$.
@@ -913,7 +908,7 @@ NL vs LTI equivalente aumentado}
 	\item \textbf{Field forcing and weakening a lazo abierto}
 	
 	Por último, se aplica una consigna de tensión en el eje d, $v^{r \ *}_{ds}(t)=\pm 1.9596 V_{cc}$ en $t=0.5 s$ para evaluar el efecto de reforzamiento y debilitamiento de campo. En las figuras \ref{fig:Tdistintode0} y \ref{fig:wdistintode0} se puede observar el efecto de este para el \textbf{modelo NL desacoplado con Ley de control NL} sobre el torque y la velocidad.\\
-	Se puede observar claramente lo comentado en el inciso \textbf{2.1.2.d}, nada más que ahora $i^{r}_{qs}<0$ por lo que al aplicar la tensión consigna $v^{r \ *}_{ds}(t)= 1.9596 V_{cc}$ se produce un reforzamiento del campo aumentando el torque (lo hace más negativo, es decir, que se tiene el efecto buscado), por otro lado si la consigna de tensión es  $v^{r \ *}_{ds}(t)= -1.9596 V_{cc}$ se produce un cambio en el cuadrante de operación, ya que se pasa a operar en el primer cuadrante, osea que en vez de frenar se motoriza, teniendo ahora un torque positivo, y esto se debe a la migración del punto de operación de $i^{r}_{qs}$ (pasa de ser negativa a positivo) debido al acoplamiento con la corriente $i^{r}_{ds}$ (ec. \ref{eq:2.1.2.e.5}).
+	Se puede observar claramente lo comentado en el inciso \textbf{2.1.2.d}, por lo que al aplicar la tensión consigna $v^{r \ *}_{ds}(t)= 1.9596 V_{cc}$ esta tiene un efecto pequeño sobre el torque pero un mayor efecto sobre $i^{r}_{qs}$. debido a que no se ha desacoplado su influencia sobre el eje q, y dado que $i^{r}_{ds}<0$ se produce un reforzamiento en el torque (lo hace más negativo, es decir, que se tiene el efecto buscado), por otro lado si la consigna de tensión es  $v^{r \ *}_{ds}(t)= -1.9596 V_{cc}$ se produce un cambio en el cuadrante de operación, ya que se pasa a operar en el primer cuadrante, osea que en vez de frenar se motoriza, teniendo ahora un torque positivo, y esto se debe a la migración del punto de operación de $i^{r}_{qs}$ (pasa de ser negativa a positivo) debido al acoplamiento con la corriente $i^{r}_{ds}$ (ec. \ref{eq:2.1.2.e.5}).
 	
 	\begin{figure}[h!]
 	\centering
@@ -921,18 +916,17 @@ NL vs LTI equivalente aumentado}
 	\caption{\label{fig:Tdistintode0} Field forcing and weakening $T_{m}$. \textbf{Modelo NL desacoplado con Ley de control NL }.}
 	\end{figure}
 	
-	\begin{figure}[h!]
+	En la figura \ref{fig:Tdistintode0LTI} se puede ver lo que ocurre para el \textbf{modelo LTI equivalente aumentado}, vemos que aquí el efecto de $i^{r}_{ds}\neq 0$ es mucho menor, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el sistema por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y no influye directamente sobre el punto de operación de $i^{r}_{qs}$, y dado que por las características constructivas del motor $L_{d}$ y $L_{q}$ son muy parecidas, la influencia de este término es significativamente menor en comparación a la de los demás.\\
+	La diferencia de comportamiento entre ambos modelos se da entonces por el acoplamiento NL en el eje q, donde vemos que el reforzamiento y debilitamiento de campo tiene mayor influencia en el modelo NL por este acoplamiento que produce que $i^{r}_{ds}$ refuerce o debilite también $i^{r}_{qs}$ lo que hace que tenga mayor influencia sobre el torque.\\
+	
+		\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{wdistintode0.png}
+	\includegraphics[width=0.65\textwidth]{wdistintode0.png}
 	\caption{\label{fig:wdistintode0} Field forcing and weakening $\omega_{m}$.\textbf{ Modelo NL desacoplado con Ley de control NL .}}
 	\end{figure}
-	
-	En la figura \ref{fig:Tdistintode0LTI} se puede ver lo que ocurre para el \textbf{modelo LTI equivalente aumentado}, vemos que aquí el efecto de $i^{r}_{ds}\neq 0$ es mucho menor, esto se debe a que en este modelo se desacopla la influencia de $i^{r}_{ds}$ sobre el eje q y por lo tanto solo influye en el sistema por el siguiente término: $(L_{d}-L_{q}).i^{r}_{ds}(t).i^{r}_{qs}(t)$ y no influye directamente sobre el punto de operación de $i^{r}_{qs}$, y dado que por las características constructivas del motor $L_{d}$ y $L_{q}$ son muy parecidas, la influencia de este término es significativamente menor en comparación a la de los demás.\\
-	La diferencia de comportamiento entre ambos modelos se da entonces por el acoplamiento NL en el eje q, donde vemos que el reforzamiento y debilitamiento de campo tiene mayor influencia en el modelo NL por este acoplamiento que produce que $i^{r}_{ds}$ refuerce o debilite también $i^{r}_{qs}$ lo que hace que tenga mayor influencia sobre el torque.
-	
 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Tdistintode0LTI.png}
+	\includegraphics[width=0.65\textwidth]{Tdistintode0LTI.png}
 	\caption{\label{fig:Tdistintode0LTI} Field forcing and weakening $T_{m}$.\textbf{ Modelo LTI equivalente aumentado.}}
 	\end{figure}
 \end{itemize}
@@ -1033,7 +1027,7 @@ Si idealizamos el problema y consideramos que los parámetros físicos modelados
 	\end{figure}
 		 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.55\textwidth]{Tmodulador_id.png}
+	\includegraphics[width=0.5\textwidth]{Tmodulador_id.png}
 	\caption{\label{fig:vqmodulador_id}$v^{r}_{qs}$ requerida para una $i^{r}_{ds}\neq0$ sin desacoplamiento de la influencia de $i^{r}_{ds}$ sobre el torque .}
 	\end{figure}
 \end{itemize}
@@ -1052,7 +1046,7 @@ Dado que el efecto de $i^{r}_{ds}$ sobre el torque no es significativo se desaco
 	Como se ve en la figura \ref{fig:TTmodulador_id2}, ahora $i^{r}_{ds}$ no tiene prácticamente efecto sobre el torque, aunque debido a que el lazo de corriente tiene acción proporcional únicamente el desacoplamiento no es exacto. Sin embargo, si tiene efecto sobre $v^{r}_{q}$, figura.\ref{fig:vqmodulador_id2}, muy parecido al mostrado en la figura \ref{fig:vqmodulador_id}.
 		 	\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{TTmodulador_id2.png}
+	\includegraphics[width=0.55\textwidth]{TTmodulador_id2.png}
 	\caption{\label{fig:TTmodulador_id2}Torque total $T_{T}=T^{*'}_{m}-\frac{T_{l}}{r}$ para $i^{r}_{ds}\neq0$ con desacoplamiento de la influencia de $i^{r}_{ds}$ sobre el torque. }
 	\end{figure}
 			 	\begin{figure}[h!]
@@ -1394,6 +1388,7 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 	Las consignas de velocidad y posición son seguidas a la perfección por el motor y como se puede observa en las figuras \ref{fig:consignanuevapara} y \ref{fig:corten} todas las variables estan dentro de los limites establecidos. Es bueno notar que la corrientes $i_{abcs}$ ahora no dependen únicamente de $i^{r}_{qs}$, si no, que también de $i^{r}_{ds}$ como se puede ver en la figura \ref{fig:corten}.
 	 
 	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constante, lo que provoca que la temperatura del motor suba mas rápidamente a comparación cuando esta es nula que la temperatura prácticamente no varía.
+	\newpage
 	\item \textbf{Observador agregado}\\
 	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
 	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
@@ -1425,7 +1420,7 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 	$K_{\omega}=307.2 \times 10^{5} \ \frac{1}{s^{2}}$\\
 	$K_{\omega I}=3.2768 \times  10^{10} \ \frac{1}{s^{3}}$\\
 
-	De esta manera el diagrama de bloques del observador es el mostrado en la figura \ref{fig:observadornuevo}. En la figura \ref{fig:obs} se puede observar el rechazo a una perturbación de carga para una consigna de posición igual a cero.
+	De esta manera el diagrama de bloques del observador es el mostrado en la figura \ref{fig:observadornuevo}. En la figura \ref{fig:obs} se puede observar el rechazo a una perturbación de carga para una consigna de posición igual a cero.\\
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.7\textwidth]{observadornuevo.png}
@@ -1449,7 +1444,7 @@ Se verificó la temperatura del bobinado para una operación continua repetitiva
 	\end{figure}
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.55\textwidth]{temp.png}
+		\includegraphics[width=0.7\textwidth]{temp.png}
 		\caption{\label{fig:temp}Temperatura del sistema}
 		\end{figure}
 
@@ -1517,6 +1512,12 @@ En las figuras \ref{fig:theta_consignas} y \ref{fig:omega_sensores} se puede ver
 	\caption{\label{fig:omega_sensores}Velocidad del sistema con sensores no ideales}
 	\end{figure}
 
+Por último, en la figura \ref{fig:corrientesensores} se muestra el efecto sobre las tensiones y corrientes de fase $abcs$ para sensores de corrientes con $\omega_{0}=11000 \frac{rad}{s}$ y de posición con $\omega_{0}=9000 \frac{rad}{s}$. Como vemos, en este caso la tensión es una variable a tener muy encuenta ya que aumenta, pudiendo provocar que si no la tenemos en cuenta operemos fuera de los límites establecidos para esta. En este caso la tensión pico subió a $19.27 V$ por lo que seguimos dentro de nuestro límites, pero si tenemos sensores con un bando de ancho más limitado, se deberá revaluar la consigna propuesta ya que muy posiblemente se supere los límites de tensión.
+ \begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{corrientesensores.png}
+	\caption{\label{fig:corrientesensores}Tensiones y corrientes de fase $abcs$ para sensores no ideales}
+	\end{figure}
 \end{itemize}
 
 \newpage

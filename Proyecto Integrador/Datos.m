@@ -123,6 +123,6 @@ zitaEncoder = 1
 wnEncoder = 2000
 
 zitaCorrientes = 1
-wnCorrientes = 9000
+wnCorrientes = 10000
 
 tauTemperatura = 20 % seg
