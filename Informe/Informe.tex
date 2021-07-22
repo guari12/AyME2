@@ -1339,19 +1339,11 @@ Pero se puede observar que hay sobrepicos en ambas figuras, esto se debe a que l
 		\begin{center}
 		\begin{tabular}{| c | c | c | }
 		\hline
-<<<<<<< HEAD
 		  & Valores medidos & Valor nominal  \\ \hline
 		 Tension de fase (V) & 1889 (Pico), 18.4 (R. continuo) & 19.5959\\ \hline
 		 Vel. rotor [rad/s]& 556.2 (Pico) 395 (R. continuo)&  691.15\\ \hline
 		Corriente (R. continuo) (A) &0.085 & 0.5656\\ \hline
 		Corriente (corta duración) (A) &52.82 &2.8284\\ \hline
-=======
-		&Valores medidos & Valor nominal  \\ \hline
-		Tensión de fase (V) & 1889 (Pico), 18.4 (R. continuo) & 13.86\\ \hline
-		Vel. rotor [rad/s]& 577 (Pico) 395 (R. continuo)&  691.15\\ \hline
-		Corriente (R. continuo) (A) &0.089 & 0.4\\ \hline
-		Corriente (corta duración) (A) &49.33 &2\\ \hline
->>>>>>> c00f4e80faa365fdba243f976d5d11373f5664a0
 		Temperatura (°C) &54.1 & 115\\ \hline
 		Torque corta duración (N.m) & 1425 & 29.42\\ \hline
 		Torque R. continuo (N.m) & 0 & 7.26\\ \hline
@@ -1366,14 +1358,9 @@ Pero se puede observar que hay sobrepicos en ambas figuras, esto se debe a que l
 Como se muestra en la tabla \ref{tab:4}, el sistema para la consigna planteada supera ampliamente los límites establecidos, por lo que es necesario remendar esta situación, ya que si se opera en estas condiciones, se dañaría gravemente al sistema.
 Se puede concluir que la causa de esto es la consigna de posición sugerida, ya que está, sobre exige al sistema provocando que este opere fuera de sus límites.
 
-De esta manera se procedió a cambiar la forma de esta consigna, eligiendo un perfil trapezoidal de velocidad para el cual vamos a tener en cuenta las siguientes restricciones:
-
-<<<<<<< HEAD
  De esta manera se procedió a cambiar la forma de esta consigna, elegiendo un perfil trapezoidal de aceleración para el cual vamos a tener en cuenta las siguientes restricciones:
- \begin{itemize}
-=======
+
 \begin{itemize}
->>>>>>> c00f4e80faa365fdba243f976d5d11373f5664a0
 	 \item Restricción de velocidad: Como ya se mencionó anteriormente la velocidad es directamente proporcional a la tensión por lo que en el caso de nuestro motor, la velocidad
 	 va a estar limitada por la tensión pico máxima de fase admisible, \textbf{$V_{sfnom}=19.5656 V$}, la cual a partir de la ec.\ref{eq:2.1.2.i.2} nos permite calcular nuestra velocidad
 	 máxima, siendo esta $\omega_{m}=419.86\frac{rad}{s}$, de esta manera esta queda limitada por el subsistema electrico y no por la parte mecánica, ya que, el tren de transmisión nos 
@@ -1410,7 +1397,6 @@ De esta manera se procedió a cambiar la forma de esta consigna, eligiendo un pe
 		\includegraphics[width=0.7\textwidth]{consignanuevapara.png}
 		\caption{\label{fig:consignanuevapara}Torque motor consigna referido al eje de salida de la transmisión $(T^{*'}_{q}=T^{*'}_{m}.r)$, corrientes, tensiones y temperatura}
 		\end{figure}
-<<<<<<< HEAD
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{corten.png}
@@ -1419,14 +1405,7 @@ De esta manera se procedió a cambiar la forma de esta consigna, eligiendo un pe
 	Las consignas de velocidad y posición son seguidas a la perfección por el motor y como se puede observa en las figuras \ref{fig:consignanuevapara} y \ref{fig:corten} todas las variables estan dentro de los limites establecidos. Es bueno notar que la corrientes $i_{abcs}$ ahora no dependen únicamente de $i^{r}_{qs}$, si no, que también de $i^{r}_{ds}$ como se puede ver en la figura \ref{fig:corten}.
 	 
 	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distanta de cero constante, lo que provoca que la temperatura del motor suba mas rápidamente a comparación cuando esta es nula que la temperatura prácticamente no varía.
-=======
-
-	Las consignas de velocidad y posición son seguidas a la perfección por el motor, aunque en la velocidad se puede observar un pequeño overshoot menor al 0.01 \%, y como se puede observar todas las variables están dentro de los límites establecidos.
-	Es bueno notar, que si bien el torque y la corriente están dentro de los límites de operación presentan overshoots notorios, por lo que si se quisiera disminuir las sacudidas del motor lo más posible, habría que buscar otro perfil.
-	 
-	Una desventaja importante del debilitamiento de campo es que se tiene una corriente $i^{r}_{ds}$ distinta de cero constante, lo que provoca que la temperatura del motor suba más rápidamente a comparación cuando esta es nula que la temperatura prácticamente no varía.
-	\newpage
->>>>>>> c00f4e80faa365fdba243f976d5d11373f5664a0
+	
 	\item \textbf{Observador agregado}\\
 	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
 	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
@@ -1472,11 +1451,7 @@ De esta manera se procedió a cambiar la forma de esta consigna, eligiendo un pe
 		\end{figure}
 
 \item \textbf{Comportamiento térmico}\\
-Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que aunque
-la temperatura se encuentra dentro de los límites de operación ha aumentado considerablemente y que si se realizan más ciclo se va a tener problemas con esta, por lo que
-se concluye que si la aplicación requiere una operación del motor como la mostrada en la figura \ref{fig:rep}, no se podrá realizar el debilitamiento de campo
- obteniendo una degradación en el seguimiento de la consigna requerida, ya que el motor va a tener que operar a velocidades menores para no sobrepasar los límites de tensión y es probable que se tenga que optar por un
- $\Delta t=7 s$. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
+Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que la temperatura después de varios ciclos llego a su equilibrio térmico dentro del límite establecido, por lo que el motor puede operar sin problemas para un cíclo repitivo de la consigna propuesta. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
  sin debilitamiento de campo es ínfimo. Hay que aclarar que el motor no podría llevar a cabo esta consigna de movimiento sin debilitamiento de campo, ya que se supera el límite de tensión,
   esto se ha realizado únicamente para poder comparar los distintos comportamientos.
   \begin{figure}[h!]
