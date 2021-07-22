@@ -477,7 +477,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\textwidth]{realimentacionNL.png}
-	\caption{\label{fig:diagrestriccionminima} Implementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(rojo), controlador parcial (celeste).}
+	\caption{\label{fig:diagrestriccionminima} Implementación controlador parcial con restricción mínima (rojo) y con restricción complementaria (naranja). Planta (verde), sensores(magenta), controlador parcial (celeste clarito).}
 	\end{figure}
 	
 	\item\textbf{Dinámica residual en el eje d}\\
@@ -707,7 +707,7 @@ Calculando las funciones de transferencias  $G^{T_{s}}_{P_{s perd}}$ y $G^{T_{s}
 \item \textbf{Migración de propiedades.}\vspace{0.2cm}\\
 Se hace necesario evaluar la estabilidad del sistema ante la variación de los parámetros de carga, ya que como sabemos el robot presenta dinámica no lineal acoplada y se considera como aproximación la dinámica de carga `vista' desde el eje de la articulación hombro, asumiendo variación de sus parámetros equivalentes. En la figura \ref{fig:varpolos} se observa como cambian los polos del sistema cuando se varían estos parámetros dentro de sus límites de incertidumbre.
 
-	Se puede observar como el aumento de $J_{l}$ provoca una pequeña disminución de la parte real y una mayor de la parte imaginaria del polo y se puede concluir que si los límites de incertidumbre son correctos el sistema va a permanecer estable. Por otra lado el la figura \ref{fig:varpolosbl} se puede ver la variación de estos con respecto a $b_{l}$ y se puede concluir que la variación de este parámetro dentro de sus límites de incertidumbre prácticamente no afecta al sistema.
+	Se puede observar como el aumento de $J_{l}\ [kg\cdot m^2]$ provoca una pequeña disminución de la parte real y una mayor de la parte imaginaria del polo y se puede concluir que si los límites de incertidumbre son correctos el sistema va a permanecer estable. Por otra lado el la figura \ref{fig:varpolosbl} se puede ver la variación de estos con respecto a $b_{l}\ [\frac{N\cdot m}{rad/s}]$ y se puede concluir que la variación de este parámetro dentro de sus límites de incertidumbre prácticamente no afecta al sistema.
 	
 	\begin{figure}[h!]
 	\centering
@@ -787,7 +787,7 @@ NL vs LTI equivalente aumentado}
 
 \item \textbf{Respuesta del estado interno a pulso de consigna de tensión de estator en eje q, superpuesto con doble pulso de torque de carga.}
 	
-	En la figura \ref{fig:iq_LTIvsNL} se puede observar que la corriente establecida en el eje q es igual para ambos modelos, tanto cuando $i^{r}_{ds}(0)=0$ como cuando $i^{r}_{ds}(0)=\pm 0.5$ esto se debe a que como puede verse en la figura \ref{fig:ids}, $i^{r}_{ds}$ decrece rápidamente a cero antes que se establezca la consigna $v^{r}_{qs}$, por lo que al estar la máquina estática esta no tiene efecto alguno sobre el sistema y por lo tanto no se produce acoplamiento de esta sobre el eje q ni tiene efecto sobre el torque, es decir, que esta corriente inicial solamente se va a disipar en el bobinado estatórico.
+	En la figura \ref{fig:iq_LTIvsNL} se puede observar que la corriente establecida en el eje q es igual para ambos modelos, tanto cuando $i^{r}_{ds}(0)=0$ como cuando $i^{r}_{ds}(0)=\pm 0.5\ A$ esto se debe a que como puede verse en la figura \ref{fig:ids}, $i^{r}_{ds}$ decrece rápidamente a cero antes que se establezca la consigna $v^{r}_{qs}$, por lo que al estar la máquina estática esta no tiene efecto alguno sobre el sistema y por lo tanto no se produce acoplamiento de esta sobre el eje q ni tiene efecto sobre el torque, es decir, que esta corriente inicial solamente se va a disipar en el bobinado estatórico.
 	Es por esto que las demás figuras únicamente se graficaron para el modelo NL, ya que presentan el mismo comportamiento para el modelo LTI para la entrada dada como consigna, independientemente de $i^{r}_{ds}(0)$.\\
 			\begin{figure}[h!]
 	\centering
@@ -801,7 +801,7 @@ NL vs LTI equivalente aumentado}
 	\includegraphics[width=0.45\textwidth]{ids.png}
 	\caption{\label{fig:ids} $i^{r}_{ds}$vs t.}
 	\end{figure}
-	Producto del forzamiento de $i^{r}_{ds}=0$ podemos ver que el sistema se comporta como un motor de CC, ya que la velocidad del motor depende de manera proporcional al voltaje de entrada e inversamente proporcional al torque de carga esto se puede ver claramente observando la figura \ref{fig:theta_m} y la figura \ref{fig:vd_vq}, vemos que luego de afectar con el escalón $v^{r}_{qs}$ la velocidad después de un transitorio se establece constante, lo mismo ocurre en $t=0.3$ cuando se afecta al sistema con un escalón $T_{l}$ provocando una disminución de la velocidad.
+	Producto del forzamiento de $i^{r}_{ds}=0$ podemos ver que el sistema se comporta como un motor de CC, ya que la velocidad del motor depende de manera proporcional al voltaje de entrada e inversamente proporcional al torque de carga esto se puede ver claramente observando la figura \ref{fig:theta_m} y la figura \ref{fig:vd_vq}, vemos que luego de afectar con el escalón $v^{r}_{qs}$ la velocidad después de un transitorio se establece constante, lo mismo ocurre en $t=0.3\ s$ cuando se afecta al sistema con un escalón $T_{l}$ provocando una disminución de la velocidad.
 	También hay que notar el excesivo sobrepico en $i^{r}_{qs}$ producto de la consigna de tensión, lo que indica que no es buena práctica afectar al sistema con este tipo de entradas, se puede también observar el aumento de la corriente por la entrada de torque, dado que el sistema necesitará mayor torque motor para contrarrestar este.\\
 	
 	\begin{figure}[h!]
