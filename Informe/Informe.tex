@@ -107,7 +107,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	A continuación vamos a hacer unas simplificaciones sobre las ecuaciones de los subsistemas mecánicos, con el fin de reducir la complejidad del problema y teniendo en cuenta como hipótesis, que la transmisión es totalmente rígida y sin backlash (juego).
     Esto significa, que todo el movimiento a la entrada del reductor, se transmite a la salida con una relación lineal. Con el torque, sucede lo mismo, hay una transmisión lineal y sin pérdidas de potencia (excepto por la fricción viscosa).
 
-	Bajo estas hipotesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
+	Bajo estas hipótesis, despejamos $T_{d}$ de la ecuación \ref{eqn:torqueTransmision} y lo reemplazamos en la ecuación \ref{eqn:sistMecanicoMotor}:
 	\begin{equation}
 		\label{eqn:paso1sistMecanico}
 		J_{m}\cdot \dot{\omega }_{m}\left ( t \right )=T_{m}\left ( t \right )-b_{m}\cdot \omega_{m}\left ( t \right )-\frac{T_{q}\left ( t \right )}{r}
@@ -158,7 +158,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\begin{itemize}
 		\item \textbf{Subsistema Electromagnético:}\vspace{0.3cm}\\
 		El motor sincrónico trifásico de CA con excitación por imanes permanentes (PMSM) tiene el estator conectado en estrella (con bornes de fases abc) y neutro flotante en el centro de la estrella.
-		El subsistema es un sistema \textbf{simétrico} y \textbf{equilibrado} (por su construcción física), con las tres tensiones de fases de igual amplitud y desfasadas 120 grados eléctricos.
+		El subsistema es un sistema \textbf{simétrico} y \textbf{equilibrado} (por su construcción física), con las tres corrientes de fase de igual amplitud y desfasadas 120 grados eléctricos.
 		\vspace{0.3cm}\\
 		Para modelar esta máquina, haremos uso de la \textbf{transformación de Park}\footnote[1]{\textbf{Transformación de Park:} forma invariante en módulo de resultante vectorial de variables base $f$} del circuito del estator, llegando así a un modelo idealizado equivalente en coordenadas eléctricas \textbf{qd0} fijas al rotor.
 		La transformación de Park nos permite referenciar nuestras variables a un marco de referencia que gira junto al rotor de la máquina.
@@ -256,7 +256,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 				R_{s}\left ( t \right )=R_{sREF}\cdot \left ( 1+\alpha_{Cu}\cdot \left ( {T_{s}}^{\circ}\left ( t \right )-{T_{sREF}}^{\circ} \right ) \right )
 			\end{cases}
 		\end{equation}
-		Este modelo contiene varias \textbf{no linealidades} al contener productos de variables de estado y también al depender varias de esas ecuaciones de $R_{s}$, que a su vez depende de la temperatura ${T_{s}}^{\circ}$ que es una variable de estado que varia en el tiempo $t$.
+		Este modelo contiene varias \textbf{no linealidades} al contener productos de variables de estado y también al depender varias de esas ecuaciones de $R_{s}$, que a su vez depende de la temperatura ${T_{s}}^{\circ}$ que es una variable de estado que varía en el tiempo $t$.
 		\\
 		\\
 		Este modelo \textbf{NL} puede ser representado mediante diagramas de bloques en \textbf{Simulink} como se observa en la figura \ref{fig:ElectricoEquivalente}.
@@ -278,7 +278,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
     \end{equation}
     donde $f$ es una función vectorial \textbf{NL} de $n\times 1$ elementos que está en función del vector de estados $x$.
     El número $n$ es el orden del sistema y la solución de $x(t)$ representa una curva en el espacio de estado \textbf{(trayectoria de estado)}.
-    Asumiendo que cada variable se pueden expresar como
+    Asumiendo que $f$ no varía con el tiempo $t$ y  que cada variable se pueden expresar como
     \begin{equation}
         z\left ( t \right )\equiv Z_{0} + \Delta z\left ( t \right )
     \end{equation}
@@ -491,7 +491,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	\label{eq:2.1.2.e.2}
 	\end{equation}
 	
-	Vemos que la dinámica residual tiene la forma de una ecuación diferencial monótona descendiente con un cero en $s=-154.55\ \frac{rad}{s}$, si consideramos a $Rs$ constante e igual a $1.02\ \Omega$.
+	Vemos que la dinámica residual tiene la forma de una ecuación diferencial monótona descendente con un cero en $s=-154.55\ \frac{rad}{s}$, si consideramos a $Rs$ constante e igual a $1.02\ \Omega$.
 	Por lo que podemos concluir que ante un estado inicial distinto de cero la corriente en el eje de va a tender rápidamente a cero.
 	Si incorporamos esta dinámica residual a nuestro modelo LTI (ec.\ref{eq:2.1.2.c.4}) obtenemos:
 		\begin{equation}
@@ -531,7 +531,7 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 
 	
 
-	Donde vemos que ahora nuestro vector de estado (ec.\ref{eq:2.1.2.e.3}) tiene un estado más y las entradas son las definidas por la ec.\ref{eq:2.1.2.c.2}. Como podemos ver, ahora $i^{r}_{ds}$ puede ser distinta de cero, sin embargo no se ha considerado el \textbf{acoplamiento residual NL con el eje q} dado por la ec. \ref{eq:2.1.2.e.5} y esto se debe a que como comentamos mas arriba la dinámica residual de este eje es monótona descendiente por lo que rápidamente $i^{r}_{ds}$ decae a cero, por ende, en régimen forzado esta no va a tener influencia sobre el \textbf{eje q}.
+	Donde vemos que ahora nuestro vector de estado (ec.\ref{eq:2.1.2.e.3}) tiene un estado más y las entradas son las definidas por la ec.\ref{eq:2.1.2.c.2}. Como podemos ver, ahora $i^{r}_{ds}$ puede ser distinta de cero, sin embargo no se ha considerado el \textbf{acoplamiento residual NL con el eje q} dado por la ec. \ref{eq:2.1.2.e.5} y esto se debe a que como comentamos más arriba la dinámica residual de este eje es monótona descendiente por lo que rápidamente $i^{r}_{ds}$ decae a cero, por ende, en régimen forzado esta no va a tener influencia sobre el \textbf{eje q}.
 	
 	\begin{equation}
 	v^{r*}_{qs}(t)=L_{d}. i^{r}_{ds}(t).P_{p}.\omega_{m}(t)
@@ -581,12 +581,12 @@ En el sistema físico real hay varios subsistemas mecánicos los cuales detallar
 	Por la ecuación del torque electromagnético (ec. \ref{sist:electromagnetico}) y recordando que estamos trabajando con una máquina de polos salientes, por lo que $L_{d}$ > $L_{q}$ , se pueden deducir tres casos:
 	
 	\begin{enumerate}
-	\item $I^{r}_{ds0}(t)=0$: el flujo concatenado esta afectado únicamente por los imanes permanentes.
+	\item $I^{r}_{ds0}(t)=0$: el flujo concatenado está afectado únicamente por los imanes permanentes.
 	\item $I^{r}_{ds0}(t)>0$: reforzamiento del campo principal, se logra un mayor torque.
 	\item $I^{r}_{ds0}(t)<0$: debilitamiento del campo principal, se logra un menor torque.
 	\end{enumerate}
 	
-	Estos cambios en el par de la máquina tendrán efectos sobre la velocidad de la misma, ya que si el sistema es considerado de potencia constante, sucederá que un aumento en el par provoca una disminución en la velocidad angular de máquina y viceversa.
+	Estos cambios en el par de la máquina tendrán efectos sobre la velocidad de la misma, ya que si el sistema es considerado de potencia constante, sucederá que un aumento en el par provoca una disminución en la velocidad angular de la máquina y viceversa.
 
 	También veamos que cuando cambia $I^{r}_{ds0}(t)\neq 0$ se produce una migración de los parámetros de la matriz A (ecuación \ref{eq:2.1.2.f.1}) que influyen sobre $\omega_{m}$ (velocidad) e $i^{r}_{qs}$, además se produce también una migración de los puntos de operación $I^{r}_{qs0}(t)$ y $\Omega_{m0}$.
 	% Y se puede observar que dependiendo del valor de $\omega_{m}$ este acoplamiento puede tener el efecto contrario que el explicado anteriormente sobre el torque.
