@@ -1341,7 +1341,7 @@ Pero se puede observar que hay sobrepicos en ambas figuras, esto se debe a que l
 Como se muestra en la tabla \ref{tab:4}, el sistema para la consigna planteada supera ampliamente los límites establecidos, por lo que es necesario remendar esta situación, ya que si se opera en estas condiciones, se dañaría gravemente al sistema.
 Se puede concluir que la causa de esto es la consigna de posición sugerida, ya que está, sobre exige al sistema provocando que este opere fuera de sus límites.
 
- De esta manera se procedió a cambiar la forma de esta consigna, elegiendo un perfil trapezoidal de aceleración para el cual vamos a tener en cuenta las siguientes restricciones:
+ De esta manera se procedió a cambiar la forma de esta consigna, eligiendo un perfil trapezoidal de aceleración para el cual vamos a tener en cuenta las siguientes restricciones:
 
 \begin{itemize}
 	 \item Restricción de velocidad: Como ya se mencionó anteriormente la velocidad es directamente proporcional a la tensión por lo que en el caso de nuestro motor, la velocidad
@@ -1364,8 +1364,8 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 
  Teniendo en cuenta las restricciones anteriormente planteadas, y que la velocidad mínima para realizar la consigna demandada es $\omega_{m}=395[\frac{rad}{s}]$ (perfil trapezoidal en posición), concluimos que esta consigna no es alcanzable
  por nuestro sistema, por lo cual se propone hacer un debilitamiento
- de campo con $i^{r}_{ds}=-0.4A$, lo que provoca que nuestro límite de velocidad pase a ser $\omega_{m_{max}}=488$, por lo tanto el perfil de velocidad lo vamos a restringir para una velocidad máxima $\omega_{m}=455[\frac{rad}{s}]\rightarrow \omega_{l}=1.45[\frac{rad}{s}]$ y 
- $\Delta t_{ramp}=5$ por lo que nuestro perfil queda como se ve en la figura \ref{fig:consignasnuevas}. Como se ve el jerk es menor al límite impuesto.
+ de campo con $i^{r}_{ds}=-0.4A$, lo que provoca que nuestro límite de velocidad pase a ser $\omega_{m_{max}}=488[\frac{rad}{s}]$, por lo tanto el perfil de velocidad lo vamos a restringir para una velocidad máxima $\omega_{m}=455[\frac{rad}{s}]\rightarrow \omega_{l}=1.45[\frac{rad}{s}]$ y 
+ $\Delta t_{ramp}=5s$ por lo que nuestro perfil queda como se ve en la figura \ref{fig:consignasnuevas}. Como se ve el jerk es menor al límite impuesto.
  
  \begin{figure}[h!]
 	\centering
@@ -1392,7 +1392,6 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 	\item \textbf{Observador agregado}\\
 	Como ya se analizó anteriormente el observador presenta error de estado estacionario ante perturbaciones de carga dado que es un observador PD. 
 	Estos no son capaces de observar las perturbaciones externas de la planta observable. Si se analiza la dinámica del error de observación:
-
 	\begin{eqnarray}
 		\dot{e}(t)=[A-K_{e}C]e(t)+B_{d}d(t); \ e(t_{0})=x_{0}  \ \ \
 		e(t)=x(t)-\tilde{x}(t)
@@ -1434,7 +1433,7 @@ Se puede concluir que la causa de esto es la consigna de posición sugerida, ya 
 		\end{figure}
 
 \item \textbf{Comportamiento térmico}\\
-Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que la temperatura después de varios ciclos llego a su equilibrio térmico dentro del límite establecido, por lo que el motor puede operar sin problemas para un cíclo repitivo de la consigna propuesta. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
+Se verificó la temperatura del bobinado para una operación continua repetitiva del ciclo especificado anteriormente (figura \ref{fig:rep}) y se observó que la temperatura después de varios ciclos llego a su equilibrio térmico dentro del límite establecido, por lo que el motor puede operar sin problemas para un ciclo repetitivo de la consigna propuesta. Por último en la figura \ref{fig:temp} se muestra la temperatura para la misma operación con y sin debilitamiento de campo, y se puede observar que el crecimiento de la temperatura
  sin debilitamiento de campo es ínfimo. Hay que aclarar que el motor no podría llevar a cabo esta consigna de movimiento sin debilitamiento de campo, ya que se supera el límite de tensión,
   esto se ha realizado únicamente para poder comparar los distintos comportamientos.
   \begin{figure}[h!]
@@ -1499,7 +1498,7 @@ Para sensar la temperatura $T°_{s}(t)$ se propone un modelo LP en SS de primer 
 	\end{cases}
 		\end{equation}
 En las figuras \ref{fig:theta_consignas} y \ref{fig:omega_sensores} se puede ver la degradación de desempeño del sistema cuando se consideran los sensores no ideal, se puede observar que a medida que se disminuye el ancho de banda de estos
- la respuesta del sistema puede llegar hasta diverger con respecto a la deseada. Por ende se puede concluir que es algo que hay que tener muy presente en el diseño de sistemas de control, por que como se 
+ la respuesta del sistema puede llegar hasta divergir con respecto a la deseada. Por ende se puede concluir que es algo que hay que tener muy presente en el diseño de sistemas de control, por que como se 
  aprecia en las imagen aparecen errores en los transitorios y estacionarios.
  \begin{figure}[h!]
 	\centering
@@ -1512,7 +1511,7 @@ En las figuras \ref{fig:theta_consignas} y \ref{fig:omega_sensores} se puede ver
 	\caption{\label{fig:omega_sensores}Velocidad del sistema con sensores no ideales}
 	\end{figure}
 
-Por último, en la figura \ref{fig:corrientesensores} se muestra el efecto sobre las tensiones y corrientes de fase $abcs$ para sensores de corrientes con $\omega_{0}=11000 \frac{rad}{s}$ y de posición con $\omega_{0}=9000 \frac{rad}{s}$. Como vemos, en este caso la tensión es una variable a tener muy encuenta ya que aumenta, pudiendo provocar que si no la tenemos en cuenta operemos fuera de los límites establecidos para esta. En este caso la tensión pico subió a $19.27 V$ por lo que seguimos dentro de nuestro límites, pero si tenemos sensores con un bando de ancho más limitado, se deberá revaluar la consigna propuesta ya que muy posiblemente se supere los límites de tensión.
+Por último, en la figura \ref{fig:corrientesensores} se muestra el efecto sobre las tensiones y corrientes de fase $abcs$ para sensores de corrientes con $\omega_{0}=11000 \frac{rad}{s}$ y de posición con $\omega_{0}=9000 \frac{rad}{s}$. Como vemos, en este caso la tensión es una variable a tener muy en cuenta, ya que aumenta pudiendo provocar que si no la tenemos en cuenta operemos fuera de los límites establecidos para esta. En este caso la tensión pico subió a $19.27 V$ por lo que seguimos dentro de nuestro límites, pero si tenemos sensores con un bando de ancho más limitado, se deberá revaluar la consigna propuesta ya que muy posiblemente se supere los límites de tensión.
  \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{corrientesensores.png}
